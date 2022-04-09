@@ -5,8 +5,6 @@ const App = () => {
   return (
     <View>
       <Text>App Login Martin Rama</Text>
-      
-      <Text>Login El domingo lo hago xd</Text>
     </View>
   )
 }
