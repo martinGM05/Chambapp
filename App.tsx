@@ -5,6 +5,7 @@ const App = () => {
   return (
     <View>
       <Text>App Login Martin Rama</Text>
+      <Text>Prueba 2</Text>
     </View>
   )
 }
