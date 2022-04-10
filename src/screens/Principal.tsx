@@ -6,9 +6,9 @@ import PopularyPeople from '../components/Principal/PopularyPeople'
 
 const Principal = () => {
     return (
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
             <BannerPrincipal _name={'Martín González'} _greeting={'Buenos Días'} _imageUser={''}></BannerPrincipal>
-            
+
             <View style={styles._containerGlobal}>
                 <Text style={styles._textGlobal}>Oficios</Text>
                 <SafeAreaView>
@@ -24,22 +24,21 @@ const Principal = () => {
             </View>
 
             <View style={styles._containerGlobal}>
-            <Text style={styles._textGlobal}>Populares</Text>
-               
-                   <ScrollView>
-                <View style={styles._containerCardsPeople}>
-                    <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                    <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                    <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                    <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                    <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-               </View>
-                   </ScrollView>
-               
+                <Text style={styles._textGlobal}>Populares</Text>
 
+                <ScrollView>
+                    <View style={styles._containerCardsPeople}>
+                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                    </View>
+                </ScrollView>
             </View>
-
-
         </View>
     )
 }
@@ -55,16 +54,18 @@ const styles = StyleSheet.create({
     },
     _containerGlobal: {
         marginTop: 10,
-        marginLeft: 20
+        marginLeft: 20,
+        height: 'auto',
     },
     _containerOficeButtom: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop:10
+        marginTop: 10
     },
-    _containerCardsPeople:{
-        marginTop:15,
-        
+    _containerCardsPeople: {
+        marginTop: 15,
+        height: 'auto',
+
     }
 
 })
