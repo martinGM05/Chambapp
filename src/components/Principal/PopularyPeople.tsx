@@ -1,6 +1,7 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const PopularyPeople = (props:dataProps) => {
     const [defaultRating, setdefaultRating] = useState(props._rating)
@@ -10,7 +11,7 @@ const PopularyPeople = (props:dataProps) => {
 
     return (
         <View style={styles._containerDataPopularyPeople}>
-            <Image style={styles._photo} source={require('../../img/photo.png')}></Image>
+            <Icon name="image" size={60} color="#000" style={styles._photo}/>
             <View style={styles._containerDataPeople}>
                 <Text style={styles._textNamePeople}>{props._name}</Text>
                 <Text style={styles._textJobPeople}>{props._job}</Text>
@@ -26,7 +27,7 @@ const PopularyPeople = (props:dataProps) => {
 
             </View>
            <View style={styles._containerImageMoreInformation}>
-           <Image style={styles._imageMoreInformation} source={require('../../img/proximo.png')}></Image>
+           <Icon name="chevron-right" size={50} color="#000" style={styles._imageMoreInformation}/>
            </View>
         </View>
     )
@@ -78,7 +79,8 @@ const styles = StyleSheet.create({
     _containerImageMoreInformation:{
         justifyContent:'center',
         alignSelf:'stretch',
-        marginLeft:30
+        marginLeft:50,
+        marginTop:20
 
     },
     _imageMoreInformation:{
