@@ -35,7 +35,7 @@ const Principal = () => {
                         <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
                         <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
                         <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                        <PopularyPeople _image='' _name='Manuel Francisc' _job='Programador' _rating={1}></PopularyPeople>
+                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
                     </View>
                 </ScrollView>
             </View>
