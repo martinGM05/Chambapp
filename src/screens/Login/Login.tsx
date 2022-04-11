@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Pressable } from 'react-native';
 import React, { useEffect } from 'react'
 import FormLogin from '../../components/Login/FormLogin';
 import SocialMedia from '../../components/Login/SocialMedia';
@@ -26,10 +26,15 @@ const Login = ({ navigation }: Props) => {
                 </View>
                 <View style={styles.containerSocial}>
                     <SocialMedia />
-                    <View>
+                    <View style={styles.register}>
                         <Text style={styles.textRegister}>
-                            ¿No tienes una cuenta? <Text style={styles.textHere}>Registrate</Text>
+                            ¿No tienes una cuenta?
                         </Text>
+                        <Pressable
+                            onPress={() => navigation.navigate('Register')}
+                        >
+                            <Text style={styles.textHere}>Registrate</Text>
+                        </Pressable>
                     </View>
                 </View>
             </ScrollView>
@@ -63,9 +68,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#000',
         textAlign: 'center',
-        marginTop: 20,
+        marginRight: 5,
     },
     textHere: {
+        fontSize: 18,
+        color: '#000',
         fontWeight: 'bold',
     },
     containerForm: {
@@ -86,5 +93,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
+    },
+    register: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+
+        marginTop: 20,
+        
     }
 })

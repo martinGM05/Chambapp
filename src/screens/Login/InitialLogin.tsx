@@ -30,6 +30,7 @@ const InitialLogin = ({ navigation }: Props) => {
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonRegister]}
+            onPress={() => navigation.navigate('Register')}
           >
             <Text style={styles.textButtonRegister}>Registrarse</Text>
           </Pressable>
