@@ -28,7 +28,7 @@ const Principal = () => {
 
                 <ScrollView>
                     <View style={styles._containerCardsPeople}>
-                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                        <PopularyPeople _image='' _name='Manuel Francisco PeñA' _job='Programador' _rating={1}></PopularyPeople>
                         <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
                         <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
                         <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>

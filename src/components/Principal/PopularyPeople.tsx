@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     _containerDataPeople: {
         marginLeft: 10,
         justifyContent: 'center',
+        width:140
     },
     _textNamePeople:{
         fontSize:20,
