@@ -21,8 +21,6 @@ target 'Chambapp' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
-  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
-
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'ChambappTests' do
