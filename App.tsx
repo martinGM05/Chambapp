@@ -25,6 +25,7 @@ const App = () => {
             <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
             <StackNavigator />
         </NavigationContainer>
+       
     )
 }
 

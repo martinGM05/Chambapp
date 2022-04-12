@@ -6,17 +6,24 @@ const Perfil = () => {
     return (
         <View style={styles._containerGeneral}>
             <View style={styles._ContainerTittle}><Text style={styles._textTittlePage}>Editar Perfil</Text></View>
-            <View>
+            <View style={styles._containerGeneralUploadPhoto}>
                 <View style={styles._containerImageProfile}>
                     <Icon name='user-circle' size={150} color='#000' style={styles._ImageIconUser} />
 
                 </View>
-                <View style={styles._containerChildrenIcon1}>
-                    <Icon name='camera' size={40} color='#000' />
+                <View style={styles._containerChildrenIcon}>
+                    
+                   <View style={styles._containerChildren}>
+                   <Icon name='camera' size={40} color='#000' />
+                   </View>
+                    
+
+                    <View style={styles._containerChildren}>
+                        <Icon name='image' size={40} color='#000' />
+                        </View>
+
                 </View>
-                <View style={styles._containerChildrenIcon2}>
-                    <Icon name='image' size={40} color='#000' />
-                </View>
+                
             </View>
 
             <View style={styles._containerForm}>
@@ -65,27 +72,22 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         justifyContent: 'center'
     },
-    _containerChildrenIcon1: {
-        width: 70,
+    _containerChildrenIcon: {
+        width: '45%',
         height: 70,
         position: 'absolute',
-        marginTop: 160,
-        marginLeft: 210,
-        backgroundColor: '#3BD923',
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 150,
+      //  marginLeft: 100,
+       //backgroundColor: '#3BD923',
+       // borderRadius: 50,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection:'row'
     },
-    _containerChildrenIcon2: {
-        width: 70,
-        height: 70,
-        position: 'absolute',
-        marginTop: 160,
-        marginLeft: 80,
+    _containerChildren: {
         backgroundColor: '#3BD923',
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
+       borderRadius: 50,
+       padding:10
     },
     _containerForm: {
         marginTop: 80,
@@ -122,6 +124,9 @@ const styles = StyleSheet.create({
         height: 1,
         marginTop: 30,
         marginBottom:30
+    },
+    _containerGeneralUploadPhoto:{
+        alignItems:'center',
     }
 
 })

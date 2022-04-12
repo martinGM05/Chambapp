@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "649252661715",
+    "project_id": "chambapp-70bda",
+    "storage_bucket": "chambapp-70bda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649252661715:android:c0e0f6d9ae873a464e2726",
+        "android_client_info": {
+          "package_name": "com.chambapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649252661715-pgd4t89voirgj5ubtovodvd6fcejbq02.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chambapp",
+            "certificate_hash": "054b76f9b163113f4f913bb1bfa11f91d77567fc"
+          }
+        },
+        {
+          "client_id": "649252661715-3loaci7jflhskfhjl4g6dcvtet6rm5ag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB_u_zrgFYnRUIHZ9mN9vGqQFeXbTjUsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649252661715-3loaci7jflhskfhjl4g6dcvtet6rm5ag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
