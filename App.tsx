@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigator } from './src/routes/StackNavigator';
 import { LogBox } from 'react-native';
 import Perfil from './src/screens/Perfil';
+import TrabajosEnCuso from './src/screens/TrabajosEnCuso';
 import ValorarTrabajo from './src/screens/ValorarTrabajo';
 
 const App = () => {
@@ -20,12 +21,11 @@ const App = () => {
 
 
     return (
-        // <NavigationContainer>
-        //     <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
-        //     <StackNavigator />
-        // </NavigationContainer>
-        //<Perfil></Perfil>
-        <ValorarTrabajo></ValorarTrabajo>
+        <NavigationContainer>
+            <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
+            <StackNavigator />
+        </NavigationContainer>
+       
     )
 }
 
