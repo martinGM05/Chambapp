@@ -2,7 +2,8 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-n
 import React from 'react'
 import BannerPrincipal from '../components/Principal/BannerPrincipal'
 import Ofices from '../components/Principal/Ofices'
-import PopularyPeople from '../components/Principal/PopularyPeople'
+import CardPopularyPeople from '../components/Principal/CardPopularyPeople'
+
 
 const Principal = () => {
     return (
@@ -28,14 +29,14 @@ const Principal = () => {
 
                 <ScrollView>
                     <View style={styles._containerCardsPeople}>
-                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
-                        <PopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></PopularyPeople>
+                        <CardPopularyPeople _image='' _name='Manuel Francisco PeñA' _job='Programador' _rating={1}></CardPopularyPeople>
+                        <CardPopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></CardPopularyPeople>
+                        <CardPopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></CardPopularyPeople>
+                        <CardPopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></CardPopularyPeople>
+                        <CardPopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></CardPopularyPeople>
+                        <CardPopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></CardPopularyPeople>
+                        <CardPopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></CardPopularyPeople>
+                        <CardPopularyPeople _image='' _name='Manuel Francisco' _job='Programador' _rating={1}></CardPopularyPeople>
                     </View>
                 </ScrollView>
             </View>

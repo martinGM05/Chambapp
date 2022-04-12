@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
 import React from 'react'
 import Principal from './src/screens/Principal'
+
 import InitialLogin from './src/screens/Login/InitialLogin';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigator } from './src/routes/StackNavigator';

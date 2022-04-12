@@ -1,5 +1,7 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import Icon from 'react-native-vector-icons/FontAwesome'
+
 
 const BannerPrincipal = (props: dataProps) => {
   return (
@@ -7,7 +9,7 @@ const BannerPrincipal = (props: dataProps) => {
       <View>
         <Image style={styles._imageBanner} source={require('../../img/banner1.png')}></Image>
         <View style={styles._ContainerInformationUserBanner} >
-            {props._imageUser==''?<Image style={styles._imageUserBanner} source={require('../../img/profileuser.png')}/>:<Image style={styles._imageUserBanner} source={{uri:props._imageUser}}/>}
+            {props._imageUser==''?<Icon name="user-circle" size={60} color="#000" style={styles._imageUserBanner} />:<Image style={styles._imageUserBanner} source={{uri:props._imageUser}}/>}
             <View style={styles._containerNameandGreeting}>
                 <Text style={styles._textNameUserBanner}>{props._name}</Text>
                 <Text style={styles._textGreetingDayBanner}>{props._greeting}</Text>
