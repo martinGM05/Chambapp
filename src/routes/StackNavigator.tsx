@@ -4,7 +4,6 @@ import InitialLogin from '../screens/Login/InitialLogin';
 import Login from '../screens/Login/Login';
 import Register from '../screens/Login/Register';
 import Principal from '../screens/Principal';
-import TabNavigator from './TabNavigator';
 import TabNavigate from './TabNavigator';
 
 export type RootStackParams = {

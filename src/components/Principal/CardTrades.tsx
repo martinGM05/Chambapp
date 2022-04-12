@@ -4,12 +4,20 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon  from 'react-native-vector-icons/FontAwesome';
 
-const CardTrades = () => {
+interface Props {
+    trade: string;
+    user: string;
+    rating: number;
+    photoBanner: string;
+    photoUser: string;
+}
+
+const CardTrades = ({trade, user, rating, photoBanner, photoUser}:Props) => {
     return (
         <View style={styles.cardTrade}>
             <View style={styles.imageTrade}>
                 <Image
-                    source={require('../../img/banner1.png')}
+                    source={{uri: `${photoBanner}`}}
                     style={styles.image}
                 />
             </View>
@@ -17,17 +25,17 @@ const CardTrades = () => {
                 <View style={styles.cardWorkerInfo}>
                     <View style={styles.cardInfoUser}>
                         <View style={styles.user}>
-                            <Text style={styles.trade}>Prostituta</Text>
+                            <Text style={styles.trade}>{trade}</Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <Image
-                                    source={require('../../img/no-image.png')}
+                                    source={{ uri: `${photoUser}` }}
                                     style={styles.userImage}
                                 />
-                                <Text style={styles.userName}>Manuel Francisco</Text>
+                                <Text style={styles.userName}>{user}</Text>
                             </View>
                             <AirbnbRating
                                 count={5}
-                                defaultRating={3}
+                                defaultRating={rating}
                                 showRating={false}
                                 size={15}
                                 starContainerStyle={styles.star}
@@ -36,7 +44,7 @@ const CardTrades = () => {
                         <TouchableOpacity
                             style={styles.button}
                         >
-                            <Icon name="chevron-right" size={30} color="#000" />
+                            <Icon name="chevron-right" style={styles.moreInfo} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -114,6 +122,7 @@ const styles = StyleSheet.create({
         height: '100%',
         padding: 10,
         flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     user: {
         flexDirection: 'column',
@@ -141,13 +150,15 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     star: {
-        left: 5,
-        marginTop: -10,
+        left: 60,
+        position: 'absolute',
     },
     button:{
-
+        // marginLeft: 90,
+        marginTop: 25,
     },
     moreInfo:{
-
+        fontSize: 30,
+        color: '#000',
     },
 })
