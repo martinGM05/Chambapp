@@ -4,11 +4,18 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { TextInput } from 'react-native-gesture-handler';
 import * as Yup from 'yup'
 import Icon from 'react-native-vector-icons/Ionicons';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { RootStackParams } from '../../routes/StackNavigator';
 
-const FormLogin = () => {
+interface Props {
+    navigation: StackNavigationProp<RootStackParams, 'Login'>;
+}
+
+const FormLogin = ({ navigation }: Props) => {
 
     const submit = async (values: any) => {
         console.log(values)
+        navigation.navigate('PrincipalCliente')
     }
 
     const formikOpt = {
