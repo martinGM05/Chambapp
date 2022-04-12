@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const PopularyPeople = (props:dataProps) => {
+const CardPopularyPeople = (props:dataProps) => {
     const [defaultRating, setdefaultRating] = useState(props._rating)
     const [maxRating, setmaxRating] = useState([1, 2, 3, 4, 5])
     const startImgFilled = ''
@@ -39,7 +39,7 @@ interface dataProps{
     _rating:number
 }
 
-export default PopularyPeople
+export default CardPopularyPeople
 
 const styles = StyleSheet.create({
     _containerDataPopularyPeople: {
