@@ -1,11 +1,43 @@
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BannerPrincipal from '../components/Principal/BannerPrincipal'
 import Ofices from '../components/Principal/Ofices'
 import CardPopularyPeople from '../components/Principal/CardPopularyPeople'
+import { firebase } from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
+
+export interface ITrabajador{
+    Id:string,
+    foto:string,
+    nombre:string,
+    oficio:string,
+    valoracion:number
+
+}
 
 
 const Principal = () => {
+
+    const [Trabajador, setTrajador]=useState<ITrabajador[]>([])
+
+    function GetTrabajadores(){
+        const suscriber=firestore().collection('Trabajadores')
+            .onSnapshot(snapshot=>{
+                const data = snapshot.docs.map(doc=>{
+                    const trabajador = doc.data() as ITrabajador;
+                    trabajador.Id=doc.id;
+                    return trabajador;
+                })
+                setTrajador(data)
+            })
+            return()=> suscriber();
+    }
+
+    useEffect(()=>{
+        GetTrabajadores();
+    },[])
+
+
     return (
         <View style={{ flex: 1 }}>
             <BannerPrincipal _name={'Martín González'} _greeting={'Buenos Días'} _imageUser={''}></BannerPrincipal>
