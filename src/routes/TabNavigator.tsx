@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity } from 'react-native'
 import { AnimatedTabBarNavigator, DotSize, TabButtonLayout, TabElementDisplayOptions } from 'react-native-animated-nav-tab-bar'
 import Icon from 'react-native-vector-icons/Feather'
 import styled from 'styled-components/native'
-import PrincipalClient from '../components/Principal/PrincipalClient'
+import PrincipalClient from '../screens/PrincipalClient'
 import Principal from '../screens/Principal'
 
 
@@ -77,15 +77,15 @@ const TabNavigate = () => (
 			labelStyle: {
 				fontSize: 15,
 				fontWeight: "bold",
-			}
+			},
 		}}
 		appearance={{
 			shadow: true,
-			// floating: true,
+			floating: true,
 			whenActiveShow: TabElementDisplayOptions.BOTH,
 			dotSize: DotSize.MEDIUM,
-			dotCornerRadius: 10,
-			tabButtonLayout: TabButtonLayout.HORIZONTAL
+			dotCornerRadius: 20,
+			tabButtonLayout: TabButtonLayout.HORIZONTAL,
 		}}
 	>
 		<Tabs.Screen

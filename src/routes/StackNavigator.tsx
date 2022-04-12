@@ -27,7 +27,7 @@ export const StackNavigator = () => {
                     elevation: 1,
                 },
                 cardStyle: {
-                    backgroundColor: '#fff',
+                    backgroundColor: '#f6f6f6',
                 },
                 headerTitleAlign: 'center'
             }}
