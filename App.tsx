@@ -6,6 +6,9 @@ import InitialLogin from './src/screens/Login/InitialLogin';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigator } from './src/routes/StackNavigator';
 import { LogBox } from 'react-native';
+import Perfil from './src/screens/Perfil';
+import TrabajosEnCuso from './src/screens/TrabajosEnCuso';
+import ValorarTrabajo from './src/screens/ValorarTrabajo';
 
 const App = () => {
 
