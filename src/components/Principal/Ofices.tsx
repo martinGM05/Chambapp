@@ -21,12 +21,13 @@ const styles = StyleSheet.create({
     _buttomofices:{
         borderColor:'#000000',
         backgroundColor: '#F22E2E',
-        width:130,
+        width: 'auto',
         height:50,
         borderRadius:5,
         borderWidth:2,
         justifyContent:'center',
-        marginLeft:10       
+        marginLeft:10,
+        padding: 10
 
     },
     _textButtomOfices:{

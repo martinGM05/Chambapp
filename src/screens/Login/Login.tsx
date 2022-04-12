@@ -22,7 +22,7 @@ const Login = ({ navigation }: Props) => {
                     <Text style={styles.textDescription}>Inicia sesión para continuar</Text>
                 </View>
                 <View style={styles.containerForm}>
-                    <FormLogin />
+                    <FormLogin navigation={navigation} />
                 </View>
                 <View style={styles.containerSocial}>
                     <SocialMedia />
