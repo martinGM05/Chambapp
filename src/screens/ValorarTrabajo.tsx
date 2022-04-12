@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Rating, AirbnbRating } from 'react-native-ratings';
-
+//d
 const ValorarTrabajo = () => {
     return (
         <View>
