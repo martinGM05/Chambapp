@@ -9,6 +9,7 @@ import { LogBox } from 'react-native';
 import Perfil from './src/screens/Perfil';
 import TrabajosEnCuso from './src/screens/TrabajosEnCuso';
 import ValorarTrabajo from './src/screens/ValorarTrabajo';
+import PeticionesProvider from './src/utils/PeticionesProvider';
 
 const App = () => {
 
@@ -21,6 +22,7 @@ const App = () => {
 
 
     return (
+        <PeticionesProvider>
         <NavigationContainer>
             <StatusBar 
                 barStyle="dark-content" 
@@ -31,6 +33,7 @@ const App = () => {
             />
             <StackNavigator />
         </NavigationContainer>
+        </PeticionesProvider>
 
     )
 }

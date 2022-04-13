@@ -1,15 +1,18 @@
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Image } from 'react-native';
-import React from 'react'
+import React, { useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native-gesture-handler';
 import CardCategories from '../components/Principal/CardCategory';
 import CardTrades from '../components/Principal/CardTrades';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../routes/StackNavigator';
+import { Contexto } from '../utils/PeticionesProvider';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
+
 const PrincipalClient = ({ navigation }: Props) => {
+    const contexto=useContext(Contexto);
 
     let tradesCards = [
         {
@@ -91,6 +94,7 @@ const PrincipalClient = ({ navigation }: Props) => {
 
     return (
         <View style={styles.container}>
+           
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.containerUser}>
                     <Icon name="user-circle" size={50} color="#000" />
@@ -118,18 +122,19 @@ const PrincipalClient = ({ navigation }: Props) => {
                 </ScrollView>
                 <View style={styles.containerTrades}>
                     {
-                        tradesCards.map((trade, index) => (
+                        contexto.Trabajador.map((trade, index) => (
                             <CardTrades 
                                 key={index} 
-                                trade={trade.trade} 
-                                user={trade.user} 
-                                rating={trade.rating} 
-                                photoBanner={trade.photoBanner}
-                                photoUser={trade.photoUser} 
+                                trade={trade.Oficios.toString()} 
+                                user={trade.nombre} 
+                                rating={trade.valoracion} 
+                                photoBanner={'https://img.freepik.com/foto-gratis/carpintero-que-trabaja-equipo-tabla-madera-tienda-carpinteria_1418-2326.jpg?w=2000'}
+                                photoUser={trade.fotoUser} 
                                 navigation={navigation}
                             />
                         ))
                     }
+                    
                 </View>
             </ScrollView>
         </View>
