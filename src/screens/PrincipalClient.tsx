@@ -4,8 +4,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native-gesture-handler';
 import CardCategories from '../components/Principal/CardCategory';
 import CardTrades from '../components/Principal/CardTrades';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParams } from '../routes/StackNavigator';
 
-const PrincipalClient = () => {
+type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
+
+const PrincipalClient = ({ navigation }: Props) => {
 
     let tradesCards = [
         {
@@ -80,6 +84,10 @@ const PrincipalClient = () => {
         },
     ]
 
+    const handleWorker = () => {
+        navigation.navigate('Trabajador')
+    }
+
 
     return (
         <View style={styles.container}>
@@ -111,7 +119,15 @@ const PrincipalClient = () => {
                 <View style={styles.containerTrades}>
                     {
                         tradesCards.map((trade, index) => (
-                            <CardTrades key={index} trade={trade.trade} user={trade.user} rating={trade.rating} photoBanner={trade.photoBanner} photoUser={trade.photoUser} />
+                            <CardTrades 
+                                key={index} 
+                                trade={trade.trade} 
+                                user={trade.user} 
+                                rating={trade.rating} 
+                                photoBanner={trade.photoBanner}
+                                photoUser={trade.photoUser} 
+                                navigation={navigation}
+                            />
                         ))
                     }
                 </View>
