@@ -6,6 +6,7 @@ import CarouselTrabajador from '../components/Trabajador/CarouselTrabajador';
 import BackButton from '../components/BackButton';
 import HeaderTrabajador from '../components/Trabajador/HeaderTrabajador';
 import Feedback from '../components/Trabajador/Feedback';
+import { PropsComments } from '../components/Trabajador/Comments';
 
 interface CarouselItems {
   image: string;
@@ -22,7 +23,18 @@ const Trabajador = ({ navigation }: Props) => {
     'https://i.ytimg.com/vi/C9S8SQ1cMs4/maxresdefault.jpg',
     'https://http2.mlstatic.com/D_NQ_NP_616002-MLM44786252754_022021-O.jpg'
   ]
-
+  let customersComments = [
+    {
+      name: 'Nicolas',
+      photo: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+      comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },
+    {
+      name: 'Chino',
+      photo: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+      comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    }
+  ]
 
   return (
     <View style={styles.container}>
@@ -31,8 +43,13 @@ const Trabajador = ({ navigation }: Props) => {
         <CarouselTrabajador carousel={carousel} />
       </View>
       <View style={styles.containerDescription}>
-        <HeaderTrabajador trades={trades} />
-        <Feedback />
+        <HeaderTrabajador 
+          trades={trades} 
+          name="Ivan Codova Garcia" 
+          rating={3}
+          photo={'https://scontent.fjal2-1.fna.fbcdn.net/v/t1.18169-9/13124498_564419103736515_8441589850958257049_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeGFFdfsrzU58rDTAeENP8yvTmtrnylvN9ROa2ufKW831GxwlhgTdgYE1ocdgvrua0GyOo2wrI5ChShLtIgig6bc&_nc_ohc=3MSeyusOw8cAX8h_j_O&tn=bXDatg3hCWu9IXUH&_nc_ht=scontent.fjal2-1.fna&oh=00_AT947MGSU1NguaNmPShRKs29EjVgxxbpo9s6T30lfHLcvQ&oe=627D084F'}
+        />
+        <Feedback customerList={customersComments} />
       </View>
     </View>
   )

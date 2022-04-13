@@ -7,9 +7,12 @@ import { AirbnbRating } from 'react-native-ratings';
 
 interface Props {
     trades: string[];
+    name: string;
+    photo: string;
+    rating: number;
 }
 
-const HeaderTrabajador = ({ trades }:Props) => {
+const HeaderTrabajador = ({ trades, name, photo, rating }:Props) => {
     return (
         <View style={styles.dataUser}>
             <View style={styles.containerTitle}>
@@ -17,7 +20,7 @@ const HeaderTrabajador = ({ trades }:Props) => {
                     <Icon name="book" size={23} color="#9DD6EB" style={{ marginRight: 10 }} />
                     <Text style={styles.textTitle}>Trabajador</Text>
                 </View>
-                <Text style={styles.textUser}>Ivan Cordova Rodriguez</Text>
+                <Text style={styles.textUser}>{name}</Text>
                 <View style={styles.trades}>
                     {
                         trades.length > 3 ? (
@@ -48,15 +51,26 @@ const HeaderTrabajador = ({ trades }:Props) => {
                 </View>
                 <AirbnbRating
                     count={5}
-                    defaultRating={3}
+                    defaultRating={rating}
                     showRating={false}
                     size={15}
                     starContainerStyle={styles.star}
+                    isDisabled
                 />
             </View>
             <View style={styles.containerImage}>
-                <Image source={require('../../img/no-image.png')}
-                    style={styles.imageUser} />
+                {
+                    photo ? (
+                        <Image
+                            source={{ uri: photo }}
+                            style={styles.imageUser}
+                        />
+                    ) : (
+                        <Image source={require('../../img/no-image.png')}
+                        style={styles.imageUser} />
+                    )
+                }
+               
             </View>
         </View>
     )

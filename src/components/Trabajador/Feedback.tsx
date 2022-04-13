@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import Comments, { PropsComments } from './Comments';
+import ButtonContact from './ButtonContact';
 
 
-const Feedback = () => {
+const Feedback = ({ customerList }:PropsComments) => {
     return (
         <View style={styles.feedback}>
             <View style={styles.containerTitle}>
@@ -14,8 +17,20 @@ const Feedback = () => {
                 </View>
             </View>
             <View style={styles.comments}>
-
+                <ScrollView>
+                    {
+                        customerList.map((item, index) => (
+                            <Comments
+                                key={index}
+                                name={item.name}
+                                comment={item.comment}
+                                photo={item.photo}
+                            />
+                        ))
+                    }
+                </ScrollView>
             </View>
+            <ButtonContact />
         </View>
     )
 }
@@ -40,18 +55,24 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#000',
         fontWeight: 'bold',
-    },
-    comments: {
-        borderWidth: 1,
-        width: '100%',
-        height: '80%',
-        backgroundColor: '#516680',
-        marginTop: 10,
+        
     },
     containerCommentTitle: {
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 10,
         justifyContent: 'space-between',
-    }
+    },
+    comments: {
+        // borderWidth: 1,
+        borderTopWidth: 2,
+        borderBottomWidth: 2,
+        width: '100%',
+        height: '60%',
+        // backgroundColor: '#516680',
+        marginTop: 10,
+        
+    },
+   
+
 })
