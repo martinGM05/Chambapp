@@ -2,7 +2,9 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react'
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Icon  from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { RootStackParams } from '../../routes/StackNavigator';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface Props {
     trade: string;
@@ -10,14 +12,22 @@ interface Props {
     rating: number;
     photoBanner: string;
     photoUser: string;
+    navigation: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
 }
 
-const CardTrades = ({trade, user, rating, photoBanner, photoUser}:Props) => {
+const CardTrades = ({ trade, user, rating, photoBanner, photoUser, navigation }: Props) => {
+
+    const handleTrabajador = () => {
+        navigation.navigate('Trabajador');
+        console.log('Trabajador');
+    }
+
+
     return (
         <View style={styles.cardTrade}>
             <View style={styles.imageTrade}>
                 <Image
-                    source={{uri: `${photoBanner}`}}
+                    source={{ uri: `${photoBanner}` }}
                     style={styles.image}
                 />
             </View>
@@ -43,6 +53,7 @@ const CardTrades = ({trade, user, rating, photoBanner, photoUser}:Props) => {
                         </View>
                         <TouchableOpacity
                             style={styles.button}
+                            onPress={handleTrabajador}
                         >
                             <Icon name="chevron-right" style={styles.moreInfo} />
                         </TouchableOpacity>
@@ -103,7 +114,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 30,
-        resizeMode: 'contain',
+        resizeMode: 'cover',
     },
     cardWorkerInfo: {
         // borderWidth: 1,
@@ -153,11 +164,11 @@ const styles = StyleSheet.create({
         left: 60,
         position: 'absolute',
     },
-    button:{
+    button: {
         // marginLeft: 90,
         marginTop: 25,
     },
-    moreInfo:{
+    moreInfo: {
         fontSize: 30,
         color: '#000',
     },
