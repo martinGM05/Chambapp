@@ -3,9 +3,10 @@ import React from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { TextInput } from 'react-native-gesture-handler';
 import * as Yup from 'yup'
-import Icon from 'react-native-vector-icons/Ionicons';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 interface Props {
     navigation: StackNavigationProp<RootStackParams, 'Login'>;
