@@ -25,7 +25,7 @@ const Principal = () => {
     return (
     
         <View style={{ flex: 1 }}>
-            <View style={{width:50,height:50,backgroundColor:'#000'}}><Text>Hola</Text></View>
+            
             <BannerPrincipal _name={'Martín González'} _greeting={'Buenos Días'} _imageUser={''}></BannerPrincipal>
 
             <View style={styles._containerGlobal}>

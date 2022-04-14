@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Dimensions} from 'react-native';
-import React from 'react'
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react'
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../routes/StackNavigator';
 import CarouselTrabajador from '../components/Trabajador/CarouselTrabajador';
@@ -7,6 +7,10 @@ import BackButton from '../components/BackButton';
 import HeaderTrabajador from '../components/Trabajador/HeaderTrabajador';
 import Feedback from '../components/Trabajador/Feedback';
 import { PropsComments } from '../components/Trabajador/Comments';
+import { Contexto, IComentario } from '../utils/PeticionesProvider';
+import { ITrabajador } from './Principal';
+import { firebase } from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
 
 interface CarouselItems {
   image: string;
@@ -15,7 +19,39 @@ interface CarouselItems {
 type Props = StackScreenProps<RootStackParams, 'Trabajador'>;
 const dimensions = Dimensions.get('window');
 
-const Trabajador = ({ navigation }: Props) => {
+const Trabajador = ({ navigation, route }: Props) => {
+  const contexto = useContext(Contexto);
+
+  const { id } = route.params
+  const params = route.params;
+  const [comentario, setComentario] = useState<IComentario[]>([])
+  let [foto, setFoto] = useState<string[]>([])
+
+
+  useEffect(() => {
+    function GetTrabajadoresComentarios() {
+      
+      const suscriber = firestore().collection('Trabajadores').doc(id).collection('Comentarios')
+        .onSnapshot(snapshot => {
+          const data = snapshot.docs.map(doc => {
+            const comentario = doc.data() as IComentario;
+            comentario.Id = doc.id;
+            comentario.IdTrabajador = id
+            return comentario;
+          })
+          console.log(data)
+          data.map(e => {      
+            setFoto(e.fotosComentario)
+        })
+          setComentario(data)  
+          return () => suscriber();
+        })
+    }
+    GetTrabajadoresComentarios()
+   
+    
+
+  }, [])
 
   let trades = ['Carpintero', 'Electricista', 'Pintor', 'Programador']
   let carousel = [
@@ -35,20 +71,26 @@ const Trabajador = ({ navigation }: Props) => {
       comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     }
   ]
+  const a = contexto.Trabajador.filter(e => e.Id == id)
 
   return (
     <View style={styles.container}>
       <BackButton navigation={navigation} />
       <View style={styles.containerTrabajador}>
-        <CarouselTrabajador carousel={carousel} />
+        <CarouselTrabajador carousel={foto} />
       </View>
       <View style={styles.containerDescription}>
-        <HeaderTrabajador 
-          trades={trades} 
-          name="Ivan Codova Garcia" 
-          rating={3}
-          photo={'https://scontent.fjal2-1.fna.fbcdn.net/v/t1.18169-9/13124498_564419103736515_8441589850958257049_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeGFFdfsrzU58rDTAeENP8yvTmtrnylvN9ROa2ufKW831GxwlhgTdgYE1ocdgvrua0GyOo2wrI5ChShLtIgig6bc&_nc_ohc=3MSeyusOw8cAX8h_j_O&tn=bXDatg3hCWu9IXUH&_nc_ht=scontent.fjal2-1.fna&oh=00_AT947MGSU1NguaNmPShRKs29EjVgxxbpo9s6T30lfHLcvQ&oe=627D084F'}
-        />
+        {
+          a.map((e, index) => (
+
+            <HeaderTrabajador
+              key={index}
+              trades={e.Oficios}
+              name={e.nombre}
+              rating={e.valoracion}
+              photo={e.fotoUser}
+            />
+          ))}
         <Feedback customerList={customersComments} />
       </View>
     </View>
@@ -82,6 +124,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.56,
     shadowRadius: 13.98,
     elevation: 32,
-  }, 
-  
+  },
+
 })

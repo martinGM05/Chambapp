@@ -87,9 +87,7 @@ const PrincipalClient = ({ navigation }: Props) => {
         },
     ]
 
-    const handleWorker = () => {
-        navigation.navigate('Trabajador')
-    }
+  
 
 
     return (
@@ -111,6 +109,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.containerCategories}>
+                        
                         <CardCategories name="Comprar" icon="shopping-cart" />
                         <CardCategories name="Vender" icon="shopping-basket" />
                         <CardCategories name="Arrendar" icon="home" />
@@ -124,11 +123,12 @@ const PrincipalClient = ({ navigation }: Props) => {
                     {
                         contexto.Trabajador.map((trade, index) => (
                             <CardTrades 
-                                key={index} 
+                                key={index}
+                                idTrabajador={trade.Id} 
                                 trade={trade.Oficios.toString()} 
                                 user={trade.nombre} 
                                 rating={trade.valoracion} 
-                                photoBanner={'https://img.freepik.com/foto-gratis/carpintero-que-trabaja-equipo-tabla-madera-tienda-carpinteria_1418-2326.jpg?w=2000'}
+                               
                                 photoUser={trade.fotoUser} 
                                 navigation={navigation}
                             />

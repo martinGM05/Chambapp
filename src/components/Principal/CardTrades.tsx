@@ -1,33 +1,79 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { RootStackParams } from '../../routes/StackNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { firebase } from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
+import { Contexto } from '../../utils/PeticionesProvider';
+
 
 interface Props {
     trade: string;
     user: string;
     rating: number;
-    photoBanner: string;
+   // photoBanner: string;
     photoUser: string;
     navigation: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
+    idTrabajador:string
 }
 
-const CardTrades = ({ trade, user, rating, photoBanner, photoUser, navigation }: Props) => {
+export interface IComentarios {
+    Id: string,
+    calificacion: number,
+    comentario: string,
+    fotosComentario: [],
+    idCliente: string
 
-    const handleTrabajador = () => {
-        navigation.navigate('Trabajador');
-        console.log('Trabajador');
+}
+
+const CardTrades = ({ trade, user, rating, photoUser, navigation,idTrabajador }: Props) => {
+   
+    
+    const [Comentario, setComentario] = useState<IComentarios[]>([])
+    const [foto, setFoto] = useState<string[]>([])
+  
+
+    const handleTrabajador = (id:string) => {
+        navigation.navigate('Trabajador',{id:id});
+
     }
+
+    function GetTrabajadoresComentarios() {
+        const suscriber = firestore().collection('Trabajadores').doc(idTrabajador).collection('Comentarios')
+            .onSnapshot(snapshot => {
+                const data = snapshot.docs.map(doc => {
+                    const comentario = doc.data() as IComentarios;
+                    comentario.Id = doc.id;
+                    return comentario;
+                })
+                {data.map(e=>{
+                   setFoto(e.fotosComentario)
+                })}
+                setComentario(data)
+            })
+        return () => suscriber();
+    }
+   
+    
+
+    useEffect(()=>{
+        GetTrabajadoresComentarios()
+        
+    },[])
 
 
     return (
         <View style={styles.cardTrade}>
+            
+            
+            
             <View style={styles.imageTrade}>
+              
                 <Image
-                    source={{ uri: `${photoBanner}` }}
+                    source={{ uri: foto[0] }}
                     style={styles.image}
                 />
             </View>
@@ -53,7 +99,11 @@ const CardTrades = ({ trade, user, rating, photoBanner, photoUser, navigation }:
                         </View>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={handleTrabajador}
+                            onPress={()=>{
+                                handleTrabajador(idTrabajador)
+                            }
+                                
+                            }
                         >
                             <Icon name="chevron-right" style={styles.moreInfo} />
                         </TouchableOpacity>
