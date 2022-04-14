@@ -1,211 +1,254 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, TextInput, View, Image } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import BackButton from '../../components/BackButton';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
+import AvatarValorar from '../../components/Valorar/AvatarValorar';
+import { TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
+import usePhoto from '../../hooks/usePhoto';
 
-type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
-const ValorarTrabajo = ({ navigation }: Props) => {
+type Props = StackScreenProps<RootStackParams, 'Valorar'>;
+
+const dimension = Dimensions.get('window');
+
+
+const ValorarTrabajo = ({ navigation, route }: Props) => {
+
+    const photoUser = route.params?.photo;
+
+    let image = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
+    
+    const { cameraOrGallery, photoNew } = usePhoto();
+
+    let photoImage = photoNew ? photoNew : image;
+    
+
     return (
-        <View>
+        <LinearGradient
+            colors={['#92FE9D', '#00C9FF']}
+            start={{ x: 2, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            locations={[0.1, 0.9]}
+            style={styles.containerGlobal}
+        >
             <BackButton navigation={navigation} />
-            <View style={styles._containerDataEmployee}>
-                <Icon name='user-circle' size={60} color='#000'></Icon>
-                <View style={styles._containerTextName}>
-                    <Text style={styles._textNameUser}>Manuel Francisco</Text>
-                </View>
+            <View style={styles.avatar}>
+                <AvatarValorar photo={photoUser} />
             </View>
-            <View style={styles._containerUploadPhoto}>
-                <View style={styles._containerTextUploadPhoto}>
-                    <Text style={styles._textUploadPhoto}>Añade una {'\n'}evidencia del trabajo</Text>
-                </View>
-
-                <View style={styles._ContainerIconPhotoUpload}>
-                    <Icon name='image' size={60} color='#000'></Icon>
+            <ScrollView>
 
 
-                    <View style={styles._containerChildrenIcon}>
-                        <Icon name='camera' size={30} color='#000'></Icon>
+                <View style={styles.card}>
+
+                    <View style={styles.infoWorker}>
+                        <Text style={styles.textUser}>Manuel Francisco Peña</Text>
+                        <Text style={styles.textTrade}>Carpintero</Text>
+                    </View>
+                    <View style={styles.valueIt}>
+                        <Text style={styles.textQuestion}>¿Qué te pareció el trabajo?</Text>
+                        <AirbnbRating
+                            count={5}
+                            defaultRating={3}
+                            size={20}
+                            showRating={false}
+                        />
+                    </View>
+                    <View style={styles.containerSend}>
+                        <View style={styles.containerPhoto}>
+                            <TouchableOpacity
+                                style={styles.containerIcon}
+                                onPress={() => cameraOrGallery()}
+                            >
+                                <Image
+                                    source={{ uri: photoImage }}
+                                    style={styles.image}
+                                />
+                                <Icon
+                                    name="plus"
+                                    size={30}
+                                    color="#ddd1ce" style={styles.icon} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.containerComment}>
+                            <TextInput
+                                style={styles.inputComment}
+                                placeholder="Escribe un comentario"
+                                placeholderTextColor="#000"
+                                multiline={true}
+                                numberOfLines={4}
+                            />
+                        </View>
+                    </View>
+                    <View style={styles.containerButton}>
+                        <TouchableOpacity
+                            style={styles.button}
+                        >
+                            <Icon name="star" size={30} color="#000" />
+                            <Text style={styles.textValorar}>Valorar Trabajador</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
-
-
-
-            </View>
-            <View style={styles._containerOpinionEmploye}>
-                <Text style={styles._textOpinionEmploye}>¿Qué te parecío el trabajador?</Text>
-                <View style={styles._containerInputText}>
-                    <TextInput multiline={true} style={styles._inputsText}></TextInput>
-                </View>
-
-                <View style={styles._containerRating}>
-                    <Text style={styles._textRating}>Valóralo: </Text>
-                    <AirbnbRating
-                        count={5}
-                        defaultRating={3}
-                        showRating={false}
-                        size={20}
-
-                    />
-
-                </View>
-
-            </View>
-
-            <View style={styles._buttom}>
-                <Text style={styles._textButtom}>Enviar Valoración</Text>
-            </View>
-        </View>
+            </ScrollView>
+        </LinearGradient>
     )
 }
 
 export default ValorarTrabajo
 
 const styles = StyleSheet.create({
-    _containerGeneral: {
-        alignContent: 'center',
+    containerGlobal: {
+        flex: 1,
+        // backgroundColor: 'purple',
+        paddingTop: 150,
+        paddingHorizontal: 20
+    },
+    card: {
+        backgroundColor: 'white',
+        height: 'auto',
+        borderRadius: 10,
+        borderWidth: 1,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
         alignItems: 'center',
-        alignSelf: 'center',
-        justifyContent: 'center'
-
+        paddingBottom: 20,
     },
-    _containerDataEmployee: {
-        flexDirection: 'row',
-        marginTop: 70,
-        marginLeft: 20
-
+    scroll: {
+        // height: 10,
+        backgroundColor: 'white',
+        zIndex: 1,
     },
-    _containerTextName: {
-        marginLeft: 20,
-        marginTop: 15,
-
-
-    },
-    _imageUserBanner: {
-        width: 60,
-        height: 60
-    },
-    _textNameUser: {
-        fontWeight: 'bold',
-        fontSize: 25,
-        color: 'black',
-
-    },
-    _containerUploadPhoto: {
-        width: '90%',
-        height: 120,
-        backgroundColor: '#F22E2E',
-        marginTop: 20,
-        alignSelf: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingRight: 30,
-        borderWidth: 2
-    },
-    _textUploadPhoto: {
-        fontSize: 20,
-        color: '#000',
-        fontWeight: 'bold',
-        textAlign: 'center'
-
-    },
-    _containerTextUploadPhoto: {
-        marginLeft: 20,
-        marginTop: 0,
-        width: 180,
-        alignContent: 'center',
-        justifyContent: 'center',
-
-    },
-    _ContainerIconPhotoUpload: {
-       
-       alignSelf:'center'
-
-    },
-    _containerChildrenIcon: {
+    avatar: {
+        height: 100,
+        width: 100,
         position: 'absolute',
-
-        backgroundColor: '#3BD923',
-        width: 40,
-        height: 40,
+        zIndex: 2,
+        top: 100,
+        left: dimension.width / 2 - 50,
+    },
+    infoWorker: {
+        width: '75%',
+        height: 80,
+        // backgroundColor: '#308f4d',
+        marginHorizontal: 20,
+        marginTop: 60,
+        zIndex: -1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 50,
-        marginTop: 30,
-        marginLeft: 45
     },
-    _containerOpinionEmploye: {
+    valueIt: {
         width: '90%',
-        height: 200,
-        backgroundColor: '#F22E2E',
-        marginTop: 20,
-        alignSelf: 'center',
-
-
-
-
-        borderWidth: 2,
-
-    },
-    _textOpinionEmploye: {
-        color: '#000',
-        fontSize: 25,
-        textAlign: 'center',
-        fontWeight: 'bold'
-
-
-    },
-    _inputsText: {
-        borderColor: '#FFF',
-        backgroundColor: '#F9F9F9',
-        borderWidth: 2,
+        height: 70,
+        // backgroundColor: 'red',
         marginTop: 10,
-        borderRadius: 1,
-        paddingLeft: 20,
-        fontSize: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    containerSend: {
         width: '90%',
         height: 100,
-        color: '#000',
-
-    },
-    _containerInputText: {
-
+        // backgroundColor: '#b30d47',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         alignItems: 'center',
-    },
-    _containerRating: {
-        flexDirection: 'row',
         marginTop: 20,
-        marginLeft: 15,
-        alignItems: 'center'
-
     },
-    _textRating: {
-        color: '#000',
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginRight: 20
-    },
-    _buttom: {
-        backgroundColor: '#3BD923',
-        width: '45%',
-        height: 40,
+    containerPhoto: {
+        width: '50%',
+        height: 100,
+        // backgroundColor: '#e2d054',
+        marginBottom: 10,
         borderRadius: 10,
-        borderColor: '#000',
         borderWidth: 1,
+    },
+    containerComment: {
+        width: '90%',
+        height: '100%',
+        // backgroundColor: '#3f80f8',
+    },
+    containerButton: {
+        width: '60%',
+        height: 60,
+        // backgroundColor: '#b30d47',
+        marginTop: 130,
+    },
+    textUser: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#000',
+    },
+    textTrade: {
+        fontSize: 18,
+        color: '#000',
+    },
+    textQuestion: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#000',
+    },
+    photo: {
+        width: '100%',
+        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 100,
-        marginTop: 50
-
+        // backgroundColor: '#5e5948',
     },
-    _textButtom: {
+    image: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 10,
+        resizeMode: 'contain',
+    },
+    containerIcon: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 10,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+        borderWidth: 3,
+    },
+    icon: {
+        position: 'absolute',
+    },
+    inputComment: {
+        borderRadius: 10,
+        backgroundColor: '#c2c2c2',
         color: '#000',
+        borderWidth: 1,
+    },
+    button: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 10,
+        backgroundColor: '#00a680',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexDirection: 'row',
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        borderWidth: 1,
+    },
+    textValorar: {
+        fontSize: 17,
         fontWeight: 'bold',
-        fontSize: 20
-
+        color: '#000',
     }
-
 })

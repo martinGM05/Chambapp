@@ -29,7 +29,9 @@ const CardTrades = ({
     }
 
     const handleValorar = () => {
-        navigation?.navigate('Valorar');
+        navigation?.navigate('Valorar', {
+            photo: photoUser,
+        });
         console.log('Valorar');
     }
 

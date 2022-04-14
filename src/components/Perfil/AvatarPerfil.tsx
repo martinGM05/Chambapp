@@ -25,7 +25,6 @@ const AvatarPerfil = ({ photo }: Props) => {
                         rounded
                         size="xlarge"
                         source={{ uri: photoNew }}
-                        onPress={() => handleChangePhoto()}
                         containerStyle={styles.photoUser}
                     />
                     :
@@ -33,7 +32,6 @@ const AvatarPerfil = ({ photo }: Props) => {
                         rounded
                         size="xlarge"
                         source={{ uri: photo }}
-                        onPress={() => handleChangePhoto()}
                         containerStyle={styles.photoUser}
                     />
             }

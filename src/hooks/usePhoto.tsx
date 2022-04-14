@@ -84,7 +84,8 @@ const usePhoto = () => {
 
     return {
         handleChangePhoto,
-        photoNew
+        photoNew,
+        cameraOrGallery
     }
 }
 
