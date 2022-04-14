@@ -25,7 +25,7 @@ const Trabajador = ({ navigation, route }: Props) => {
   const { id } = route.params
   const params = route.params;
   const [comentario, setComentario] = useState<IComentario[]>([])
-  let [foto, setFoto] = useState<string[]>([])
+  const [foto, setFoto] = useState<string[]>([])
 
 
   useEffect(() => {
@@ -39,19 +39,22 @@ const Trabajador = ({ navigation, route }: Props) => {
             comentario.IdTrabajador = id
             return comentario;
           })
-          console.log(data)
-          data.map(e => {      
-            setFoto(e.fotosComentario)
-        })
+          
+          data.map(e=>{
+            setFoto([...foto,e.fotosComentario])
+          })
+        
           setComentario(data)  
           return () => suscriber();
         })
     }
+  
     GetTrabajadoresComentarios()
-   
-    
 
-  }, [])
+
+  }
+  
+  , [])
 
   let trades = ['Carpintero', 'Electricista', 'Pintor', 'Programador']
   let carousel = [

@@ -17,7 +17,7 @@ export interface IComentario {
     IdTrabajador: string,
     calificacion: number,
     comentario: string,
-    fotosComentario: [],
+    fotosComentario: string,
     idCliente: string
 
 }

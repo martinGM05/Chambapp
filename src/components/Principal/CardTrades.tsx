@@ -7,7 +7,7 @@ import { RootStackParams } from '../../routes/StackNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { firebase } from '@react-native-firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
-import { Contexto } from '../../utils/PeticionesProvider';
+import { Contexto, IComentario } from '../../utils/PeticionesProvider';
 
 
 interface Props {
@@ -20,19 +20,11 @@ interface Props {
     idTrabajador:string
 }
 
-export interface IComentarios {
-    Id: string,
-    calificacion: number,
-    comentario: string,
-    fotosComentario: [],
-    idCliente: string
-
-}
 
 const CardTrades = ({ trade, user, rating, photoUser, navigation,idTrabajador }: Props) => {
    
     
-    const [Comentario, setComentario] = useState<IComentarios[]>([])
+    const [Comentario, setComentario] = useState<IComentario[]>([])
     const [foto, setFoto] = useState<string[]>([])
   
 
@@ -45,12 +37,12 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation,idTrabajador }:
         const suscriber = firestore().collection('Trabajadores').doc(idTrabajador).collection('Comentarios')
             .onSnapshot(snapshot => {
                 const data = snapshot.docs.map(doc => {
-                    const comentario = doc.data() as IComentarios;
+                    const comentario = doc.data() as IComentario;
                     comentario.Id = doc.id;
                     return comentario;
                 })
                 {data.map(e=>{
-                   setFoto(e.fotosComentario)
+                   setFoto([...foto,e.fotosComentario])
                 })}
                 setComentario(data)
             })
