@@ -1,20 +1,21 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react'
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const SocialMedia = () => {
     return (
         <View style={styles.containerSocialButtons}>
-            <Pressable
+            <TouchableOpacity
                 style={[styles.buttonMedia, styles.buttonFacebook]}
             >
-                <Icon name='logo-facebook' size={30} color='#fff' />
-            </Pressable>
-            <Pressable
+                <Icon name='facebook' size={30} color='#fff' />
+            </TouchableOpacity>
+            <TouchableOpacity
                 style={[styles.buttonMedia, styles.buttonGoogle]}
             >
-                <Icon name='logo-google' size={30} color='#fff' />
-            </Pressable>
+                <Icon name='google' size={30} color='#fff' />
+            </TouchableOpacity>
         </View>
     )
 }

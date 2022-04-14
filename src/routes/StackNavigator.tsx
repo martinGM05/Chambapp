@@ -21,7 +21,7 @@ const Stack = createStackNavigator<RootStackParams>();
 export const StackNavigator = () => {
     return (
         <Stack.Navigator
-            initialRouteName="PrincipalCliente"
+            initialRouteName="Principal"
             screenOptions={{
                 headerShown: false,
                 headerStyle:{
