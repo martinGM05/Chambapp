@@ -25,9 +25,9 @@ const styles = StyleSheet.create({
         // position: 'absolute',
         // bottom: 0,
         width: '100%',
-        height: '20%',
-        marginTop: 10,
-        backgroundColor: '#46D0D9',
+        height: '15%',
+        marginTop: 18,
+        backgroundColor: '#00a680',
         borderWidth: 1,
         borderRadius: 10,
 

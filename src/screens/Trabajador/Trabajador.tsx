@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react'
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../routes/StackNavigator';
-import CarouselTrabajador from '../components/Trabajador/CarouselTrabajador';
-import BackButton from '../components/BackButton';
-import HeaderTrabajador from '../components/Trabajador/HeaderTrabajador';
-import Feedback from '../components/Trabajador/Feedback';
-import { PropsComments } from '../components/Trabajador/Comments';
+import { RootStackParams } from '../../routes/StackNavigator';
+import CarouselTrabajador from '../../components/Trabajador/CarouselTrabajador';
+import BackButton from '../../components/BackButton';
+import HeaderTrabajador from '../../components/Trabajador/HeaderTrabajador';
+import Feedback from '../../components/Trabajador/Feedback';
+import { PropsComments } from '../../components/Trabajador/Comments';
 
 interface CarouselItems {
   image: string;

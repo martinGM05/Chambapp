@@ -1,28 +1,13 @@
 import React from 'react'
-import { Image, Text, TouchableOpacity } from 'react-native'
 import { AnimatedTabBarNavigator, DotSize, TabButtonLayout, TabElementDisplayOptions } from 'react-native-animated-nav-tab-bar'
 import Icon from 'react-native-vector-icons/Feather'
-import styled from 'styled-components/native'
-import PrincipalClient from '../screens/PrincipalClient'
-import Principal from '../screens/Principal'
+import PrincipalClient from '../screens/Principal/PrincipalClient'
+import Perfil from '../screens/Profile/Perfil'
+import TrabajosEnCuso from '../screens/EnCurso/TrabajosEnCuso';
+import Historial from '../screens/Historial/Historial';
 
 
 const Tabs = AnimatedTabBarNavigator()
-
-const Screen = styled.View`
-	flex: 1;
-	justify-content: center;
-	align-items: center;
-	background-color: #f2f2f2;
-`
-
-const Logo = () => (
-	<Image
-		source={require('./logo.png')}
-		resizeMode={'cover'}
-		style={{ width: 150, height: 150 }}
-	/>
-)
 
 const TabBarIcon = (props: any) => {
 	return (
@@ -33,40 +18,6 @@ const TabBarIcon = (props: any) => {
 		/>
 	)
 }
-
-const Home = (props: any) => (
-	<Screen>
-		<Logo />
-		<Text>Home</Text>
-		<TouchableOpacity onPress={() => props.navigation.navigate("Discover")}>
-			<Text>Go to Discover</Text>
-		</TouchableOpacity>
-	</Screen>
-)
-
-const Discover = (props: any) => (
-	<Screen>
-		<Logo />
-		<Text>Discover</Text>
-		<TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
-			<Text>Go to Home</Text>
-		</TouchableOpacity>
-	</Screen>
-)
-
-const Images = () => (
-	<Screen>
-		<Logo />
-		<Text>Images</Text>
-	</Screen>
-)
-
-const Profile = () => (
-	<Screen>
-		<Logo />
-		<Text>Profile</Text>
-	</Screen>
-)
 
 const TabNavigate = () => (
 	<Tabs.Navigator initialRouteName="Home"
@@ -87,11 +38,15 @@ const TabNavigate = () => (
 			dotCornerRadius: 20,
 			tabButtonLayout: TabButtonLayout.HORIZONTAL,
 		}}
+		// screenOptions={{
+		// 	unmountOnBlur : true,
+		// }}
 	>
 		<Tabs.Screen
-			name="Home"
+			name="PrincipalClientes"
 			component={PrincipalClient}
 			options={{
+				tabBarLabel: "Inicio",
 				tabBarIcon: ({ focused, color }: any) => (
 					<TabBarIcon
 						focused={focused}
@@ -103,40 +58,41 @@ const TabNavigate = () => (
 			}}
 		/>
 		<Tabs.Screen
-			name="Discover"
-			component={Discover}
-			options={{
-				tabBarIcon: ({ focused, color }: any) => (
-					<TabBarIcon
-						focused={focused}
-						tintColor={color}
-						name="search"
-					/>
-				),
-			}}
-		/>
-		<Tabs.Screen
-			name="Images"
-			component={Images}
-			options={{
-				tabBarIcon: ({ focused, color }: any) => (
-					<TabBarIcon
-						focused={focused}
-						tintColor={color}
-						name="image"
-					/>
-				),
-			}}
-		/>
-		<Tabs.Screen
-			name="Profile"
-			component={Profile}
+			name="Perfil"
+			component={Perfil}
 			options={{
 				tabBarIcon: ({ focused, color }: any) => (
 					<TabBarIcon
 						focused={focused}
 						tintColor={color}
 						name="user"
+					/>
+				),
+				unmountOnBlur : true
+			}}
+		/>
+		<Tabs.Screen
+			name="En Curso"
+			component={TrabajosEnCuso}
+			options={{
+				tabBarIcon: ({ focused, color }: any) => (
+					<TabBarIcon
+						focused={focused}
+						tintColor={color}
+						name="clock"
+					/>
+				),
+			}}
+		/>
+		<Tabs.Screen
+			name="Historial"
+			component={Historial}
+			options={{
+				tabBarIcon: ({ focused, color }: any) => (
+					<TabBarIcon
+						focused={focused}
+						tintColor={color}
+						name="book"
 					/>
 				),
 			}}
