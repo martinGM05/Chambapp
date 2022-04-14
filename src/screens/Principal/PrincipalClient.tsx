@@ -2,10 +2,10 @@ import { StyleSheet, Text, View, ScrollView, ImageBackground, Image } from 'reac
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native-gesture-handler';
-import CardCategories from '../components/Principal/CardCategory';
-import CardTrades from '../components/Principal/CardTrades';
+import CardCategories from '../../components/Principal/CardCategory';
+import CardTrades from '../../components/Principal/CardTrades';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../routes/StackNavigator';
+import { RootStackParams } from '../../routes/StackNavigator';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
@@ -127,6 +127,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                                 photoBanner={trade.photoBanner}
                                 photoUser={trade.photoUser} 
                                 navigation={navigation}
+                                from={1}
                             />
                         ))
                     }

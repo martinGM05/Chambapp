@@ -2,10 +2,16 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Rating, AirbnbRating } from 'react-native-ratings';
-//d
-const ValorarTrabajo = () => {
+import BackButton from '../../components/BackButton';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParams } from '../../routes/StackNavigator';
+
+type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
+
+const ValorarTrabajo = ({ navigation }: Props) => {
     return (
         <View>
+            <BackButton navigation={navigation} />
             <View style={styles._containerDataEmployee}>
                 <Icon name='user-circle' size={60} color='#000'></Icon>
                 <View style={styles._containerTextName}>

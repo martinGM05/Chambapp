@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Touchable } from 'react-native';
 import React from 'react'
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { RootStackParams } from '../../routes/StackNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface Props {
     trade: string;
@@ -12,16 +13,25 @@ interface Props {
     rating: number;
     photoBanner: string;
     photoUser: string;
-    navigation: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
+    navigation?: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
+    from: number;
+
 }
 
-const CardTrades = ({ trade, user, rating, photoBanner, photoUser, navigation }: Props) => {
+const CardTrades = ({
+    trade, user, rating, 
+    photoBanner, photoUser, navigation, 
+    from }: Props) => {
 
     const handleTrabajador = () => {
-        navigation.navigate('Trabajador');
+        navigation?.navigate('Trabajador');
         console.log('Trabajador');
     }
 
+    const handleValorar = () => {
+        navigation?.navigate('Valorar');
+        console.log('Valorar');
+    }
 
     return (
         <View style={styles.cardTrade}>
@@ -31,7 +41,10 @@ const CardTrades = ({ trade, user, rating, photoBanner, photoUser, navigation }:
                     style={styles.image}
                 />
             </View>
-            <View style={styles.cardWorker}>
+
+            <View
+                style={styles.cardWorker}
+            >
                 <View style={styles.cardWorkerInfo}>
                     <View style={styles.cardInfoUser}>
                         <View style={styles.user}>
@@ -51,12 +64,45 @@ const CardTrades = ({ trade, user, rating, photoBanner, photoUser, navigation }:
                                 starContainerStyle={styles.star}
                             />
                         </View>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={handleTrabajador}
-                        >
-                            <Icon name="chevron-right" style={styles.moreInfo} />
-                        </TouchableOpacity>
+
+                        {
+                            from === 1  ? (
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={handleTrabajador}
+                                >
+                                    <Icon name="info-circle" size={35} color="#000" />
+                                </TouchableOpacity>
+                            ) : (
+                                from === 3 ? (
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={handleTrabajador}
+                                    >
+                                        <Icon name="info-circle" style={styles.moreInfo} />
+                                    </TouchableOpacity>
+                                ) : (
+                                    <View style={styles.containerIcons}>
+                                        <TouchableOpacity
+                                            style={styles.button}
+                                            onPress={handleTrabajador}
+                                        >
+                                            <Icon name="info-circle" style={styles.moreInfo} />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.button}
+                                            onPress={handleValorar}
+                                        >
+                                            <Icon name="handshake-o" style={styles.moreInfo} />
+                                        </TouchableOpacity>
+                                    </View>
+                                )
+                            )
+                        }
+
+
+
+
                     </View>
                 </View>
             </View>
@@ -82,6 +128,7 @@ const styles = StyleSheet.create({
         shadowRadius: 6.68,
 
         elevation: 5,
+
     },
     imageTrade: {
         flex: 2,
@@ -172,4 +219,9 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: '#000',
     },
+    containerIcons: {
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        marginTop: -30,
+    }
 })

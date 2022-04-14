@@ -3,9 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import InitialLogin from '../screens/Login/InitialLogin';
 import Login from '../screens/Login/Login';
 import Register from '../screens/Login/Register';
-import Principal from '../screens/Principal';
 import TabNavigate from './TabNavigator';
-import Trabajador from '../screens/Trabajador';
+import Trabajador from '../screens/Trabajador/Trabajador';
+import ValorarTrabajo from '../screens/EnCurso/ValorarTrabajo';
 
 export type RootStackParams = {
     Principal: undefined;
@@ -13,6 +13,7 @@ export type RootStackParams = {
     Register: undefined;
     PrincipalCliente: undefined;
     Trabajador: undefined;
+    Valorar: undefined;
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -38,6 +39,7 @@ export const StackNavigator = () => {
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={TabNavigate} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={Trabajador} />
+            <Stack.Screen name="Valorar" options={{title: "Valorar"}} component={ValorarTrabajo} />
         </Stack.Navigator>
     )
 }
