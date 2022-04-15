@@ -12,89 +12,14 @@ type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 
 const PrincipalClient = ({ navigation }: Props) => {
-   // const contexto=useContext(Contexto);
-    const {Trabajador}=useContext(Contexto)
-    const {Oficio} = useContext(Contexto)
-
-    let tradesCards = [
-        {
-            trade: 'Carpinteria',
-            user: 'Juan Perez',
-            rating: 3,
-            photoBanner:"https://img.freepik.com/foto-gratis/carpintero-que-trabaja-equipo-tabla-madera-tienda-carpinteria_1418-2326.jpg",
-            photoUser:"https://imagenes.elpais.com/resizer/QmMhOvp7m87srTdvFwJQtKs0fbI=/414x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/TNHLMTC2IVDHZAHOTIPQ66YI7Y.jpg" 
-        },
-        {
-            trade: 'Prostituacion',
-            user: 'Ivan Cordova',
-            rating: 5,
-            photoBanner:"https://imagenes.elpais.com/resizer/a16w8ewVLcMDbAkxyfxg54js6Y0=/1960x1470/arc-anglerfish-eu-central-1-prod-prisa.s3.amazonaws.com/public/VJJHJ4RQ2QOKV66ML43ABGIIKA.jpg",
-            photoUser:"https://scontent.fjal2-1.fna.fbcdn.net/v/t1.18169-9/12376279_506023649576061_8346130321154427894_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=174925&_nc_eui2=AeEr-MWK6uMfVDwP3PslUunDo39o5K2_i-qjf2jkrb-L6m5RLSkD_Ci7L9ONf9JDdnHEWZGxocxVIryBWX39D6aM&_nc_ohc=G1lL-th4ASoAX-gBz5S&_nc_ht=scontent.fjal2-1.fna&oh=00_AT9xu4Z-fgGWpUBBGlXLojEIXT6-Hxsuy2Mhx2OGtevdVA&oe=6279B1F7" 
-        },
-        {
-            trade: 'Carpinteria',
-            user: 'Juan Perez',
-            rating: 3,
-            photoBanner:"https://img.freepik.com/foto-gratis/carpintero-que-trabaja-equipo-tabla-madera-tienda-carpinteria_1418-2326.jpg",
-            photoUser:"https://imagenes.elpais.com/resizer/QmMhOvp7m87srTdvFwJQtKs0fbI=/414x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/TNHLMTC2IVDHZAHOTIPQ66YI7Y.jpg" 
-        },
-        {
-            trade: 'Prostituacion',
-            user: 'Ivan Cordova',
-            rating: 5,
-            photoBanner:"https://imagenes.elpais.com/resizer/a16w8ewVLcMDbAkxyfxg54js6Y0=/1960x1470/arc-anglerfish-eu-central-1-prod-prisa.s3.amazonaws.com/public/VJJHJ4RQ2QOKV66ML43ABGIIKA.jpg",
-            photoUser:"https://scontent.fjal2-1.fna.fbcdn.net/v/t1.18169-9/12376279_506023649576061_8346130321154427894_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=174925&_nc_eui2=AeEr-MWK6uMfVDwP3PslUunDo39o5K2_i-qjf2jkrb-L6m5RLSkD_Ci7L9ONf9JDdnHEWZGxocxVIryBWX39D6aM&_nc_ohc=G1lL-th4ASoAX-gBz5S&_nc_ht=scontent.fjal2-1.fna&oh=00_AT9xu4Z-fgGWpUBBGlXLojEIXT6-Hxsuy2Mhx2OGtevdVA&oe=6279B1F7" 
-        },
-        {
-            trade: 'Carpinteria',
-            user: 'Juan Perez',
-            rating: 3,
-            photoBanner:"https://img.freepik.com/foto-gratis/carpintero-que-trabaja-equipo-tabla-madera-tienda-carpinteria_1418-2326.jpg",
-            photoUser:"https://imagenes.elpais.com/resizer/QmMhOvp7m87srTdvFwJQtKs0fbI=/414x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/TNHLMTC2IVDHZAHOTIPQ66YI7Y.jpg" 
-        },
-        {
-            trade: 'Prostituacion',
-            user: 'Ivan Cordova',
-            rating: 5,
-            photoBanner:"https://imagenes.elpais.com/resizer/a16w8ewVLcMDbAkxyfxg54js6Y0=/1960x1470/arc-anglerfish-eu-central-1-prod-prisa.s3.amazonaws.com/public/VJJHJ4RQ2QOKV66ML43ABGIIKA.jpg",
-            photoUser:"https://scontent.fjal2-1.fna.fbcdn.net/v/t1.18169-9/12376279_506023649576061_8346130321154427894_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=174925&_nc_eui2=AeEr-MWK6uMfVDwP3PslUunDo39o5K2_i-qjf2jkrb-L6m5RLSkD_Ci7L9ONf9JDdnHEWZGxocxVIryBWX39D6aM&_nc_ohc=G1lL-th4ASoAX-gBz5S&_nc_ht=scontent.fjal2-1.fna&oh=00_AT9xu4Z-fgGWpUBBGlXLojEIXT6-Hxsuy2Mhx2OGtevdVA&oe=6279B1F7" 
-        },
-        {
-            trade: 'Carpinteria',
-            user: 'Juan Perez',
-            rating: 3,
-            photoBanner:"https://img.freepik.com/foto-gratis/carpintero-que-trabaja-equipo-tabla-madera-tienda-carpinteria_1418-2326.jpg",
-            photoUser:"https://imagenes.elpais.com/resizer/QmMhOvp7m87srTdvFwJQtKs0fbI=/414x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/TNHLMTC2IVDHZAHOTIPQ66YI7Y.jpg" 
-        },
-        {
-            trade: 'Prostituacion',
-            user: 'Ivan Cordova',
-            rating: 5,
-            photoBanner:"https://imagenes.elpais.com/resizer/a16w8ewVLcMDbAkxyfxg54js6Y0=/1960x1470/arc-anglerfish-eu-central-1-prod-prisa.s3.amazonaws.com/public/VJJHJ4RQ2QOKV66ML43ABGIIKA.jpg",
-            photoUser:"https://scontent.fjal2-1.fna.fbcdn.net/v/t1.18169-9/12376279_506023649576061_8346130321154427894_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=174925&_nc_eui2=AeEr-MWK6uMfVDwP3PslUunDo39o5K2_i-qjf2jkrb-L6m5RLSkD_Ci7L9ONf9JDdnHEWZGxocxVIryBWX39D6aM&_nc_ohc=G1lL-th4ASoAX-gBz5S&_nc_ht=scontent.fjal2-1.fna&oh=00_AT9xu4Z-fgGWpUBBGlXLojEIXT6-Hxsuy2Mhx2OGtevdVA&oe=6279B1F7" 
-        },
-        {
-            trade: 'Carpinteria',
-            user: 'Juan Perez',
-            rating: 3,
-            photoBanner:"https://img.freepik.com/foto-gratis/carpintero-que-trabaja-equipo-tabla-madera-tienda-carpinteria_1418-2326.jpg",
-            photoUser:"https://imagenes.elpais.com/resizer/QmMhOvp7m87srTdvFwJQtKs0fbI=/414x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/TNHLMTC2IVDHZAHOTIPQ66YI7Y.jpg" 
-        },
-        {
-            trade: 'Prostituacion',
-            user: 'Ivan Cordova',
-            rating: 5,
-            photoBanner:"https://imagenes.elpais.com/resizer/a16w8ewVLcMDbAkxyfxg54js6Y0=/1960x1470/arc-anglerfish-eu-central-1-prod-prisa.s3.amazonaws.com/public/VJJHJ4RQ2QOKV66ML43ABGIIKA.jpg",
-            photoUser:"https://scontent.fjal2-1.fna.fbcdn.net/v/t1.18169-9/12376279_506023649576061_8346130321154427894_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=174925&_nc_eui2=AeEr-MWK6uMfVDwP3PslUunDo39o5K2_i-qjf2jkrb-L6m5RLSkD_Ci7L9ONf9JDdnHEWZGxocxVIryBWX39D6aM&_nc_ohc=G1lL-th4ASoAX-gBz5S&_nc_ht=scontent.fjal2-1.fna&oh=00_AT9xu4Z-fgGWpUBBGlXLojEIXT6-Hxsuy2Mhx2OGtevdVA&oe=6279B1F7" 
-        },
-    ]
-
-  
-//console.log(Oficio)
+    // const contexto=useContext(Contexto);
+    const { Trabajador } = useContext(Contexto)
+    const { Oficio } = useContext(Contexto)
+    //console.log(Oficio)
 
     return (
         <View style={styles.container}>
-           
+
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.containerUser}>
                     <Icon name="user-circle" size={50} color="#000" />
@@ -111,7 +36,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.containerCategories}>
-                        {Oficio.map((e,index)=>(
+                        {Oficio.map((e, index) => (
                             <CardCategories name={e} key={index} icon="shopping-basket" />
                         ))}
                         {/* <CardCategories name="Comprar" icon="shopping-cart" />
@@ -126,19 +51,19 @@ const PrincipalClient = ({ navigation }: Props) => {
                 <View style={styles.containerTrades}>
                     {
                         Trabajador.map((trade, index) => (
-                            <CardTrades 
+                            <CardTrades
                                 key={index}
-                                idTrabajador={trade.Id} 
-                                trade={trade.Oficios.toString()} 
-                                user={trade.nombre} 
-                                rating={trade.valoracion} 
-                               
-                                photoUser={trade.fotoUser} 
+                                idTrabajador={trade.Id}
+                                trade={trade.Oficios.toString()}
+                                user={trade.nombre}
+                                rating={trade.valoracion}
+
+                                photoUser={trade.fotoUser}
                                 navigation={navigation}
                             />
                         ))
                     }
-                    
+
                 </View>
             </ScrollView>
         </View>
@@ -193,7 +118,7 @@ const styles = StyleSheet.create({
         padding: 5,
         fontSize: 20,
         marginLeft: 10,
-    },    
+    },
     containerCategories: {
         flexDirection: 'row',
         marginTop: 10,

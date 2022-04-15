@@ -22,11 +22,9 @@ interface Props {
 
 
 const CardTrades = ({ trade, user, rating, photoUser, navigation,idTrabajador }: Props) => {
-   
-    
-    const [Comentario, setComentario] = useState<IComentario[]>([])
     const [foto, setFoto] = useState<string[]>([])
-  
+    const [averageRating, setAverageRating]=useState<number>(0)
+
 
     const handleTrabajador = (id:string) => {
         navigation.navigate('Trabajador',{id:id});
@@ -34,6 +32,7 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation,idTrabajador }:
     }
 
     function GetTrabajadoresComentarios() {
+        
         const suscriber = firestore().collection('Trabajadores').doc(idTrabajador).collection('Comentarios')
             .onSnapshot(snapshot => {
                 const data = snapshot.docs.map(doc => {
@@ -41,10 +40,14 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation,idTrabajador }:
                     comentario.Id = doc.id;
                     return comentario;
                 })
-                {data.map(e=>{
-                   setFoto([...foto,e.fotosComentario])
-                })}
-                setComentario(data)
+                let auxRating=0
+                setAverageRating(0)
+                data.forEach(item=>{
+                    setFoto(item2=>[...item2,item.fotosComentario])
+                    auxRating=auxRating+item.calificacion
+                })
+                setAverageRating(item3=>(item3+(auxRating/data.length)))
+               
             })
         return () => suscriber();
     }
@@ -83,15 +86,18 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation,idTrabajador }:
                             </View>
                             <AirbnbRating
                                 count={5}
-                                defaultRating={rating}
+                                defaultRating={averageRating}
                                 showRating={false}
                                 size={15}
                                 starContainerStyle={styles.star}
+                                isDisabled={true}
+                               
                             />
                         </View>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={()=>{
+                               
                                 handleTrabajador(idTrabajador)
                             }
                                 

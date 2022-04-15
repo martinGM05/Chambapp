@@ -16,75 +16,30 @@ interface CarouselItems {
   image: string;
 }
 
-type ICustomersComments = {
-  name: string;
-  photo: string;
-  comment: string;
-}
+
 
 type Props = StackScreenProps<RootStackParams, 'Trabajador'>;
 const dimensions = Dimensions.get('window');
 const Trabajador = ({ navigation, route }: Props) => {
-  const contexto = useContext(Contexto);
+  
   const { id } = route.params
+  const contexto = useContext(Contexto);
+  
+  const{averageRating}=useContext(Contexto)
+
+  const{listaImagenes}=useContext(Contexto)
+  const{comentario}=useContext(Contexto)
+
+  
   const params = route.params;
-  const [comentario, setComentario] = useState<ICustomersComments[]>([])
-  const [listaImagenes, setListaImagenes] = useState<string[]>([])
+ 
+
   useEffect(() => {
 
-    function GetTrabajadoresComentarios() {
-      const suscriber = firestore().collection('Trabajadores').doc(id).collection('Comentarios')
-        .onSnapshot(snapshot => {
-          const data = snapshot.docs.map(doc => {
-            const comentario = doc.data() as IComentario;
-            comentario.Id = doc.id;
-            comentario.IdTrabajador = id
-            return comentario;
-          })
-          setComentario([])
-          setListaImagenes([])
-          data.forEach(item => {
-
-            setListaImagenes(item2 => [...item2, item.fotosComentario])
-            firestore().collection('Usuarios').doc(item.idCliente).get()
-              .then(function (doc) {
-                if (doc.exists) {
-                  const document = JSON.stringify(doc.data())
-                  const aux2 = JSON.parse(document)
-                  const j = JSON.stringify({ name: aux2['nombre'], photo: aux2['fotoUsuario'], comment: item.comentario })
-                  const aux = JSON.parse(j)
-                  setComentario(item3 => [...item3, aux])
-
-                }
-              })
-          })
-          return () => suscriber();
-        })
-    }
-
-    GetTrabajadoresComentarios()
-
-
+    contexto.GetTrabajadoresComentarios(id)
+    
   }, [])
 
-  let trades = ['Carpintero', 'Electricista', 'Pintor', 'Programador']
-  let carousel = [
-    'https://zonaherramientas.com/wp-content/uploads/2019/11/PIntar-puertas-en-blanco.jpg',
-    'https://i.ytimg.com/vi/C9S8SQ1cMs4/maxresdefault.jpg',
-    'https://http2.mlstatic.com/D_NQ_NP_616002-MLM44786252754_022021-O.jpg'
-  ]
-  let customersComments = [
-    {
-      name: 'Nicolas',
-      photo: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-      comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    },
-    {
-      name: 'Chino',
-      photo: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-      comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    }
-  ]
   const a = contexto.Trabajador.filter(e => e.Id == id)
 
   return (
@@ -101,7 +56,7 @@ const Trabajador = ({ navigation, route }: Props) => {
               key={index}
               trades={e.Oficios}
               name={e.nombre}
-              rating={e.valoracion}
+              rating={averageRating}
               photo={e.fotoUser}
             />
           ))}
