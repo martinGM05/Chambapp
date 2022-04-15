@@ -24,65 +24,45 @@ type ICustomersComments = {
 
 type Props = StackScreenProps<RootStackParams, 'Trabajador'>;
 const dimensions = Dimensions.get('window');
-
 const Trabajador = ({ navigation, route }: Props) => {
   const contexto = useContext(Contexto);
-
   const { id } = route.params
   const params = route.params;
   const [comentario, setComentario] = useState<ICustomersComments[]>([])
   const [listaImagenes, setListaImagenes] = useState<string[]>([])
-
-
-
   useEffect(() => {
-    function GetTrabajadoresComentarios() {
 
+    function GetTrabajadoresComentarios() {
       const suscriber = firestore().collection('Trabajadores').doc(id).collection('Comentarios')
         .onSnapshot(snapshot => {
           const data = snapshot.docs.map(doc => {
             const comentario = doc.data() as IComentario;
             comentario.Id = doc.id;
             comentario.IdTrabajador = id
-            
-        
-                     
-            
-
             return comentario;
-            
           })
-         
-          
+          setComentario([])
+          setListaImagenes([])
           data.forEach(item => {
+
             setListaImagenes(item2 => [...item2, item.fotosComentario])
-
             firestore().collection('Usuarios').doc(item.idCliente).get()
-            .then(function  (doc) {
-              if(doc.exists){
-                
-               // console.log(doc.data())
-                const document = JSON.stringify(doc.data())
-                const aux2=JSON.parse(document)
-               // console.log(aux2['nombre']) 
-              const j = JSON.stringify({ name: aux2['nombre'], photo: aux2['fotoUsuario'], comment: item.comentario })
-            const aux = JSON.parse(j)
-            setComentario(item3 => [...item3, aux])
-                             
-              }
-              
-            })
+              .then(function (doc) {
+                if (doc.exists) {
+                  const document = JSON.stringify(doc.data())
+                  const aux2 = JSON.parse(document)
+                  const j = JSON.stringify({ name: aux2['nombre'], photo: aux2['fotoUsuario'], comment: item.comentario })
+                  const aux = JSON.parse(j)
+                  setComentario(item3 => [...item3, aux])
 
-
-            
+                }
+              })
           })
           return () => suscriber();
         })
     }
-    GetTrabajadoresComentarios()
-  }, [])
 
-  useEffect(() => {
+    GetTrabajadoresComentarios()
 
 
   }, [])

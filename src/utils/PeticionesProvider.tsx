@@ -56,8 +56,15 @@ const PeticionesProvider = ({ children }: Props) => {
                         trabajador.Id = doc.id;
                         return trabajador;
                     })
-
+                    setTrabajador([])
+                    
                     setTrabajador(data)
+                    setOficio([])
+                    data.forEach(item=>{
+                        item.Oficios.forEach(item2=>{
+                            setOficio(item3=>[...item3,item2])
+                        })
+                    })
                 })
             return () => suscriber();
 
@@ -66,32 +73,6 @@ const PeticionesProvider = ({ children }: Props) => {
 
 
     }, [])
-
-    // useEffect(() => {
-    //     function GetTrabajadoresComentarios() {
-    //        Trabajador.map(e=>{
-    //         const suscriber = firestore().collection('Trabajadores').doc(e.Id).collection('Comentarios')
-    //         .onSnapshot(snapshot => {
-    //             //console.log('sds'+snapshot)
-    //             const data = snapshot.docs.map(doc => {
-    //                 const comentario = doc.data() as IComentario;
-    //                 comentario.Id = doc.id;
-    //                 comentario.IdTrabajador=e.Id
-    //                 return comentario;
-    //             })
-    //             //console.log(data)
-    //             setComentario(data)
-    //         })
-    //     return () => suscriber();
-    //        })
-    //     }
-    //     //GetTrabajadoresComentarios() 
-    //     //console.log(Comentario)
-
-    // }, [])
-
-
-
     return (
         <Contexto.Provider value={{
             Trabajador,

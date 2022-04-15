@@ -12,7 +12,9 @@ type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 
 const PrincipalClient = ({ navigation }: Props) => {
-    const contexto=useContext(Contexto);
+   // const contexto=useContext(Contexto);
+    const {Trabajador}=useContext(Contexto)
+    const {Oficio} = useContext(Contexto)
 
     let tradesCards = [
         {
@@ -88,7 +90,7 @@ const PrincipalClient = ({ navigation }: Props) => {
     ]
 
   
-
+//console.log(Oficio)
 
     return (
         <View style={styles.container}>
@@ -109,19 +111,21 @@ const PrincipalClient = ({ navigation }: Props) => {
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.containerCategories}>
-                        
-                        <CardCategories name="Comprar" icon="shopping-cart" />
+                        {Oficio.map((e,index)=>(
+                            <CardCategories name={e} key={index} icon="shopping-basket" />
+                        ))}
+                        {/* <CardCategories name="Comprar" icon="shopping-cart" />
                         <CardCategories name="Vender" icon="shopping-basket" />
                         <CardCategories name="Arrendar" icon="home" />
                         <CardCategories name="Mecanico" icon="car" />
                         <CardCategories name="Cuidar" icon="paw" />
                         <CardCategories name="Musico" icon="music" />
-                        <CardCategories name="Otros" icon="question" />
+                        <CardCategories name="Otros" icon="question" /> */}
                     </View>
                 </ScrollView>
                 <View style={styles.containerTrades}>
                     {
-                        contexto.Trabajador.map((trade, index) => (
+                        Trabajador.map((trade, index) => (
                             <CardTrades 
                                 key={index}
                                 idTrabajador={trade.Id} 
