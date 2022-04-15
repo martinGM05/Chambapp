@@ -7,13 +7,19 @@ import BackButton from '../components/BackButton';
 import HeaderTrabajador from '../components/Trabajador/HeaderTrabajador';
 import Feedback from '../components/Trabajador/Feedback';
 import { PropsComments } from '../components/Trabajador/Comments';
-import { Contexto, IComentario } from '../utils/PeticionesProvider';
+import { Contexto, IComentario, IUsuario } from '../utils/PeticionesProvider';
 import { ITrabajador } from './Principal';
 import { firebase } from '@react-native-firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
 
 interface CarouselItems {
   image: string;
+}
+
+type ICustomersComments = {
+  name: string;
+  photo: string;
+  comment: string;
 }
 
 type Props = StackScreenProps<RootStackParams, 'Trabajador'>;
@@ -24,37 +30,62 @@ const Trabajador = ({ navigation, route }: Props) => {
 
   const { id } = route.params
   const params = route.params;
-  const [comentario, setComentario] = useState<IComentario[]>([])
-  const [foto, setFoto] = useState<string[]>([])
+  const [comentario, setComentario] = useState<ICustomersComments[]>([])
+  const [listaImagenes, setListaImagenes] = useState<string[]>([])
+
 
 
   useEffect(() => {
     function GetTrabajadoresComentarios() {
-      
+
       const suscriber = firestore().collection('Trabajadores').doc(id).collection('Comentarios')
         .onSnapshot(snapshot => {
           const data = snapshot.docs.map(doc => {
             const comentario = doc.data() as IComentario;
             comentario.Id = doc.id;
             comentario.IdTrabajador = id
-            return comentario;
-          })
-          
-          data.map(e=>{
-            setFoto([...foto,e.fotosComentario])
-          })
+            
         
-          setComentario(data)  
+                     
+            
+
+            return comentario;
+            
+          })
+         
+          
+          data.forEach(item => {
+            setListaImagenes(item2 => [...item2, item.fotosComentario])
+
+            firestore().collection('Usuarios').doc(item.idCliente).get()
+            .then(function  (doc) {
+              if(doc.exists){
+                
+               // console.log(doc.data())
+                const document = JSON.stringify(doc.data())
+                const aux2=JSON.parse(document)
+               // console.log(aux2['nombre']) 
+              const j = JSON.stringify({ name: aux2['nombre'], photo: aux2['fotoUsuario'], comment: item.comentario })
+            const aux = JSON.parse(j)
+            setComentario(item3 => [...item3, aux])
+                             
+              }
+              
+            })
+
+
+            
+          })
           return () => suscriber();
         })
     }
-  
     GetTrabajadoresComentarios()
+  }, [])
+
+  useEffect(() => {
 
 
-  }
-  
-  , [])
+  }, [])
 
   let trades = ['Carpintero', 'Electricista', 'Pintor', 'Programador']
   let carousel = [
@@ -80,7 +111,7 @@ const Trabajador = ({ navigation, route }: Props) => {
     <View style={styles.container}>
       <BackButton navigation={navigation} />
       <View style={styles.containerTrabajador}>
-        <CarouselTrabajador carousel={foto} />
+        <CarouselTrabajador carousel={listaImagenes} />
       </View>
       <View style={styles.containerDescription}>
         {
@@ -94,7 +125,7 @@ const Trabajador = ({ navigation, route }: Props) => {
               photo={e.fotoUser}
             />
           ))}
-        <Feedback customerList={customersComments} />
+        <Feedback customerList={comentario} />
       </View>
     </View>
   )

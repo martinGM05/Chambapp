@@ -12,6 +12,12 @@ export interface ITrabajador {
     valoracion: number,
 
 }
+export interface IUsuario{
+    id:string
+    nombre:string,
+    numero:string,
+    fotoUsuario:string
+}
 export interface IComentario {
     Id: string,
     IdTrabajador: string,
