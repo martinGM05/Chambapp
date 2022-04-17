@@ -11,7 +11,7 @@ const useLogin = () => {
 
     // const { getUserData } = useContext(SesionContext)
     const { getUserData } = useContext(SesionContext);
-    const [active, setActive] = useState(false)
+    const [active, setActive] = useState(1)
 
     useEffect(() => {
 
@@ -24,8 +24,10 @@ const useLogin = () => {
         try {
             const idLogged = await AsyncStorage.getItem('@idUser');
             if (idLogged) {
+                setActive(2)
                 getDataFirebase(idLogged, navigation);
-                setActive(true)
+            }else{
+                setActive(3)
             }
         } catch (e) {
             console.log(e);

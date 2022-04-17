@@ -20,7 +20,7 @@ type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 const PrincipalClient = ({ navigation }: Props) => {
 
-    const { Trabajador, Oficio,eventoFiltro, Trabajadoraux} = useContext(Contexto)
+    const { Trabajador, Oficio, eventoFiltro, Trabajadoraux } = useContext(Contexto)
     const { Sesion } = useContext(SesionContext)
     const { workers } = useFiltrado()
 
@@ -54,13 +54,12 @@ const PrincipalClient = ({ navigation }: Props) => {
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.containerCategories}>
-                    <CardCategories
-                                    name={'Principal'}
-                                
-                                    icon={'star'}
-                                />
+                        <CardCategories
+                            name={'Principal'}
+                            icon={'star'}
+                        />
                         {
-                         
+
                             Oficio.map((e, index) => (
                                 <CardCategories
                                     name={e.nameOffice}
@@ -68,38 +67,38 @@ const PrincipalClient = ({ navigation }: Props) => {
                                     icon={e.iconName}
                                 />
                             ))
-                           
+
                         }
                     </View>
                 </ScrollView>
                 <View style={styles.containerTrades}>
                     {
-                        (eventoFiltro==true)?
-                        Trabajador.map((trade, index) => (
-                            <CardTrades
-                                key={index}
-                                idTrabajador={trade.Id}
-                                trade={trade.Oficios.toString()}
-                                user={trade.nombre}
-                                rating={trade.valoracion}
-                                photoUser={trade.fotoUser}
-                                navigation={navigation}
-                                from={1}
-                            />
-                        ))
-                        :
-                        Trabajadoraux.map((trade, index) => (
-                            <CardTrades
-                                key={index}
-                                idTrabajador={trade.Id}
-                                trade={trade.Oficios.toString()}
-                                user={trade.nombre}
-                                rating={trade.valoracion}
-                                photoUser={trade.fotoUser}
-                                navigation={navigation}
-                                from={1}
-                            />
-                        ))
+                        (eventoFiltro == true) ?
+                            Trabajador.map((trade, index) => (
+                                <CardTrades
+                                    key={index}
+                                    idTrabajador={trade.Id}
+                                    trade={trade.Oficios.toString()}
+                                    user={trade.nombre}
+                                    rating={trade.valoracion}
+                                    photoUser={trade.fotoUser}
+                                    navigation={navigation}
+                                    from={1}
+                                />
+                            ))
+                            :
+                            Trabajadoraux.map((trade, index) => (
+                                <CardTrades
+                                    key={index}
+                                    idTrabajador={trade.Id}
+                                    trade={trade.Oficios.toString()}
+                                    user={trade.nombre}
+                                    rating={trade.valoracion}
+                                    photoUser={trade.fotoUser}
+                                    navigation={navigation}
+                                    from={1}
+                                />
+                            ))
 
                     }
                 </View>
