@@ -16,6 +16,8 @@ const PrincipalClient = ({ navigation }: Props) => {
     const { Trabajador } = useContext(Contexto)
     const { Oficio } = useContext(Contexto)
    const {filtroOficio}=useContext(Contexto)
+
+   const {Pruebas}=useContext(Contexto)
    
   
 
@@ -41,7 +43,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.containerCategories}>
 
-                        
+              
 
                         {filtroOficio.map((e, index) => (
                             <CardCategories name={e} key={index} icon="shopping-basket"/>
