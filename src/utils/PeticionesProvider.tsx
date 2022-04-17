@@ -32,9 +32,16 @@ export type ICustomersComments = {
     photo: string;
     comment: string;
 }
+
+export type IOficeIcon={
+    nameOffice:string;
+    iconName:string;
+}
+
+
 interface ContextProps {
     Trabajador: ITrabajador[]
-    Oficio: string[]
+    Oficio: IOficeIcon[]
     comentario: ICustomersComments[]
     listaImagenes: string[],
     averageRating: number,
@@ -42,9 +49,12 @@ interface ContextProps {
     limpiarState: () => void
     filtroOficio: string[]
     FiltrarOficios: (oficio: string) => void
-    Pruebas: () => void;
     setTrabajador: (trabajador: ITrabajador[]) => void
     setTrabajadoraux: (trabajador: ITrabajador[]) => void
+    setEventoFiltro:(estado:boolean)=>void
+    eventoFiltro:boolean
+    Trabajadoraux:ITrabajador[]
+    
 }
 
 interface Props {
@@ -59,11 +69,12 @@ const PeticionesProvider = ({ children }: Props) => {
 
     const [Trabajador, setTrabajador] = useState<ITrabajador[]>([])
     const [Trabajadoraux, setTrabajadoraux] = useState<ITrabajador[]>([])
-    const [Oficio, setOficio] = useState<string[]>([])
+    const [Oficio, setOficio] = useState<IOficeIcon[]>([])
     const [comentario, setComentario] = useState<ICustomersComments[]>([])
     const [listaImagenes, setListaImagenes] = useState<string[]>([])
     const [averageRating, setAverageRating] = useState<number>(0)
     const [filtroOficio, setFiltroOficio] = useState<string[]>([])
+    const [eventoFiltro, setEventoFiltro]=useState<boolean>(true)
 
     useEffect(() => {
         function GetTrabajadores() {
@@ -76,15 +87,16 @@ const PeticionesProvider = ({ children }: Props) => {
                     })
                     setTrabajador([])
                     setTrabajador(data)
-                    setOficio([])
-                    data.forEach(item => {
-                        item.Oficios.forEach(item2 => {
-                            setOficio((item3) => [...item3, item2])
-                        })
-                    })
+                    //setTrabajadoraux(data)
+                    // setOficio([])
+                    // data.forEach(item => {
+                    //     item.Oficios.forEach(item2 => {
+                    //         setOficio((item3) => [...item3, item2])
+                    //     })
+                    // })
 
                 })
-            Pruebas()
+           
             return () => suscriber();
         }
         GetTrabajadores()
@@ -116,10 +128,8 @@ const PeticionesProvider = ({ children }: Props) => {
                                 const j = JSON.stringify({ name: aux2['Name'], photo: aux2['Photo'], comment: item.comentario })
                                 const aux = JSON.parse(j)
                                 setComentario(item3 => [...item3, aux])
-
                             }
                         })
-
                 })
                 setAverageRating(item3 => (item3 + (auxRating / data.length)))
                 return () => suscriber();
@@ -136,12 +146,14 @@ const PeticionesProvider = ({ children }: Props) => {
     function FiltrarOficios(oficio: string) {
         console.log(oficio);
         let aux: ITrabajador[] = []
+      
+        
         Trabajador.forEach(item => {
             if (item.Oficios.includes(oficio)) {
                 aux = [...aux, item]
             }
         })
-        setTrabajador(aux)
+        setTrabajadoraux(aux)
 
         // setTrabajador([])
         // setTrabajador(Trabajadoraux)
@@ -151,13 +163,20 @@ const PeticionesProvider = ({ children }: Props) => {
         // setTrabajador(trabajadores)
     }
 
-    function Pruebas() {
-        const result = Oficio.filter((item, index) => {
-            return Oficio.indexOf(item) == index;
-        })
-
-        setFiltroOficio(item4 => item4.concat(result))
-    }
+    useEffect(()=>{
+        function GetOficios(){
+            const subscriber = firestore().collection('Oficios')
+            .onSnapshot(snapshot => {
+                const data = snapshot.docs.map(doc => {
+                    const data = doc.data() as IOficeIcon
+                    return data;
+                })
+                setOficio(data)
+            })
+        return () => subscriber()
+        }
+        GetOficios()
+    },[])
 
     return (
         <Contexto.Provider value={{
@@ -170,9 +189,11 @@ const PeticionesProvider = ({ children }: Props) => {
             limpiarState,
             filtroOficio,
             FiltrarOficios,
-            Pruebas,
             setTrabajador,
-            setTrabajadoraux
+            setTrabajadoraux,
+            setEventoFiltro,
+            eventoFiltro,
+            Trabajadoraux
         }}>
             {children}
         </Contexto.Provider>
