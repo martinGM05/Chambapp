@@ -7,6 +7,8 @@ import auth from '@react-native-firebase/auth';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParams } from '../routes/StackNavigator';
 import { GoogleSignin } from '@react-native-community/google-signin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 interface Props {
     navigation: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
@@ -15,14 +17,19 @@ interface Props {
 const LogOut = ({ navigation }: Props) => {
 
     const logOut = async () => {
-        const provider = auth().currentUser?.providerData[0].providerId;
-        if (provider === 'google.com') {
-            await GoogleSignin.revokeAccess();
-            await GoogleSignin.signOut();
-        }else{
-            await auth().signOut();
+        try {
+            await AsyncStorage.removeItem('@idUser');
+            const provider = auth().currentUser?.providerData[0].providerId;
+            if (provider === 'google.com') {
+                await GoogleSignin.revokeAccess();
+                await GoogleSignin.signOut();
+            } else {
+                await auth().signOut();
+            }
+            navigation.navigate('Principal');
+        } catch (error) {
+            console.log(error)
         }
-        navigation.navigate('Principal');
     }
 
     return (
