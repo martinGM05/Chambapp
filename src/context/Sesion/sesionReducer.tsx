@@ -10,7 +10,6 @@ type SesionAction =
 export const sesionReducer = (state: UserModel, action: SesionAction): UserModel => {
     switch (action.type) {
         case 'GET_USER': {
-            // console.log('idUser:', idUser);
             return {
                 Id: action.payload.Id,
                 Name: action.payload.Name,

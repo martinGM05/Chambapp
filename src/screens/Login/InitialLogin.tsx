@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Dimensions, ImageBackground, Image } from 'react-native';
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
@@ -12,10 +12,26 @@ import * as Yup from 'yup';
 import { TextInput, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import FormLogin from '../../components/Login/FormLogin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = StackScreenProps<RootStackParams, 'Login'>;
 
 const InitialLogin = ({ navigation }: Props) => {
+
+  // useEffect(() => {
+
+  //   const getStorage = async () => {
+  //     try{
+  //       const idLogged = await AsyncStorage.getItem('@idUser');
+  //       if(idLogged){
+  //         navigation.navigate('PrincipalCliente');
+  //       }
+  //     }catch(e){
+
+  //     }
+  //   }
+
+  // }, [])
 
   return (
     <LinearGradient

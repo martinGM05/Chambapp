@@ -1,45 +1,75 @@
-import { StyleSheet, Text, View, Image, Touchable } from 'react-native';
-import React from 'react'
+import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react'
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { RootStackParams } from '../../routes/StackNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import LinearGradient from 'react-native-linear-gradient';
+import { firebase } from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
+import { Contexto, IComentario } from '../../utils/PeticionesProvider';
+
 
 interface Props {
     trade: string;
     user: string;
     rating: number;
-    photoBanner: string;
+    // photoBanner: string;
     photoUser: string;
     navigation?: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
     from: number;
-
+    idTrabajador: string;
 }
 
-const CardTrades = ({
-    trade, user, rating, 
-    photoBanner, photoUser, navigation, 
-    from }: Props) => {
 
-    const handleTrabajador = () => {
-        navigation?.navigate('Trabajador');
-        console.log('Trabajador');
+const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, from }: Props) => {
+    const [foto, setFoto] = useState<string[]>([])
+    const [averageRating, setAverageRating] = useState<number>(0)
+
+
+    const handleTrabajador = (id: string) => {
+        navigation?.navigate('Trabajador', { id: id });
+
     }
 
-    const handleValorar = () => {
-        navigation?.navigate('Valorar', {
-            photo: photoUser,
-        });
-        console.log('Valorar');
+
+
+    function GetTrabajadoresComentarios() {
+
+        firestore().collection('Trabajadores').doc(idTrabajador).collection('Comentarios')
+            .onSnapshot(snapshot => {
+                const data = snapshot.docs.map(doc => {
+                    const comentario = doc.data() as IComentario;
+                    comentario.Id = doc.id;
+                    return comentario;
+                })
+                let auxRating = 0
+                setAverageRating(0)
+                data.forEach(item => {
+                    setFoto(item2 => [...item2, item.fotosComentario])
+                    auxRating = auxRating + item.calificacion
+                })
+                setAverageRating(item3 => (item3 + (auxRating / data.length)))
+
+            })
+
     }
+    useEffect(() => {
+        GetTrabajadoresComentarios()
+
+    }, [])
+
 
     return (
         <View style={styles.cardTrade}>
+
+
+
             <View style={styles.imageTrade}>
+
                 <Image
-                    source={{ uri: `${photoBanner}` }}
+                    source={{ uri: foto[0] }}
                     style={styles.image}
                 />
             </View>
@@ -60,18 +90,20 @@ const CardTrades = ({
                             </View>
                             <AirbnbRating
                                 count={5}
-                                defaultRating={rating}
+                                defaultRating={averageRating}
                                 showRating={false}
                                 size={15}
                                 starContainerStyle={styles.star}
+                                isDisabled={true}
+
                             />
                         </View>
 
                         {
-                            from === 1  ? (
+                            from === 1 ? (
                                 <TouchableOpacity
                                     style={styles.button}
-                                    onPress={handleTrabajador}
+                                    onPress={() => handleTrabajador(idTrabajador)}
                                 >
                                     <Icon name="info-circle" size={35} color="#000" />
                                 </TouchableOpacity>
@@ -79,7 +111,7 @@ const CardTrades = ({
                                 from === 3 ? (
                                     <TouchableOpacity
                                         style={styles.button}
-                                        onPress={handleTrabajador}
+                                        onPress={() => handleTrabajador(idTrabajador)}
                                     >
                                         <Icon name="info-circle" style={styles.moreInfo} />
                                     </TouchableOpacity>
@@ -87,13 +119,13 @@ const CardTrades = ({
                                     <View style={styles.containerIcons}>
                                         <TouchableOpacity
                                             style={styles.button}
-                                            onPress={handleTrabajador}
+                                            onPress={() => handleTrabajador(idTrabajador)}
                                         >
                                             <Icon name="info-circle" style={styles.moreInfo} />
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={styles.button}
-                                            onPress={handleValorar}
+                                            onPress={() => handleTrabajador(idTrabajador)}
                                         >
                                             <Icon name="handshake-o" style={styles.moreInfo} />
                                         </TouchableOpacity>
@@ -101,10 +133,6 @@ const CardTrades = ({
                                 )
                             )
                         }
-
-
-
-
                     </View>
                 </View>
             </View>
