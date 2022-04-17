@@ -9,12 +9,16 @@ import Dialog from 'react-native-elements'
 import usePhoto from '../../hooks/usePhoto';
 
 interface Props {
-    photo: string,
+    photo: string, 
 }
 
 const AvatarPerfil = ({ photo }: Props) => {
 
     const { handleChangePhoto, photoNew } = usePhoto();
+
+    useEffect(() => {
+
+    }, [photoNew])
 
     return (
         <>
@@ -31,7 +35,7 @@ const AvatarPerfil = ({ photo }: Props) => {
                     <Avatar
                         rounded
                         size="xlarge"
-                        source={{ uri: photo }}
+                        source={{ uri: photo}}
                         containerStyle={styles.photoUser}
                     />
             }
@@ -62,13 +66,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
     containerIcon: {
-        width: '15%',
-        height: '18%',
+        width: '18%',
+        height: '14%',
         backgroundColor: '#bebbc8',
         borderRadius: 100,
         position: 'absolute',
-        bottom: 15,
-        right: 50,
+        bottom: 40,
+        right: 40,
 
         shadowColor: '#000',
         shadowOffset: {

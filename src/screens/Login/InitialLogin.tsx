@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Dimensions, ImageBackground, Image } from 'react-native';
-import React from 'react'
+import React, { useReducer } from 'react'
 
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
@@ -34,7 +34,7 @@ const InitialLogin = ({ navigation }: Props) => {
           <FormLogin  navigation={navigation} />
         </View>
         <View style={styles.containerSocial}>
-          <SocialMedia />
+          <SocialMedia navigation={navigation} />
         </View>
         <View style={styles.containerRegister}>
           <Text style={styles.text}>¿No tienes una cuenta?</Text>

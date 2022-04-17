@@ -9,6 +9,7 @@ import { LogBox } from 'react-native';
 import Perfil from './src/screens/Profile/Perfil';
 import TrabajosEnCuso from './src/screens/EnCurso/TrabajosEnCuso';
 import ValorarTrabajo from './src/screens/EnCurso/ValorarTrabajo';
+import { SesionProvider } from './src/context/Sesion/SesionContext';
 
 const App = () => {
 
@@ -22,14 +23,16 @@ const App = () => {
 
     return (
         <NavigationContainer>
-            <StatusBar 
-                barStyle="dark-content" 
-                backgroundColor="transparent" 
-                translucent={true}
-                animated={true}
-                showHideTransition="fade"    
-            />
-            <StackNavigator />
+            <SesionProvider>
+                <StatusBar
+                    barStyle="dark-content"
+                    backgroundColor="transparent"
+                    translucent={true}
+                    animated={true}
+                    showHideTransition="fade"
+                />
+                <StackNavigator />
+            </SesionProvider>
         </NavigationContainer>
 
     )

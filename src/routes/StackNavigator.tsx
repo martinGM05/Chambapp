@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import InitialLogin from '../screens/Login/InitialLogin';
-import Login from '../screens/Login/Login';
 import Register from '../screens/Login/Register';
 import TabNavigate from './TabNavigator';
 import Trabajador from '../screens/Trabajador/Trabajador';
@@ -31,11 +30,10 @@ export const StackNavigator = () => {
                 cardStyle: {
                     backgroundColor: '#f6f6f6',
                 },
-                headerTitleAlign: 'center'
+                headerTitleAlign: 'center',
             }}
         >
             <Stack.Screen name="Principal" options={{title: "Initial App"}} component={InitialLogin} />
-            <Stack.Screen name="Login" options={{title: "Login"}} component={Login} />
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={TabNavigate} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={Trabajador} />

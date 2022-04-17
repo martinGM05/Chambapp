@@ -2,8 +2,20 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useLogin from '../../hooks/useLogin';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParams } from '../../routes/StackNavigator';
 
-const SocialMedia = () => {
+
+interface Props {
+    navigation: StackNavigationProp<RootStackParams, 'Login'>;
+}
+
+
+const SocialMedia = ({ navigation }: Props) => {
+
+    const { signInWithGoogle } = useLogin()
+
     return (
         <View style={styles.containerSocialButtons}>
             <TouchableOpacity
@@ -13,6 +25,7 @@ const SocialMedia = () => {
             </TouchableOpacity>
             <TouchableOpacity
                 style={[styles.buttonMedia, styles.buttonGoogle]}
+                onPress={() => signInWithGoogle(navigation)}
             >
                 <Icon name='google' size={30} color='#fff' />
             </TouchableOpacity>

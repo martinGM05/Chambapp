@@ -1,29 +1,39 @@
 import { StyleSheet, Text, View, Button, Pressable, Dimensions, TouchableOpacity } from 'react-native';
-import React from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { TextInput } from 'react-native-gesture-handler';
 import * as Yup from 'yup'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import useLogin from '../../hooks/useLogin';
+import { sesionReducer } from '../../context/Sesion/sesionReducer';
 
 
 interface Props {
     navigation: StackNavigationProp<RootStackParams, 'Login'>;
 }
 
+interface ValuesF {
+    Email: string;
+    Password: string;
+}
+
 const FormLogin = ({ navigation }: Props) => {
 
-    const submit = async (values: any) => {
-        console.log(values)
-        navigation.navigate('PrincipalCliente')
+    const { loginWithEmail } = useLogin()
+    
+    const submit = async (values: ValuesF, { resetForm }: any) => {
+        // console.log(values);
+        resetForm();
+        await loginWithEmail(values.Email, values.Password, navigation)
     }
 
     const formikOpt = {
-        initialValues: {
+        initialValues : {
             Email: '',
             Password: ''
-        },
+        } as ValuesF,
         validationSchema: Yup.object().shape({
             Email: Yup.string()
                 .email('Email inválido')
@@ -95,7 +105,9 @@ const FormLogin = ({ navigation }: Props) => {
 
                         </View>
                         <TouchableOpacity style={styles.containerLogin}
-                            onPress={formik.handleSubmit}
+                            onPress={() => {
+                                formik.handleSubmit()
+                            }}
                         >
                             <Text style={styles.buttonLogin}>Inicia Sesión</Text>
                         </TouchableOpacity>
@@ -143,6 +155,7 @@ const styles = StyleSheet.create({
         color: '#000',
         fontSize: 16,
         marginLeft: '1%',
+        width: '90%',
     },
     icon: {
         color: '#095397',
