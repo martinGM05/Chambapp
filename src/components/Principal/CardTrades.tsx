@@ -33,7 +33,7 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation,idTrabajador }:
 
     function GetTrabajadoresComentarios() {
         
-        const suscriber = firestore().collection('Trabajadores').doc(idTrabajador).collection('Comentarios')
+         firestore().collection('Trabajadores').doc(idTrabajador).collection('Comentarios')
             .onSnapshot(snapshot => {
                 const data = snapshot.docs.map(doc => {
                     const comentario = doc.data() as IComentario;
@@ -49,11 +49,8 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation,idTrabajador }:
                 setAverageRating(item3=>(item3+(auxRating/data.length)))
                
             })
-        return () => suscriber();
+        
     }
-   
-    
-
     useEffect(()=>{
         GetTrabajadoresComentarios()
         

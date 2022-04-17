@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Contexto } from '../../utils/PeticionesProvider';
 
 interface Props {
     name: string;
@@ -9,9 +10,14 @@ interface Props {
 }
 
 const CardCategories = ({ name, icon }: Props) => {
+    const {FiltrarOficios}=useContext(Contexto)
     return (
-        <View style={styles.containerCategory}>
-            <Icon name={icon} size={30} color="#fff" />
+        <View style={styles.containerCategory} >
+            
+            <Icon name={icon} size={30} color="#fff" onPress={()=>{
+                FiltrarOficios(name)
+                console.log(name)
+            }}/>
             <Text style={styles.textCategory}>{name}</Text>
         </View>
     )

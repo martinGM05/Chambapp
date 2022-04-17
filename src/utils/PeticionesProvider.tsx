@@ -27,7 +27,7 @@ export interface IComentario {
     idCliente: string
 
 }
-type ICustomersComments = {
+export type ICustomersComments = {
     name: string;
     photo: string;
     comment: string;
@@ -39,6 +39,9 @@ interface ContextProps {
     listaImagenes:string[],
     averageRating:number,
     GetTrabajadoresComentarios:(id:string)=>void
+    limpiarState:()=>void
+    filtroOficio:string[]
+    FiltrarOficios:(oficio:string)=>void
 
 
 
@@ -55,11 +58,12 @@ export const Contexto = createContext<ContextProps>({} as ContextProps);
 const PeticionesProvider = ({ children }: Props) => {
 
     const [Trabajador, setTrabajador] = useState<ITrabajador[]>([])
+    const [Trabajadoraux, setTrabajadoraux] = useState<ITrabajador[]>([])
     const [Oficio, setOficio] = useState<string[]>([])
     const [comentario, setComentario] = useState<ICustomersComments[]>([])
     const [listaImagenes, setListaImagenes] = useState<string[]>([])
     const [averageRating, setAverageRating]=useState<number>(0)
-
+    const [filtroOficio, setFiltroOficio]=useState<string[]>([])
     useEffect(() => {
         function GetTrabajadores() {
             const suscriber = firestore().collection('Trabajadores')
@@ -70,23 +74,24 @@ const PeticionesProvider = ({ children }: Props) => {
                         return trabajador;
                     })
                     setTrabajador([])
-                    
+                    setTrabajadoraux([])
                     setTrabajador(data)
+                    setTrabajadoraux(data)
                     setOficio([])
                     data.forEach(item=>{
                         item.Oficios.forEach(item2=>{
-                            setOficio(item3=>[...item3,item2])
-                        })
+                            setOficio((item3)=>[...item3,item2])                                   
+                        })   
                     })
+                    
                 })
+               
             return () => suscriber();
 
         }
         GetTrabajadores()
-
-
     }, [])
-
+ 
 
     function GetTrabajadoresComentarios(id:string) {
         const suscriber = firestore().collection('Trabajadores').doc(id).collection('Comentarios')
@@ -123,6 +128,21 @@ const PeticionesProvider = ({ children }: Props) => {
           })
       }
 
+      function limpiarState(){
+          setComentario([])
+          setListaImagenes([])
+          setAverageRating(0)
+      }
+
+
+      function FiltrarOficios(oficio:string){ 
+      
+        setTrabajador(Trabajadoraux)
+        console.log(Trabajador)
+        const trabajadores = Trabajador.filter(trabajador => trabajador.Oficios.includes(oficio))
+        setTrabajador([])
+        setTrabajador(trabajadores)
+      }
 
     return (
         <Contexto.Provider value={{
@@ -131,7 +151,10 @@ const PeticionesProvider = ({ children }: Props) => {
             comentario,
             listaImagenes,
             averageRating,
-            GetTrabajadoresComentarios
+            GetTrabajadoresComentarios,
+            limpiarState,
+            filtroOficio,
+            FiltrarOficios
 
         }}>
             {children}

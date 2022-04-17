@@ -26,6 +26,7 @@ const Trabajador = ({ navigation, route }: Props) => {
   const contexto = useContext(Contexto);
   
   const{averageRating}=useContext(Contexto)
+  
 
   const{listaImagenes}=useContext(Contexto)
   const{comentario}=useContext(Contexto)
@@ -35,7 +36,8 @@ const Trabajador = ({ navigation, route }: Props) => {
  
 
   useEffect(() => {
-
+    
+    contexto.limpiarState()
     contexto.GetTrabajadoresComentarios(id)
     
   }, [])

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Image } from 'react-native';
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native-gesture-handler';
 import CardCategories from '../components/Principal/CardCategory';
@@ -12,10 +12,14 @@ type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 
 const PrincipalClient = ({ navigation }: Props) => {
-    // const contexto=useContext(Contexto);
+    const contexto=useContext(Contexto);
     const { Trabajador } = useContext(Contexto)
     const { Oficio } = useContext(Contexto)
-    //console.log(Oficio)
+   const {filtroOficio}=useContext(Contexto)
+   
+  
+
+
 
     return (
         <View style={styles.container}>
@@ -36,8 +40,11 @@ const PrincipalClient = ({ navigation }: Props) => {
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.containerCategories}>
-                        {Oficio.map((e, index) => (
-                            <CardCategories name={e} key={index} icon="shopping-basket" />
+
+                        
+
+                        {filtroOficio.map((e, index) => (
+                            <CardCategories name={e} key={index} icon="shopping-basket"/>
                         ))}
                         {/* <CardCategories name="Comprar" icon="shopping-cart" />
                         <CardCategories name="Vender" icon="shopping-basket" />
