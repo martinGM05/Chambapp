@@ -1,11 +1,8 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { ICustomersComments } from '../../utils/PeticionesProvider';
 
-type ICustomersComments = {
-    name: string;
-    photo: string;
-    comment: string;
-}
+
 
 export interface PropsComments {
     customerList: ICustomersComments[];

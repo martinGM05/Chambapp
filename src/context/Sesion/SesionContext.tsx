@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useState } from 'react'
 import { sesionReducer } from './sesionReducer';
 import { UserModel, EditUserData } from '../../interfaces/UserModel';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const authInitialState: UserModel = {
     Id: '',
@@ -35,8 +36,13 @@ export const SesionProvider = ({ children }: {children: JSX.Element[]}) => {
     const [dataEdit, setDataEdit] = useState(editData);
 
 
-    const getUserData = (User: UserModel) => {
-        console.log(User);
+    const getUserData = async (User: UserModel) => {
+        // // console.log(User);
+        // try{
+        //     await AsyncStorage.setItem('@idUser', User.Id);
+        // }catch(e){
+        //     console.log(e);;
+        // }
         dispatch({
             type: 'GET_USER',
             payload: User

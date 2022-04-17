@@ -7,6 +7,7 @@ import ButtonContact from './ButtonContact';
 
 
 const Feedback = ({ customerList }:PropsComments) => {
+   
     return (
         <View style={styles.feedback}>
             <View style={styles.containerTitle}>

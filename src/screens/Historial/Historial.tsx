@@ -50,7 +50,7 @@ const Historial = ({ navigation }:Props) => {
                                 trade={item.trade}
                                 user={item.user}
                                 rating={item.rating}
-                                photoBanner={item.photoBanner}
+                                idTrabajador={'2BVPRY0h247kgG0e5mId'}
                                 photoUser={item.photoUser}
                                 navigation={navigation}
                                 from={3}
