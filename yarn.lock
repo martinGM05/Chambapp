@@ -1327,6 +1327,11 @@
   resolved "https://registry.npmjs.org/@react-native-community/eslint-plugin/-/eslint-plugin-1.1.0.tgz"
   integrity sha512-W/J0fNYVO01tioHjvYWQ9m6RgndVtbElzYozBq1ZPrHO/iCzlqoySHl4gO/fpCl9QEFjvJfjPgtPMTMlsoq5DQ==
 
+"@react-native-community/google-signin@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/google-signin/-/google-signin-5.0.0.tgz#d1d89c697cc214c10017fa283817e84bd03b2d76"
+  integrity sha512-MvFHImmtlmE1kJZgZ9XaULm/OBuQ/AQWOCPr3NzYTUv2cCqyGwfFrealo5PS/fuL/InCGcfqK1k/1dZ+67Hjmg==
+
 "@react-native-community/masked-view@^0.1.11":
   version "0.1.11"
   resolved "https://registry.npmjs.org/@react-native-community/masked-view/-/masked-view-0.1.11.tgz"
@@ -1341,10 +1346,20 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
+"@react-native-firebase/auth@^14.7.0":
+  version "14.7.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-14.7.0.tgz#e25088fba1f5e2c821d5d5cc1597518c55734327"
+  integrity sha512-RyoMlJ9DRUelGh4z4wnt8Bjr/BEy1TNBkDa3f60uG6ryACNP7k4GqfMCzienSBa4NAwz70DJHEP6bDB6OTt35g==
+
 "@react-native-firebase/firestore@^14.7.0":
   version "14.7.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-14.7.0.tgz#d79f6c6f4aa96111d8f20f7643bfcfca2dc17fc0"
   integrity sha512-vYmXJYs3VI3Ur4N9BFdls+kwFaQ0+hG5JQe/QA1L/o3UP0ho+oqZ5wyCnpA4uXyQwTgeWUukoedbI+iK0AHpWg==
+
+"@react-native-firebase/storage@^14.7.0":
+  version "14.7.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-14.7.0.tgz#4d16cd1c8bac4cf4f9931ae0657c55a0ab42adba"
+  integrity sha512-iiIe3IxIHCXqIT+CJGakMOE1GfOVLAIyZQJ/lFwHMIO0nNHJxPP772Nt8MhE/9aftEBvXE1xGh66GGwvnhR/Lw==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -6082,6 +6097,11 @@ react-native-animated-nav-tab-bar@^3.1.8:
   resolved "https://registry.yarnpkg.com/react-native-animated-nav-tab-bar/-/react-native-animated-nav-tab-bar-3.1.8.tgz#8c23f99b662681718ffb3c983899d010bf7f52f5"
   integrity sha512-7JtXipq1HPZqFGtjrUkez206XzJy1J1vWDm2aWfii8sDv3egA/zWC6jaKjNLbvtjNh2qJ56h2VDODL8HMbJkjA==
 
+react-native-awesome-loading@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/react-native-awesome-loading/-/react-native-awesome-loading-1.0.15.tgz#9255ebe0be96af5268f6ad3490e5d866c91b9a2f"
+  integrity sha512-PkRtL3k/T2jqhiBsUl1Hls7HoNGpg5NS5Ro7RoBcbcR67KgJI7FxLeY+aOJzNZGTJvGTRznqtIsIG6dlGKXTHw==
+
 react-native-codegen@*, react-native-codegen@^0.0.13:
   version "0.0.13"
   resolved "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.0.13.tgz"
@@ -6106,6 +6126,11 @@ react-native-elements@^3.4.2:
     react-native-ratings "8.0.4"
     react-native-size-matters "^0.3.1"
 
+react-native-fast-image@^8.5.11:
+  version "8.5.11"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.5.11.tgz#e3dc969d0e4e8df026646bf18194465aa55cbc2b"
+  integrity sha512-cNW4bIJg3nvKaheG8vGMfqCt5LMWX9MS5+wMudgKIHbGO51spRr4sgnlhVgwHLcZ5aeNOVJ8CPRxDIWKRq/0QA==
+
 react-native-gesture-handler@^2.3.2:
   version "2.3.2"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.3.2.tgz"
@@ -6116,6 +6141,11 @@ react-native-gesture-handler@^2.3.2:
     invariant "^2.2.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
+
+react-native-google-signin@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-2.1.1.tgz#4281940eee88602b0181dd49affdf8c92980c85c"
+  integrity sha512-6l3fiLdX/bfhh0BoxGq+jGkagFsO+mrE/eRV4+3/0k8+FDxO90vdPpQdDiwlM5vWXRxWthTzMM09/jHw+4cvNw==
 
 react-native-gradle-plugin@^0.0.5:
   version "0.0.5"

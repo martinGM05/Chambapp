@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "649252661715-jr6beoo0c3i5nrrabrgu1v3o3ici1hf7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chambapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "649252661715-pgd4t89voirgj5ubtovodvd6fcejbq02.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

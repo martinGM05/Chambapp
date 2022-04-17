@@ -1,37 +1,40 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React from 'react'
+import React, { useContext } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
+import { SesionContext } from '../../context/Sesion/SesionContext';
+import AvatarPerfil from './AvatarPerfil';
 
-interface UserData {
-    Name: string,
-    Email: string,
-    Phone: string,
-}
+const FormPerfil = () => {
 
-const FormPerfil = ({ Name, Email, Phone }: UserData) => {
+    const { editUserData, Sesion, setDataEdit, dataEdit } = useContext(SesionContext)
 
     const submit = async (values: any) => {
-        console.log(values)
+        // setDataEdit({
+        //     Name: values.Name,
+        //     Phone: values.Phone,
+        // })
+        // console.log(values);
+        editUserData(values)
     }
 
     const formikOpt = {
         initialValues: {
-            Name: Name,
-            Email: Email,
-            Phone: Phone,
+            Name: Sesion.Name,
+            Email: Sesion.Email,
+            Phone: Sesion.Phone,
+            Photo: Sesion.Photo,
         },
         validationSchema: Yup.object({
             Name: Yup.string()
                 .required('El nombre es requerido'),
-            Email: Yup.string()
-                .email('El correo no es válido')
-                .required('El correo es requerido'),
             Phone: Yup.string()
                 .min(10, 'El número de teléfono debe tener 10 dígitos')
                 .required('El teléfono es requerido'),
+            Photo: Yup.string()
+                .required('La foto es requerida'),
         }),
         onSubmit: submit
     }
@@ -42,6 +45,9 @@ const FormPerfil = ({ Name, Email, Phone }: UserData) => {
             <Formik {...formikOpt}>
                 {formik => (
                     <View>
+                        <View style={styles.userData}>
+                            <AvatarPerfil photo={formik.values.Photo} />
+                        </View>
                         <View style={styles.userContainer}>
                             <TextInput
                                 style={styles.inputStyle}
@@ -79,14 +85,6 @@ const FormPerfil = ({ Name, Email, Phone }: UserData) => {
                                 name="ios-mail"
                                 style={styles.icon} />
                         </View>
-                        {
-                            formik.touched.Email && formik.errors.Email ?
-                                <View style={styles.contenedorError}>
-                                    <Icon name="ios-alert-circle" size={20} color="#ff0000" />
-                                    <Text style={styles.error}>{formik.errors.Email}</Text>
-                                </View>
-                                : null
-                        }
                         <View style={styles.userContainer}>
                             <TextInput
                                 style={styles.inputStyle}
@@ -190,5 +188,16 @@ const styles = StyleSheet.create({
     },
     error: {
         color: 'red',
+    },
+    userData: {
+        width: '60%',
+        height: '80%',
+        // backgroundColor: 'black',
+        position: 'absolute',
+        top: -250,
+        left: '20%',
+        // zIndex: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 })

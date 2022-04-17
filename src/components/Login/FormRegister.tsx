@@ -1,20 +1,43 @@
-import { StyleSheet, Text, View, Button, Pressable, KeyboardTypeOptions } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Button, Pressable, KeyboardTypeOptions, TouchableOpacity, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { TextInput } from 'react-native-gesture-handler';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import * as Yup from 'yup'
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Avatar } from 'react-native-elements';
+import useRegister from '../../hooks/useRegister';
+import usePhoto from '../../hooks/usePhoto';
+import AwesomeLoading from 'react-native-awesome-loading';
 
 
 const FormRegister = () => {
 
+    // const [imgAvatar, setImgAvatar] = useState('https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg');
+    let img = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
+
+    const { photoNew, cameraOrGallery } = usePhoto()
+    const { register } = useRegister()
+
     const submit = async (values: any) => {
-        console.log(values)
+        let data = {
+            Nombre: values.Name,
+            Email: values.Email,
+            Phone: values.Phone,
+            Password: values.Password,
+            Photo: photoNew
+        }
+        // setActive(true)
+        register(data)
+    }
+
+    const changeImage = () => {
+        cameraOrGallery()
     }
 
     const formikOpt = {
         initialValues: {
             Name: '',
+            Photo: photoNew,
             Email: '',
             Phone: '',
             Password: '',
@@ -27,8 +50,9 @@ const FormRegister = () => {
             Email: Yup.string()
                 .email('Email inválido')
                 .required('Email requerido'),
-            Phone: Yup.number()
-                .min(10, 'Mínimo 10 dígitos')
+            Phone: Yup.string()
+                .min(10, 'Mínimo 10 caracteres')
+                .max(10, 'Máximo 10 caracteres')
                 .required('Teléfono requerido'),
             Password: Yup.string()
                 .min(6, 'Mínimo 6 caracteres')
@@ -41,192 +65,247 @@ const FormRegister = () => {
     }
 
     return (
-        <Formik {...formikOpt}>
-            {
-                formik => (
-                    <>
-                        <View style={styles.containerForm}>
-                            <View style={styles.userContainer}>
-                                <TextInput
-                                    style={styles.inputStyle}
-                                    autoCorrect={false}
-                                    placeholder="Nombre"
-                                    placeholderTextColor="#999"
-                                    onChangeText={formik.handleChange('Name')}
-                                    value={formik.values.Name}
-                                    onBlur={formik.handleBlur('Name')}
-                                />
-                                <Icon
-                                    name="ios-person"
-                                    style={styles.icon} />
-                            </View>
-                            {
-                                formik.touched.Name && formik.errors.Name ?
-                                    <View style={styles.contenedorError}>
-                                        <Icon name="ios-alert-circle" size={20} color="#ff0000" />
-                                        <Text style={styles.error}>{formik.errors.Name}</Text>
-                                    </View>
-                                    : null
-                            }
-                            <View style={styles.userContainer}>
-                                <TextInput
-                                    style={styles.inputStyle}
-                                    placeholder="Correo electrónico"
-                                    placeholderTextColor="#999"
-                                    keyboardType="email-address"
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    onChangeText={formik.handleChange('Email')}
-                                    value={formik.values.Email}
-                                    onBlur={formik.handleBlur('Email')}
-                                />
-                                <Icon name="ios-mail" style={styles.icon} />
-                            </View>
-                            {
-                                formik.touched.Email && formik.errors.Email ?
-                                    <View style={styles.contenedorError}>
-                                        <Icon name="ios-alert-circle" size={20} color="#ff0000" />
-                                        <Text style={styles.error}>{formik.errors.Email}</Text>
-                                    </View>
-                                    : null
-                            }
-                            <View style={styles.userContainer}>
-                                <TextInput
-                                    style={styles.inputStyle}
-                                    placeholder="Teléfono"
-                                    placeholderTextColor="#999"
-                                    keyboardType="phone-pad"
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    onChangeText={formik.handleChange('Phone')}
-                                    value={formik.values.Phone}
-                                    onBlur={formik.handleBlur('Phone')}
-                                />
-                                <Icon name="ios-call" style={styles.icon} />
-                            </View>
-                            {
-                                formik.touched.Phone && formik.errors.Phone ?
-                                    <View style={styles.contenedorError}>
-                                        <Icon name="ios-alert-circle" size={20} color="#ff0000" />
-                                        <Text style={styles.error}>{formik.errors.Phone}</Text>
-                                    </View>
-                                    : null
-                            }
-                            <View style={styles.userContainer}>
-                                <TextInput
-                                    style={styles.inputStyle}
-                                    placeholder="Contraseña"
-                                    placeholderTextColor="#999"
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    secureTextEntry={true}
-                                    onChangeText={formik.handleChange('Password')}
-                                    value={formik.values.Password}
-                                    onBlur={formik.handleBlur('Password')}
-                                />
-                                <Icon name="eye" style={styles.icon} />
-                            </View>
-                            {
-                                formik.touched.Password && formik.errors.Password ?
-                                    <View style={styles.contenedorError}>
-                                        <Icon name="ios-alert-circle" size={20} color="#ff0000" />
-                                        <Text style={styles.error}>{formik.errors.Password}</Text>
-                                    </View>
-                                    : null
-                            }
-                            <View style={styles.userContainer}>
-                                <TextInput
-                                    style={styles.inputStyle}
-                                    placeholder="Confirmar contraseña"
-                                    placeholderTextColor="#999"
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    secureTextEntry={true}
-                                    onChangeText={formik.handleChange('PasswordConfirm')}
-                                    value={formik.values.PasswordConfirm}
-                                    onBlur={formik.handleBlur('PasswordConfirm')}
-                                />
-                                <Icon name="eye" style={styles.icon} />
-                            </View>
-                            {
-                                formik.touched.PasswordConfirm && formik.errors.PasswordConfirm ?
-                                    <View style={styles.contenedorError}>
-                                        <Icon name="ios-alert-circle" size={20} color="#ff0000" />
-                                        <Text style={styles.error}>{formik.errors.PasswordConfirm}</Text>
-                                    </View>
-                                    : null
-                            }
-                            <Pressable
-                                onPress={formik.handleSubmit}
-                                style={styles.button}>
-                                <Text style={styles.buttonText}>Registrarse</Text>
-                            </Pressable>
-                        </View>
-                    </>
-                )
-            }
-        </Formik>
+
+        <View style={styles.containerForm}>
+
+            <View style={styles.containerAvatar}>
+                {
+                    photoNew ?
+                    <Avatar
+                        rounded
+                        size="xlarge"
+                        source={{ uri: photoNew }}
+                        containerStyle={styles.avatar}
+                    /> :
+                    <Avatar
+                        rounded
+                        size="xlarge"
+                        source={{ uri: img }}
+                        containerStyle={styles.avatar}
+                    />
+
+                }
+                
+                <TouchableOpacity
+                    style={styles.containerEdit}
+                    onPress={() => changeImage()}
+                >
+                    <Icon name="md-pencil-sharp" size={23} color="#fff" />
+                </TouchableOpacity>
+            </View>
+            <ScrollView style={{
+                borderTopWidth: 2,
+                borderBottomWidth: 2,
+            }}>
+
+
+                <Formik {...formikOpt}>
+                    {
+                        formik => (
+                            <>
+                                <View style={styles.form}>
+                                    <TextInput
+                                        style={styles.inputStyle}
+                                        autoCorrect={false}
+                                        placeholder="Nombre"
+                                        placeholderTextColor="#999"
+                                        onChangeText={formik.handleChange('Name')}
+                                        value={formik.values.Name}
+                                        onBlur={formik.handleBlur('Name')}
+                                    />
+                                    <Icon
+                                        name="ios-person"
+                                        style={styles.icon} />
+                                </View>
+                                {
+                                    formik.touched.Name && formik.errors.Name ?
+                                        <View style={styles.contenedorError}>
+                                            <Icon name="information-circle" size={20} color="#ff0000" />
+                                            <Text style={styles.error}>{formik.errors.Name}</Text>
+                                        </View> : null
+                                }
+                                <View style={styles.form}>
+                                    <TextInput
+                                        style={styles.inputStyle}
+                                        autoCorrect={false}
+                                        placeholder="Email"
+                                        placeholderTextColor="#999"
+                                        onChangeText={formik.handleChange('Email')}
+                                        value={formik.values.Email}
+                                        onBlur={formik.handleBlur('Email')}
+                                    />
+                                    <Icon
+                                        name="at"
+                                        style={styles.icon} />
+                                </View>
+                                {
+                                    formik.touched.Email && formik.errors.Email ?
+                                        <View style={styles.contenedorError}>
+                                            <Icon name="information-circle" size={20} color="#ff0000" />
+                                            <Text style={styles.error}>{formik.errors.Email}</Text>
+                                        </View> : null
+                                }
+                                <View style={styles.form}>
+                                    <TextInput
+                                        style={styles.inputStyle}
+                                        autoCorrect={false}
+                                        placeholder="Teléfono"
+                                        keyboardType="numeric"
+                                        placeholderTextColor="#999"
+                                        onChangeText={formik.handleChange('Phone')}
+                                        value={formik.values.Phone}
+                                        onBlur={formik.handleBlur('Phone')}
+                                    />
+                                    <Icon
+                                        name="call"
+                                        style={styles.icon} />
+                                </View>
+                                {
+                                    formik.touched.Phone && formik.errors.Phone ?
+                                        <View style={styles.contenedorError}>
+                                            <Icon name="information-circle" size={20} color="#ff0000" />
+                                            <Text style={styles.error}>{formik.errors.Phone}</Text>
+                                        </View> : null
+                                }
+                                <View style={styles.form}>
+                                    <TextInput
+                                        style={styles.inputStyle}
+                                        autoCorrect={false}
+                                        placeholder="Contraseña"
+                                        placeholderTextColor="#999"
+                                        onChangeText={formik.handleChange('Password')}
+                                        value={formik.values.Password}
+                                        onBlur={formik.handleBlur('Password')}
+                                        secureTextEntry={true}
+                                    />
+                                    <Icon
+                                        name="eye-off"
+                                        style={styles.icon} />
+                                </View>
+                                {
+                                    formik.touched.Password && formik.errors.Password ?
+                                        <View style={styles.contenedorError}>
+                                            <Icon name="information-circle" size={20} color="#ff0000" />
+                                            <Text style={styles.error}>{formik.errors.Password}</Text>
+                                        </View> : null
+                                }
+                                <View style={styles.form}>
+                                    <TextInput
+                                        style={styles.inputStyle}
+                                        autoCorrect={false}
+                                        placeholder="Confirmar contraseña"
+                                        placeholderTextColor="#999"
+                                        onChangeText={formik.handleChange('PasswordConfirm')}
+                                        value={formik.values.PasswordConfirm}
+                                        onBlur={formik.handleBlur('PasswordConfirm')}
+                                        secureTextEntry={true}
+                                    />
+                                    <Icon
+                                        name="eye-off"
+                                        style={styles.icon} />
+                                </View>
+                                {
+                                    formik.touched.PasswordConfirm && formik.errors.PasswordConfirm ?
+                                        <View style={styles.contenedorError}>
+                                            <Icon name="information-circle" size={20} color="#ff0000" />
+                                            <Text style={styles.error}>{formik.errors.PasswordConfirm}</Text>
+                                        </View> : null
+                                }
+                                <TouchableOpacity
+                                    style={styles.btnSubmit}
+                                    onPress={formik.handleSubmit}>
+                                    <Text style={styles.textSubmit}>Registrarse</Text>
+                                </TouchableOpacity>
+                            </>
+                        )
+                    }
+                </Formik>
+            </ScrollView>
+        </View>
     )
 }
 
 export default FormRegister
 
 const styles = StyleSheet.create({
+    // containerAnimation:{
+    //     width: 50,
+    //     height: 50,
+    //     backgroundColor: 'red',
+    //     borderRadius: 25,
+    // },
     containerForm: {
+        flex: 1,
+        // backgroundColor: 'red',
+        justifyContent: 'center',
+        // alignItems: 'center',
+    },
+    form: {
+        width: '100%',
+        height: 60,
+        // backgroundColor: 'blue',
+        backgroundColor: '#fff',
+        borderWidth: 2,
+        marginTop: 10,
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
     inputStyle: {
-        height: '80%',
-        width: '90%',
-        padding: 10,
-        marginTop: 5,
-        marginBottom: 10,
-        fontSize: 20,
-        flex: 1,
-    },
-    contenedorError: {
-        marginTop: 7,
-        padding: 10,
-        backgroundColor: '#f9c8c8',
-        borderRadius: 5,
-        display: 'flex',
-        flexDirection: 'row',
-        width: 'auto',
-        justifyContent: 'space-around',
-    },
-    error: {
-        color: 'red',
-    },
-    button: {
-        backgroundColor: '#5aa5a9',
-        padding: 10,
-        marginTop: 10,
-        borderRadius: 5,
-        width: '50%',
-        alignItems: 'center',
-        borderWidth: 2,
-        borderColor: '#3f3f3f',
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 18,
-        textAlign: 'center',
-
-    },
-    userContainer: {
-        flexDirection: 'row',
-        borderWidth: 2,
-        borderColor: '#000',
-        marginTop: 8,
-        paddingBottom: 10,
-        height: 70,
-        borderRadius: 20,
+        width: '80%',
+        height: '100%',
+        // backgroundColor: '#fff',
+        color: '#000',
     },
     icon: {
-        marginTop: 15,
         fontSize: 30,
-        color: '#000',
-        marginRight: 10,
-    }
+        color: '#095397',
+    },
+    contenedorError: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    error: {
+        color: '#ff0000',
+        fontSize: 12,
+        marginLeft: 5,
+    },
+    btnSubmit: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#095397',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    textSubmit: {
+        fontSize: 20,
+        color: '#fff',
+    },
+    containerAvatar: {
+        // backgroundColor: 'red',
+        width: 120,
+        height: 120,
+        left: '30%',
+        marginBottom: 10,
+    },
+    avatar: {
+        marginTop: 5,
+        width: 120,
+        height: 120,
+        borderWidth: 2,
+    },
+    containerEdit: {
+        width: 'auto',
+        height: 'auto',
+        position: 'absolute',
+        bottom: 0,
+        right: -5,
+        backgroundColor: '#696969',
+        borderRadius: 50,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })

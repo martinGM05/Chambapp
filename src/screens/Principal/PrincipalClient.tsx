@@ -1,15 +1,23 @@
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Image } from 'react-native';
-import React from 'react'
+import React, { useReducer, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native-gesture-handler';
 import CardCategories from '../../components/Principal/CardCategory';
 import CardTrades from '../../components/Principal/CardTrades';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
+import LogOut from '../../components/LogOut';
+import { sesionReducer } from '../../context/Sesion/sesionReducer';
+import { authInitialState, SesionContext } from '../../context/Sesion/SesionContext';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import { Avatar } from 'react-native-elements';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 const PrincipalClient = ({ navigation }: Props) => {
+
+    const { Sesion } = useContext(SesionContext)
 
     let tradesCards = [
         {
@@ -88,15 +96,22 @@ const PrincipalClient = ({ navigation }: Props) => {
         navigation.navigate('Trabajador')
     }
 
-
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.containerUser}>
-                    <Icon name="user-circle" size={50} color="#000" />
+                    <Avatar
+                        size="large"
+                        rounded
+                        source={{
+                            uri: Sesion.Photo
+                        }}
+                        containerStyle={styles.avatar}
+                    />
+                    <LogOut navigation={navigation} />
                 </View>
                 <View style={styles.containerGreetings}>
-                    <Text style={styles.textName}>Hola Martin!</Text>
+                    <Text style={styles.textName}> Hola {Sesion.Name} !!</Text>
                     <Text style={styles.textWelcome}>Mira lo que tenemos para ti.</Text>
                 </View>
                 <View style={styles.searchWork}>
@@ -148,6 +163,9 @@ const styles = StyleSheet.create({
     },
     containerUser: {
         marginTop: 50,
+        flexDirection: 'row',
+        // alignItems: 'center',
+        justifyContent: 'space-between',
     },
     containerGreetings: {
         marginTop: 20,
@@ -165,6 +183,7 @@ const styles = StyleSheet.create({
     textWelcome: {
         fontSize: 18,
         color: '#000',
+        marginLeft: 7,
     },
     searchWork: {
         marginTop: 3,
@@ -203,4 +222,14 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 'auto',
     },
+    avatar: {
+        width: 80,
+        height: 80,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+        borderWidth: 1,
+    }
 })
