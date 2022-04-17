@@ -10,7 +10,7 @@ interface Props {
 }
 
 const CardCategories = ({ name, icon }: Props) => {
-    const {FiltrarOficios}=useContext(Contexto)
+    const {FiltrarOficios, setEventoFiltro}=useContext(Contexto)
     return (
         <View style={styles.containerCategory}>
             <Icon 
@@ -18,7 +18,13 @@ const CardCategories = ({ name, icon }: Props) => {
                 size={30} 
                 color="#fff" 
                 onPress={ () => {
-                    FiltrarOficios(name)
+                    if(name=="Principal"){
+                        setEventoFiltro(true)
+                    }else{
+                        FiltrarOficios(name)
+                        setEventoFiltro(false)
+                    }
+                    
                 }}
             />
             <Text style={styles.textCategory}>{name}</Text>

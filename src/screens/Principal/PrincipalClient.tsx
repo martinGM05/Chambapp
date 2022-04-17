@@ -20,7 +20,7 @@ type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 const PrincipalClient = ({ navigation }: Props) => {
 
-    const { Trabajador, filtroOficio, Pruebas } = useContext(Contexto)
+    const { Trabajador, Oficio,eventoFiltro, Trabajadoraux} = useContext(Contexto)
     const { Sesion } = useContext(SesionContext)
     const { workers } = useFiltrado()
 
@@ -54,19 +54,27 @@ const PrincipalClient = ({ navigation }: Props) => {
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.containerCategories}>
+                    <CardCategories
+                                    name={'Principal'}
+                                
+                                    icon={'star'}
+                                />
                         {
-                            filtroOficio.map((e, index) => (
+                         
+                            Oficio.map((e, index) => (
                                 <CardCategories
-                                    name={e}
+                                    name={e.nameOffice}
                                     key={index}
-                                    icon="shopping-basket"
+                                    icon={e.iconName}
                                 />
                             ))
+                           
                         }
                     </View>
                 </ScrollView>
                 <View style={styles.containerTrades}>
                     {
+                        (eventoFiltro==true)?
                         Trabajador.map((trade, index) => (
                             <CardTrades
                                 key={index}
@@ -79,6 +87,20 @@ const PrincipalClient = ({ navigation }: Props) => {
                                 from={1}
                             />
                         ))
+                        :
+                        Trabajadoraux.map((trade, index) => (
+                            <CardTrades
+                                key={index}
+                                idTrabajador={trade.Id}
+                                trade={trade.Oficios.toString()}
+                                user={trade.nombre}
+                                rating={trade.valoracion}
+                                photoUser={trade.fotoUser}
+                                navigation={navigation}
+                                from={1}
+                            />
+                        ))
+
                     }
                 </View>
             </ScrollView>
