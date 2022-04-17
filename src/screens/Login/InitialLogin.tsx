@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Dimensions, ImageBackground, Image } from 'react-native';
-import React, { useEffect, useReducer } from 'react'
+import { StyleSheet, Text, View, Dimensions, ImageBackground, Image, ActivityIndicator } from 'react-native';
+import React, { useEffect, useReducer, useState } from 'react'
 
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
@@ -13,25 +13,20 @@ import { TextInput, ScrollView, TouchableOpacity } from 'react-native-gesture-ha
 import LinearGradient from 'react-native-linear-gradient';
 import FormLogin from '../../components/Login/FormLogin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import useLogin from '../../hooks/useLogin';
 
 type Props = StackScreenProps<RootStackParams, 'Login'>;
 
 const InitialLogin = ({ navigation }: Props) => {
 
-  // useEffect(() => {
+  const { getIdStorage, active } = useLogin()
 
-  //   const getStorage = async () => {
-  //     try{
-  //       const idLogged = await AsyncStorage.getItem('@idUser');
-  //       if(idLogged){
-  //         navigation.navigate('PrincipalCliente');
-  //       }
-  //     }catch(e){
 
-  //     }
-  //   }
-
-  // }, [])
+  useEffect(() => {
+    setTimeout(()=> {
+      getIdStorage(navigation)
+    }, 1000)
+  }, [])
 
   return (
     <LinearGradient
@@ -41,26 +36,36 @@ const InitialLogin = ({ navigation }: Props) => {
       locations={[0.1, 0.9]}
       style={styles.container}
     >
-      <ScrollView style={styles.scroll}>
-        <View style={styles.containerTitle}>
-          <Text style={styles.title1}>Bienvenido</Text>
-          <Text style={styles.title2}>Ingresa con tu cuenta</Text>
-        </View>
-        <View style={styles.containerForm}>
-          <FormLogin  navigation={navigation} />
-        </View>
-        <View style={styles.containerSocial}>
-          <SocialMedia navigation={navigation} />
-        </View>
-        <View style={styles.containerRegister}>
-          <Text style={styles.text}>¿No tienes una cuenta?</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Register')}
-          >
-            <Text style={styles.text2}>Registrate</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+      {
+        active ? (
+          <ScrollView style={styles.scroll}>
+            <View style={styles.containerTitle}>
+              <Text style={styles.title1}>Bienvenido</Text>
+              <Text style={styles.title2}>Ingresa con tu cuenta</Text>
+            </View>
+            <View style={styles.containerForm}>
+              <FormLogin navigation={navigation} />
+            </View>
+            <View style={styles.containerSocial}>
+              <SocialMedia navigation={navigation} />
+            </View>
+            <View style={styles.containerRegister}>
+              <Text style={styles.text}>¿No tienes una cuenta?</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Register')}
+              >
+                <Text style={styles.text2}>Registrate</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        ) : (
+          <ActivityIndicator 
+            size="large" 
+            color="#1c4a4d" 
+            style={styles.activityIndicator}
+          />
+        )
+      }
 
     </LinearGradient>
   )
@@ -77,7 +82,7 @@ const styles = StyleSheet.create({
     color: '#000',
     marginTop: 20,
   },
-  scroll:{
+  scroll: {
     width: '100%',
     // backgroundColor: 'blue',
     height: '100%',
@@ -192,5 +197,10 @@ const styles = StyleSheet.create({
   },
   containerSocial: {
     marginTop: '5%',
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 })

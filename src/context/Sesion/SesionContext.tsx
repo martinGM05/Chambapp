@@ -37,12 +37,12 @@ export const SesionProvider = ({ children }: {children: JSX.Element[]}) => {
 
 
     const getUserData = async (User: UserModel) => {
-        // // console.log(User);
-        // try{
-        //     await AsyncStorage.setItem('@idUser', User.Id);
-        // }catch(e){
-        //     console.log(e);;
-        // }
+        // console.log(User);
+        try{
+            await AsyncStorage.setItem('@idUser', User.Id);
+        }catch(e){
+            console.log(e);
+        }
         dispatch({
             type: 'GET_USER',
             payload: User
