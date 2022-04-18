@@ -37,7 +37,7 @@ const InitialLogin = ({ navigation }: Props) => {
       style={styles.container}
     >
       {
-        active ? (
+        active === 3 ? (
           <ScrollView style={styles.scroll}>
             <View style={styles.containerTitle}>
               <Text style={styles.title1}>Bienvenido</Text>
