@@ -9,6 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { firebase } from '@react-native-firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
 import { Contexto, IComentario } from '../../utils/PeticionesProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 interface Props {

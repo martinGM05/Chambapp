@@ -10,6 +10,7 @@ import { PropsComments } from '../../components/Trabajador/Comments';
 import { Contexto, IComentario, IUsuario } from '../../utils/PeticionesProvider';
 import { firebase } from '@react-native-firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
+import { SesionContext } from '../../context/Sesion/SesionContext';
 
 interface CarouselItems {
   image: string;
@@ -21,23 +22,22 @@ type Props = StackScreenProps<RootStackParams, 'Trabajador'>;
 const dimensions = Dimensions.get('window');
 const Trabajador = ({ navigation, route }: Props) => {
   
+  
   const { id } = route.params
   const contexto = useContext(Contexto);
-  
-  const{averageRating}=useContext(Contexto)
-  
-
+  const{averageRating, setIdTrabajadorContactar}=useContext(Contexto)
   const{listaImagenes}=useContext(Contexto)
   const{comentario}=useContext(Contexto)
 
   
   const params = route.params;
- 
+  setIdTrabajadorContactar(id)
 
   useEffect(() => {
     
     contexto.limpiarState()
     contexto.GetTrabajadoresComentarios(id)
+   
     
   }, [])
 
