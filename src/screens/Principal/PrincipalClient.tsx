@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Image } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import { TextInput } from 'react-native-gesture-handler';
 import CardCategories from '../../components/Principal/CardCategory';
 import CardTrades from '../../components/Principal/CardTrades';
@@ -14,6 +14,7 @@ import firestore from '@react-native-firebase/firestore';
 import { Avatar } from 'react-native-elements';
 import { Contexto } from '../../utils/PeticionesProvider';
 import useFiltrado from '../../hooks/useFiltrado';
+import SearchInput from '../../components/Principal/SearchInput';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
@@ -47,10 +48,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                     <Text style={styles.textWelcome}>Mira lo que tenemos para ti.</Text>
                 </View>
                 <View style={styles.searchWork}>
-                    <View style={styles.containerSearch}>
-                        <Icon name="search" size={23} color="#000" />
-                        <TextInput style={styles.inputSearch} placeholder="¿En qué te podemos ayudar?" placeholderTextColor="#999" />
-                    </View>
+                    <SearchInput />
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.containerCategories}>
@@ -148,17 +146,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 60,
         borderRadius: 10,
-    },
-    containerSearch: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-    },
-    inputSearch: {
-        width: '100%',
-        padding: 5,
-        fontSize: 20,
-        marginLeft: 10,
     },
     containerCategories: {
         flexDirection: 'row',

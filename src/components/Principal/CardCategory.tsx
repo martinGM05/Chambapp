@@ -27,7 +27,11 @@ const CardCategories = ({ name, icon }: Props) => {
                     
                 }}
             />
-            <Text style={styles.textCategory} numberOfLines={1} >{name}</Text>
+            <Text 
+                style={styles.textCategory} 
+                numberOfLines={1}>
+                    {name}
+            </Text>
         </View>
     )
 }
