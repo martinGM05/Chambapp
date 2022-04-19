@@ -12,11 +12,6 @@ const FormPerfil = () => {
     const { editUserData, Sesion, setDataEdit, dataEdit } = useContext(SesionContext)
 
     const submit = async (values: any) => {
-        // setDataEdit({
-        //     Name: values.Name,
-        //     Phone: values.Phone,
-        // })
-        // console.log(values);
         editUserData(values)
     }
 

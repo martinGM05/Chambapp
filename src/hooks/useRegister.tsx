@@ -34,7 +34,6 @@ const useRegister = () => {
                 .then(async () => {
                     const user = auth().currentUser;
                     if (user) {
-                        // console.log(user.uid);
                         let url = await task.snapshot?.ref.getDownloadURL();
                         const userData = {
                             Name: data.Nombre,

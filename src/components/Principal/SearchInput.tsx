@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native-gesture-handler';
-import { Contexto } from '../../utils/PeticionesProvider';
+import { Contexto } from '../../context/Data/PeticionesProvider';
 
 const SearchInput = () => {
     
@@ -12,6 +12,7 @@ const SearchInput = () => {
     useEffect(() => {
         if(input === ''){
             setEventoFiltro(true)
+
         }else{
             FiltrarOficios(input)
             setEventoFiltro(false)
@@ -21,15 +22,17 @@ const SearchInput = () => {
     return (
         <View style={styles.containerSearch}>
             <Icon name="search" size={23} color="#000" />
-            <TextInput 
-                style={styles.inputSearch} 
-                placeholder="¿En qué te podemos ayudar?" 
-                placeholderTextColor="#999" 
+            <TextInput
+                style={styles.inputSearch}
+                placeholder="Buscar"
+                placeholderTextColor="#000"
                 onChangeText={(text) => setInput(text)}
+                value={input}
             />
             {
                 input != '' &&
                 <Icon
+                    style={styles.iconClose}
                     name="times"
                     size={23}
                     color="#000"
@@ -52,9 +55,15 @@ const styles = StyleSheet.create({
         // width: '100%',
     },
     inputSearch: {
-        // width: '100%',
+        width: '100%',
         padding: 5,
         fontSize: 20,
         marginLeft: 10,
+        color: '#000'
     },
+    iconClose: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+    }
 })

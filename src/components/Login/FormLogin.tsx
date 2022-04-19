@@ -24,7 +24,6 @@ const FormLogin = ({ navigation }: Props) => {
     const { loginWithEmail } = useLogin()
     
     const submit = async (values: ValuesF, { resetForm }: any) => {
-        // console.log(values);
         resetForm();
         await loginWithEmail(values.Email, values.Password, navigation)
     }

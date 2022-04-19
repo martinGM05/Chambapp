@@ -1,22 +1,17 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react'
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import React, { useEffect  } from 'react'
+import { AirbnbRating } from 'react-native-ratings';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { RootStackParams } from '../../routes/StackNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
-import LinearGradient from 'react-native-linear-gradient';
-import { firebase } from '@react-native-firebase/firestore'
-import firestore from '@react-native-firebase/firestore';
-import { Contexto, IComentario } from '../../utils/PeticionesProvider';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import useFirebase from '../../hooks/useFirebase';
 
 
 interface Props {
     trade: string;
     user: string;
     rating: number;
-    // photoBanner: string;
     photoUser: string;
     navigation?: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
     from: number;
@@ -25,63 +20,39 @@ interface Props {
 
 
 const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, from }: Props) => {
-    const [foto, setFoto] = useState<string[]>([])
-    const [averageRating, setAverageRating] = useState<number>(0)
+
+    const { foto, averageRating, GetTrabajadoresComentarios } = useFirebase()
+
+    useEffect(() => {
+        GetTrabajadoresComentarios(idTrabajador)
+    }, [])
 
 
     const handleTrabajador = (id: string) => {
         navigation?.navigate('Trabajador', { id: id });
-
     }
 
-
-
-    function GetTrabajadoresComentarios() {
-
-        firestore().collection('Trabajadores').doc(idTrabajador).collection('Comentarios')
-            .onSnapshot(snapshot => {
-                const data = snapshot.docs.map(doc => {
-                    const comentario = doc.data() as IComentario;
-                    comentario.Id = doc.id;
-                    return comentario;
-                })
-                let auxRating = 0
-                setAverageRating(0)
-                data.forEach(item => {
-                    setFoto(item2 => [...item2, item.fotosComentario])
-                    auxRating = auxRating + item.calificacion
-                })
-                setAverageRating(item3 => (item3 + (auxRating / data.length)))
-
-            })
-
+    const handleValuation = (idTrabajador: string) => {
+        navigation?.navigate('Valorar', { idTrabajador });
     }
-    useEffect(() => {
-        GetTrabajadoresComentarios()
-
-    }, [])
-
 
     return (
         <View style={styles.cardTrade}>
-
-
-
             <View style={styles.imageTrade}>
-
                 <Image
                     source={{ uri: foto[0] }}
                     style={styles.image}
                 />
             </View>
-
-            <View
-                style={styles.cardWorker}
-            >
+            <View style={styles.cardWorker}>
                 <View style={styles.cardWorkerInfo}>
                     <View style={styles.cardInfoUser}>
                         <View style={styles.user}>
-                            <Text style={styles.trade}>{trade}</Text>
+                            <Text style={styles.trade}>
+                                {
+                                    trade.replace(/,/g, ', ')
+                                }
+                            </Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <Image
                                     source={{ uri: `${photoUser}` }}
@@ -96,10 +67,8 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
                                 size={15}
                                 starContainerStyle={styles.star}
                                 isDisabled={true}
-
                             />
                         </View>
-
                         {
                             from === 1 ? (
                                 <TouchableOpacity
@@ -126,7 +95,7 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={styles.button}
-                                            onPress={() => handleTrabajador(idTrabajador)}
+                                            onPress={() => handleValuation(idTrabajador)}
                                         >
                                             <Icon name="handshake-o" style={styles.moreInfo} />
                                         </TouchableOpacity>

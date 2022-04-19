@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParams } from '../routes/StackNavigator';
+import { RootStackParams } from '../../routes/StackNavigator';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

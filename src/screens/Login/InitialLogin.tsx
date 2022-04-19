@@ -1,18 +1,11 @@
-import { StyleSheet, Text, View, Dimensions, ImageBackground, Image, ActivityIndicator } from 'react-native';
-import React, { useEffect, useReducer, useState } from 'react'
-
+import { StyleSheet, Text, View, Dimensions, ActivityIndicator } from 'react-native';
+import React, { useEffect } from 'react'
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import SocialMedia from '../../components/Login/SocialMedia';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
-
-import * as Yup from 'yup';
-import { TextInput, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import FormLogin from '../../components/Login/FormLogin';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import useLogin from '../../hooks/useLogin';
 
 type Props = StackScreenProps<RootStackParams, 'Login'>;
@@ -20,8 +13,7 @@ type Props = StackScreenProps<RootStackParams, 'Login'>;
 const InitialLogin = ({ navigation }: Props) => {
 
   const { getIdStorage, active } = useLogin()
-
-
+  
   useEffect(() => {
     setTimeout(()=> {
       getIdStorage(navigation)

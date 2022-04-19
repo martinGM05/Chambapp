@@ -1,16 +1,10 @@
-import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import React from 'react'
-import Principal from './src/screens/Principal'
-
-import InitialLogin from './src/screens/Login/InitialLogin';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigator } from './src/routes/StackNavigator';
 import { LogBox } from 'react-native';
-import Perfil from './src/screens/Profile/Perfil';
-import TrabajosEnCuso from './src/screens/EnCurso/TrabajosEnCuso';
-import ValorarTrabajo from './src/screens/EnCurso/ValorarTrabajo';
 import { SesionProvider } from './src/context/Sesion/SesionContext';
-import PeticionesProvider from './src/utils/PeticionesProvider';
+import PeticionesProvider from './src/context/Data/PeticionesProvider';
 
 const App = () => {
 
@@ -42,5 +36,3 @@ const App = () => {
 }
 
 export default App
-
-const styles = StyleSheet.create({})

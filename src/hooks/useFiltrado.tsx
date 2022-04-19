@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { Contexto, ITrabajador } from '../utils/PeticionesProvider';
+import { Contexto } from '../context/Data/PeticionesProvider';
+import { ITrabajador } from '../interfaces/Peticiones';
 
 const useFiltrado = () => {
 

@@ -19,24 +19,30 @@ export const sesionReducer = (state: UserModel, action: SesionAction): UserModel
             }
         }
         case 'EDIT_USER': {
-
-            const nameFil = action.payload.Photo.substring(action.payload.Photo.lastIndexOf('/') + 1);
-            const uploadUri = Platform.OS === 'ios' ? action.payload.Photo.replace('file://', '') : action.payload.Photo;
-            const reference = storage().ref(nameFil);
-            const task = reference.putFile(uploadUri);
-            task.on('state_changed', snapshot => {
-                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                console.log('Upload is ' + progress + '% done');
-            }, error => {
-                console.log(error);
-            }, async () => {
-                let url = await task.snapshot?.ref.getDownloadURL();
+            if (action.payload.Photo.substring(0, 4) === 'http') {
                 firestore().collection('Usuarios').doc(action.payload.Id).update({
                     Name: action.payload.Name,
                     Phone: action.payload.Phone,
-                    Photo: url,
                 });
-            });
+            } else {
+                const nameFil = action.payload.Photo.substring(action.payload.Photo.lastIndexOf('/') + 1);
+                const uploadUri = Platform.OS === 'ios' ? action.payload.Photo.replace('file://', '') : action.payload.Photo;
+                const reference = storage().ref(nameFil);
+                const task = reference.putFile(uploadUri);
+                task.on('state_changed', snapshot => {
+                    const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                    console.log('Upload is ' + progress + '% done');
+                }, error => {
+                    console.log(error);
+                }, async () => {
+                    let url = await task.snapshot?.ref.getDownloadURL();
+                    firestore().collection('Usuarios').doc(action.payload.Id).update({
+                        Name: action.payload.Name,
+                        Phone: action.payload.Phone,
+                        Photo: url,
+                    });
+                });
+            }
             return {
                 ...action.payload
             }
