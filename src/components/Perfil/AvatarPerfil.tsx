@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import React from 'react'
+import { StyleSheet, View } from 'react-native';
 
 import { Avatar } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-import Dialog from 'react-native-elements'
 import usePhoto from '../../hooks/usePhoto';
 
 interface Props {
@@ -16,13 +15,8 @@ const AvatarPerfil = ({ photo }: Props) => {
 
     const { handleChangePhoto, photoNew } = usePhoto();
 
-    useEffect(() => {
-
-    }, [photoNew])
-
     return (
         <>
-
             {
                 photoNew ?
                     <Avatar
