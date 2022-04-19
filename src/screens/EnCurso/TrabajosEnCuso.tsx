@@ -44,7 +44,7 @@ const TrabajosEnCuso = ({ navigation }: Props) => {
                 idTrabajador={trade.Id}
                 trade={trade.Oficios.toString()}
                 user={trade.nombre}
-                rating={trade.valoracion}
+                fecha={''}
                 photoUser={trade.fotoUser}
                 navigation={navigation}
                 from={2}

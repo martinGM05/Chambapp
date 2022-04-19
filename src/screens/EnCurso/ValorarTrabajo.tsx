@@ -36,47 +36,46 @@ const ValorarTrabajo = ({ navigation, route }: Props) => {
     let image = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
     let photoImage = photoNew ? photoNew : image;
 
-    const ValorarTrabajo = async (calificacion: number, fotosComentario: string, idEmploye: string, idUser: string) => {
+    const ValorarTrabajo = async (calificacion: number, idEmploye: string, idUser: string) => {
         let date: Date = new Date();
         UploadImage(photoImage)
-        setTimeout(() => {
+        const cargarDatos=()=>{
             firestore()
-                .collection('Trabajadores').doc(idEmploye).collection('Comentarios')
-                .doc(idUser).set({
-                    calificacion: calificacion,
-                    comentario: comentario,
-                    fotosComentario: urlImage,
-                    idCliente: idUser
-                }).then(() => {
-                    firestore()
-                        .collection('Usuarios').doc(Sesion.Id).collection('Historial')
-                        .doc(idEmploye).set({
-                            idTrabajador: idEmploye,
-                            fecha: date.toLocaleDateString()
-                        }).then(() => {
-                            firestore()
-                                .collection('Usuarios')
-                                .doc(Sesion.Id).collection('EnCurso').doc(idEmploye)
-                                .delete()
-                                .then(() => {
-                                    Alert.alert("Mensaje", 'Comentario Guardado')
-                                });
+            .collection('Trabajadores').doc(idEmploye).collection('Comentarios')
+            .doc(idUser).set({
+                calificacion: calificacion,
+                comentario: comentario,
+                fotosComentario: urlImage,
+                idCliente: idUser
+            }).then(() => {
+                firestore()
+                    .collection('Usuarios').doc(Sesion.Id).collection('Historial')
+                    .doc().set({
+                        idTrabajador: idEmploye,
+                        fecha: date.toLocaleDateString()
+                    }).then(() => {
+                        firestore()
+                            .collection('Usuarios')
+                            .doc(Sesion.Id).collection('EnCurso').doc(idEmploye)
+                            .delete()
+                            .then(() => {
+                                Alert.alert("Mensaje", 'Comentario Guardado')
+                            });
 
 
-                        })
+                    })
 
-                })
+            })
+        }
 
+        setTimeout(() => {
+            
+                cargarDatos()
+                    
 
-        }, 5000)
-
-
-
-
-
-
-
+        }, 6000)
     }
+
 
 
     return (
@@ -144,7 +143,7 @@ const ValorarTrabajo = ({ navigation, route }: Props) => {
                             onPress={() => {
 
                                 // console.log('aqui')
-                                ValorarTrabajo(numberRating, photoImage, idEmploye, Sesion.Id)
+                                ValorarTrabajo(numberRating,idEmploye, Sesion.Id)
 
 
                             }}

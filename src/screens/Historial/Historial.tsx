@@ -16,6 +16,7 @@ type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 const Historial = ({ navigation }:Props) => {
     const {Trabajador}=useContext(Contexto)
     const [TrabajadorHistorial, setTrabajadorHistorial] = useState<ITrabajador[]>([])
+    const [Historial, setHistorial] = useState<IHistorial[]>([])
     const { Sesion } = useContext(SesionContext)
     let trabajador = [
         {
@@ -48,6 +49,7 @@ const Historial = ({ navigation }:Props) => {
                         aux = aux.concat(Trabajador.filter(t => t.Id.includes(e.idTrabajador)))
                     })
                     setTrabajadorHistorial(aux)
+                    setHistorial(data)
                 })
             return () => subscriber()
         }
@@ -75,16 +77,20 @@ const Historial = ({ navigation }:Props) => {
                 <ScrollView>
                     {
                         TrabajadorHistorial.map((item, index) => (
-                            <CardTrades
+                            Historial.map((e)=>(
+                                e.idTrabajador===item.Id?
+                                <CardTrades
                                 key={index}
                                 trade={item.Oficios.toString()}
                                 user={item.nombre}
-                                rating={item.valoracion}
+                                fecha={e.fecha}
                                 idTrabajador={item.Id}
                                 photoUser={item.fotoUser}
                                 navigation={navigation}
-                                from={3}
+                                from={4}
                             />
+                            :null
+                            ))
                         ))
                     }
                 </ScrollView>

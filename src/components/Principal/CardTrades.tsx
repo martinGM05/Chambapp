@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
-import React, { useEffect  } from 'react'
+import React, { useEffect } from 'react'
 import { AirbnbRating } from 'react-native-ratings';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -11,7 +11,7 @@ import useFirebase from '../../hooks/useFirebase';
 interface Props {
     trade: string;
     user: string;
-    rating: number;
+    fecha: string;
     photoUser: string;
     navigation?: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
     from: number;
@@ -19,7 +19,7 @@ interface Props {
 }
 
 
-const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, from }: Props) => {
+const CardTrades = ({ trade, user, fecha, photoUser, navigation, idTrabajador, from }: Props) => {
 
     const { foto, averageRating, GetTrabajadoresComentarios } = useFirebase()
 
@@ -32,8 +32,8 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
         navigation?.navigate('Trabajador', { id: id });
     }
 
-    const CalificarTrabajador = (photo: string, nameEmploye:string, office:string, idEmploye:string) => {
-        navigation?.navigate('Valorar', { photo: photo, nameEmploye:nameEmploye,office:office, idEmploye:idEmploye });
+    const CalificarTrabajador = (photo: string, nameEmploye: string, office: string, idEmploye: string) => {
+        navigation?.navigate('Valorar', { photo: photo, nameEmploye: nameEmploye, office: office, idEmploye: idEmploye });
 
     }
 
@@ -48,6 +48,10 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
             <View style={styles.cardWorker}>
                 <View style={styles.cardWorkerInfo}>
                     <View style={styles.cardInfoUser}>
+                    {from === 4 ? (
+                                <Text style={styles.date}>Concluido el {fecha}</Text>
+                            ) : null}
+                            
                         <View style={styles.user}>
                             <Text style={styles.trade}>
                                 {
@@ -60,7 +64,10 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
                                     style={styles.userImage}
                                 />
                                 <Text style={styles.userName}>{user}</Text>
+                                
+
                             </View>
+                            
                             <AirbnbRating
                                 count={5}
                                 defaultRating={averageRating}
@@ -69,6 +76,8 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
                                 starContainerStyle={styles.star}
                                 isDisabled={true}
                             />
+                           
+
                         </View>
                         {
                             from === 1 ? (
@@ -86,7 +95,7 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
                                     >
                                         <Icon name="info-circle" style={styles.moreInfo} />
                                     </TouchableOpacity>
-                                ) : (
+                                ) : (from===2 ? (
                                     <View style={styles.containerIcons}>
                                         <TouchableOpacity
                                             style={styles.button}
@@ -101,7 +110,13 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
                                             <Icon name="handshake-o" style={styles.moreInfo} />
                                         </TouchableOpacity>
                                     </View>
-                                )
+                                ):
+                                <TouchableOpacity
+                                style={styles.button}
+                                onPress={() => handleTrabajador(idTrabajador)}
+                            >
+                                <Icon name="info-circle" size={35} color="#000" />
+                            </TouchableOpacity>)
                             )
                         }
                     </View>
@@ -211,6 +226,7 @@ const styles = StyleSheet.create({
     star: {
         left: 60,
         position: 'absolute',
+
     },
     button: {
         // marginLeft: 90,
@@ -224,5 +240,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         marginTop: -30,
+    },
+    date:{ 
+        color: '#000', 
+        marginLeft: 190, 
+        marginTop: 95, 
+        fontWeight: 'bold' , 
+        position:'absolute',
+        
     }
 })
