@@ -7,7 +7,7 @@ import ButtonContact from './ButtonContact';
 
 
 const Feedback = ({ customerList }:PropsComments) => {
-   
+    
     return (
         <View style={styles.feedback}>
             <View style={styles.containerTitle}>
@@ -21,17 +21,21 @@ const Feedback = ({ customerList }:PropsComments) => {
                 <ScrollView>
                     {
                         customerList.map((item, index) => (
+                            
                             <Comments
                                 key={index}
                                 name={item.name}
                                 comment={item.comment}
                                 photo={item.photo}
+                                idEmploye={item.idEmploye}
                             />
                         ))
+                        
                     }
                 </ScrollView>
             </View>
-            <ButtonContact />
+            <ButtonContact
+            />
         </View>
     )
 }

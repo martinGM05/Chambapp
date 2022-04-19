@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, View } from 'react-native'
 import React, { createContext, useEffect, useState } from 'react'
 import { firebase } from '@react-native-firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
@@ -31,11 +31,17 @@ export type ICustomersComments = {
     name: string;
     photo: string;
     comment: string;
+    idEmploye:string
 }
 
 export type IOficeIcon={
     nameOffice:string;
     iconName:string;
+}
+
+export type IEnCurso={
+    fechaInicio:string,
+    idTrabajador:string
 }
 
 
@@ -54,6 +60,11 @@ interface ContextProps {
     setEventoFiltro:(estado:boolean)=>void
     eventoFiltro:boolean
     Trabajadoraux:ITrabajador[]
+    idTrabajadorContactar:String
+    setIdTrabajadorContactar:(idTrabajadorConcatenar:string)=>void
+    GuardarTrabajosEnCurso:(idUsuario:string,idTrabajadorsave:string)=>void
+    TrabajadorEnCurso:ITrabajador[]
+    GetTrabajadoresEnCurso:(idUser:string)=>void
     
 }
 
@@ -75,6 +86,9 @@ const PeticionesProvider = ({ children }: Props) => {
     const [averageRating, setAverageRating] = useState<number>(0)
     const [filtroOficio, setFiltroOficio] = useState<string[]>([])
     const [eventoFiltro, setEventoFiltro]=useState<boolean>(true)
+    const [idTrabajadorContactar,setIdTrabajadorContactar]=useState<string>('')
+    const[TrabajadorEnCurso, setTrabajadorEnCurso]=useState<ITrabajador[]>([])
+    
 
     useEffect(() => {
         function GetTrabajadores() {
@@ -87,14 +101,6 @@ const PeticionesProvider = ({ children }: Props) => {
                     })
                     setTrabajador([])
                     setTrabajador(data)
-                    //setTrabajadoraux(data)
-                    // setOficio([])
-                    // data.forEach(item => {
-                    //     item.Oficios.forEach(item2 => {
-                    //         setOficio((item3) => [...item3, item2])
-                    //     })
-                    // })
-
                 })
            
             return () => suscriber();
@@ -104,7 +110,8 @@ const PeticionesProvider = ({ children }: Props) => {
 
 
     function GetTrabajadoresComentarios(id: string) {
-        const suscriber = firestore().collection('Trabajadores').doc(id).collection('Comentarios')
+        
+       firestore().collection('Trabajadores').doc(id).collection('Comentarios')
             .onSnapshot(snapshot => {
                 const data = snapshot.docs.map(doc => {
                     const comentario = doc.data() as IComentario;
@@ -112,12 +119,12 @@ const PeticionesProvider = ({ children }: Props) => {
                     comentario.IdTrabajador = id
                     return comentario;
                 })
-                setComentario([])
-                setListaImagenes([])
+               
                 let auxRating = 0
                 setAverageRating(0)
+                setComentario([])
+                setListaImagenes([])
                 data.forEach(item => {
-
                     setListaImagenes(item2 => [...item2, item.fotosComentario])
                     auxRating = auxRating + item.calificacion
                     firestore().collection('Usuarios').doc(item.idCliente).get()
@@ -125,14 +132,14 @@ const PeticionesProvider = ({ children }: Props) => {
                             if (doc.exists) {
                                 const document = JSON.stringify(doc.data())
                                 const aux2 = JSON.parse(document)
-                                const j = JSON.stringify({ name: aux2['Name'], photo: aux2['Photo'], comment: item.comentario })
+                                const j = JSON.stringify({ name: aux2['Name'], photo: aux2['Photo'], comment: item.comentario, idEmploye:id })
                                 const aux = JSON.parse(j)
                                 setComentario(item3 => [...item3, aux])
                             }
                         })
                 })
                 setAverageRating(item3 => (item3 + (auxRating / data.length)))
-                return () => suscriber();
+               
             })
     }
 
@@ -145,8 +152,7 @@ const PeticionesProvider = ({ children }: Props) => {
 
     function FiltrarOficios(oficio: string) {
         console.log(oficio);
-        let aux: ITrabajador[] = []
-      
+        let aux: ITrabajador[] = []    
         
         Trabajador.forEach(item => {
             if (item.Oficios.includes(oficio)) {
@@ -154,13 +160,6 @@ const PeticionesProvider = ({ children }: Props) => {
             }
         })
         setTrabajadoraux(aux)
-
-        // setTrabajador([])
-        // setTrabajador(Trabajadoraux)
-        // console.log(Trabajador)
-        // const trabajadores = Trabajador.filter(trabajador => trabajador.Oficios.includes(oficio))
-        // setTrabajador([])
-        // setTrabajador(trabajadores)
     }
 
     useEffect(()=>{
@@ -178,6 +177,39 @@ const PeticionesProvider = ({ children }: Props) => {
         GetOficios()
     },[])
 
+
+    function GuardarTrabajosEnCurso(idUsuario:string,idTrabajadorSave:string){
+        firestore()
+            .collection('Usuarios').doc(idUsuario).collection('EnCurso')
+            .doc(idTrabajadorSave).set({
+                idTrabajador:idTrabajadorSave,
+                fechaInicio:'2020-04-18'
+            }).then(()=>{
+                Alert.alert("Mensaje", 'Trabajador ha iniciado trabajo')
+            })
+    }
+
+    function GetTrabajadoresEnCurso(idUsuario:string){
+        const subscriber = firestore()
+        .collection('Usuarios').doc(idUsuario).collection('EnCurso')
+            .onSnapshot(snapshot=>{
+                const data=snapshot.docs.map(doc=>{
+                    const enCurso=doc.data()as IEnCurso
+                    return enCurso;
+                })
+                let aux: ITrabajador[] = []    
+                //const trabajadores:IT=[]
+               data.map(e=>{
+                   aux=aux.concat(Trabajador.filter(t=>t.Id.includes(e.idTrabajador)))
+                   
+               })
+               setTrabajadorEnCurso(aux)
+               console.log(TrabajadorEnCurso)
+         
+            })
+            return () => subscriber()
+    }
+
     return (
         <Contexto.Provider value={{
             Trabajador,
@@ -193,7 +225,12 @@ const PeticionesProvider = ({ children }: Props) => {
             setTrabajadoraux,
             setEventoFiltro,
             eventoFiltro,
-            Trabajadoraux
+            Trabajadoraux,
+            idTrabajadorContactar,
+            setIdTrabajadorContactar,
+            GuardarTrabajosEnCurso,
+            TrabajadorEnCurso,
+            GetTrabajadoresEnCurso
         }}>
             {children}
         </Contexto.Provider>

@@ -8,7 +8,7 @@ export interface PropsComments {
     customerList: ICustomersComments[];
 }
 
-const Comments = ({name, comment, photo}:ICustomersComments) => {
+const Comments = ({name, comment, photo,idEmploye}:ICustomersComments) => {
     return (
         <View style={styles.containerUserComment}>
             <View style={styles.userData}>

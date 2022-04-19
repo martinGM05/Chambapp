@@ -1,14 +1,25 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { SesionContext } from '../../context/Sesion/SesionContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Contexto } from '../../utils/PeticionesProvider';
 
 
 const ButtonContact = () => {
+    const{idTrabajadorContactar, GuardarTrabajosEnCurso}=useContext(Contexto)
+    const { Sesion } = useContext(SesionContext)
     return (
         <View style={styles.containerContact}>
             <TouchableOpacity
                 style={styles.buttonContact}
+                onPress={()=>{
+                    // console.log(Sesion.Id)
+                    // console.log(idTrabajadorContactar)
+                    GuardarTrabajosEnCurso(Sesion.Id,idTrabajadorContactar.toString())
+                    
+                }}
             >
                 <Icon name="phone-in-talk" size={25} color="#000" />
                 <Text style={styles.textContact}>Contactar</Text>
@@ -16,6 +27,7 @@ const ButtonContact = () => {
         </View>
     )
 }
+
 
 export default ButtonContact
 

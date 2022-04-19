@@ -9,8 +9,6 @@ import AvatarValorar from '../../components/Valorar/AvatarValorar';
 import { TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import usePhoto from '../../hooks/usePhoto';
-
-
 type Props = StackScreenProps<RootStackParams, 'Valorar'>;
 
 const dimension = Dimensions.get('window');

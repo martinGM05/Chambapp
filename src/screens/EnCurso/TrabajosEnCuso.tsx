@@ -1,14 +1,24 @@
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CardTrades from '../../components/Principal/CardTrades';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
+import { Contexto } from '../../utils/PeticionesProvider';
+import { SesionContext } from '../../context/Sesion/SesionContext';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 const TrabajosEnCuso = ({navigation}:Props) => {
+  const{TrabajadorEnCurso, GetTrabajadoresEnCurso}=useContext(Contexto)
+  const { Sesion } = useContext(SesionContext)
+
+  useEffect(()=>{
+    GetTrabajadoresEnCurso(Sesion.Id)
+
+  },[])
+
 
   let trabajador = [
     {
@@ -45,17 +55,17 @@ const TrabajosEnCuso = ({navigation}:Props) => {
       <View style={styles.containerScroll}>
         <ScrollView>
           {
-            trabajador.map((item, index) => (
+            TrabajadorEnCurso.map((trade, index) => (
               <CardTrades
-                key={index}
-                trade={item.trade}
-                user={item.user}
-                rating={item.rating}
-                idTrabajador={'2BVPRY0h247kgG0e5mId'}
-                photoUser={item.photoUser}
-                navigation={navigation}
-                from={2}
-              />
+              key={index}
+              idTrabajador={trade.Id}
+              trade={trade.Oficios.toString()}
+              user={trade.nombre}
+              rating={trade.valoracion}
+              photoUser={trade.fotoUser}
+              navigation={navigation}
+              from={2}
+          />
             ))
           }
         </ScrollView>
