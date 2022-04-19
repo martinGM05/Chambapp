@@ -6,13 +6,25 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import AvatarPerfil from './AvatarPerfil';
+import Toast from 'react-native-toast-message'
 
 const FormPerfil = () => {
 
     const { editUserData, Sesion, setDataEdit, dataEdit } = useContext(SesionContext)
 
     const submit = async (values: any) => {
-        editUserData(values)
+        // editUserData(values)
+        
+        console.log('Hola');
+    }
+
+    const handleToast = () => {
+        Toast.show({
+            type: 'success',
+            text1: '¡Éxito!',
+            text2: 'Usuario actualizado 🥳',
+            position: 'top'
+        });
     }
 
     const formikOpt = {
@@ -31,7 +43,7 @@ const FormPerfil = () => {
             Photo: Yup.string()
                 .required('La foto es requerida'),
         }),
-        onSubmit: submit
+        onSubmit: handleToast
     }
 
 

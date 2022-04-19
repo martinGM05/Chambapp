@@ -27,14 +27,24 @@ const PrincipalClient = ({ navigation }: Props) => {
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.containerUser}>
-                    <Avatar
-                        size="large"
-                        rounded
-                        source={{
-                            uri: Sesion.Photo
-                        }}
-                        containerStyle={styles.avatar}
-                    />
+                    {
+                        Sesion.Photo === '' ?
+                            <Avatar
+                                rounded
+                                size="large"
+                                containerStyle={styles.avatar}
+                                source={require('../../img/jar-loading.gif')}
+                            />
+                            :
+                            <Avatar
+                                size="large"
+                                rounded
+                                source={{
+                                    uri: Sesion.Photo
+                                }}
+                                containerStyle={styles.avatar}
+                            />
+                    }
                     <LogOut navigation={navigation} />
                 </View>
                 <View style={styles.containerGreetings}>

@@ -8,18 +8,29 @@ import { Contexto } from '../../context/Data/PeticionesProvider';
 
 
 const ButtonContact = () => {
-    const{idTrabajadorContactar, GuardarTrabajosEnCurso}=useContext(Contexto)
+    const { idTrabajadorContactar, GuardarTrabajosEnCurso, TrabajadorEnCurso } = useContext(Contexto)
     const { Sesion } = useContext(SesionContext)
     return (
         <View style={styles.containerContact}>
             <TouchableOpacity
                 style={styles.buttonContact}
-                onPress={()=>{
-                    GuardarTrabajosEnCurso(Sesion.Id,idTrabajadorContactar.toString())
+                onPress={() => {
+                    GuardarTrabajosEnCurso(Sesion.Id, idTrabajadorContactar.toString())
                 }}
             >
                 <Icon name="phone-in-talk" size={25} color="#000" />
-                <Text style={styles.textContact}>Contactar</Text>
+                {
+                    // TrabajadorEnCurso.map((trade, index) => (
+                    //     trade.Id === idTrabajadorContactar ?
+                    //         <Text style={styles.textContact}>Contactado</Text>
+                    //         : <Text style={styles.textContact}>Contactar</Text>
+
+                    // ))
+                    TrabajadorEnCurso.find(trade => trade.Id === idTrabajadorContactar) ?
+                        <Text style={styles.textContact}>Contactado</Text>
+                        : <Text style={styles.textContact}>Contactar</Text>
+                }
+
             </TouchableOpacity>
         </View>
     )

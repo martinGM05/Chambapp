@@ -11,10 +11,18 @@ const Comments = ({name, comment, photo,idEmploye}:ICustomersComments) => {
     return (
         <View style={styles.containerUserComment}>
             <View style={styles.userData}>
-                <Image
-                    source={{ uri: photo }}
-                    style={styles.userImage}
-                />
+                {
+                    photo ?
+                    <Image
+                        source={{ uri: photo }}
+                        style={styles.userImage}
+                    />:
+                    <Image
+                        source={require('../../img/jar-loading.gif')}
+                        style={styles.userImage}
+                    />
+
+                }
                 <Text numberOfLines={1} style={styles.textName}>{name}</Text>
             </View>
             <View style={styles.userComment}>

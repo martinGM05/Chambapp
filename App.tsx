@@ -5,6 +5,8 @@ import { StackNavigator } from './src/routes/StackNavigator';
 import { LogBox } from 'react-native';
 import { SesionProvider } from './src/context/Sesion/SesionContext';
 import PeticionesProvider from './src/context/Data/PeticionesProvider';
+import Toast from 'react-native-toast-message';
+
 
 const App = () => {
 
@@ -28,6 +30,7 @@ const App = () => {
                         showHideTransition="fade"
                     />
                     <StackNavigator />
+                    <Toast />
                 </SesionProvider>
             </NavigationContainer>
         </PeticionesProvider>

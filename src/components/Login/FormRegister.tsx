@@ -70,19 +70,19 @@ const FormRegister = () => {
 
             <View style={styles.containerAvatar}>
                 {
-                    photoNew ?
-                    <Avatar
-                        rounded
-                        size="xlarge"
-                        source={{ uri: photoNew }}
-                        containerStyle={styles.avatar}
-                    /> :
-                    <Avatar
-                        rounded
-                        size="xlarge"
-                        source={{ uri: img }}
-                        containerStyle={styles.avatar}
-                    />
+                    // photoNew ?
+                    // <Avatar
+                    //     rounded
+                    //     size="xlarge"
+                    //     source={{ uri: photoNew }}
+                    //     containerStyle={styles.avatar}
+                    // /> :
+                    // <Avatar
+                    //     rounded
+                    //     size="xlarge"
+                    //     source={{ uri: img }}
+                    //     containerStyle={styles.avatar}
+                    // />
 
                 }
                 

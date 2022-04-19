@@ -1,13 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Comments, { PropsComments } from './Comments';
 import ButtonContact from './ButtonContact';
 
 
-const Feedback = ({ customerList }:PropsComments) => {
-    
+const Feedback = ({ customerList }: PropsComments) => {
+
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(true)
+        }, 3000)
+    }, [])
+
     return (
         <View style={styles.feedback}>
             <View style={styles.containerTitle}>
@@ -18,21 +26,29 @@ const Feedback = ({ customerList }:PropsComments) => {
                 </View>
             </View>
             <View style={styles.comments}>
-                <ScrollView>
-                    {
-                        customerList.map((item, index) => (
-                            
-                            <Comments
-                                key={index}
-                                name={item.name}
-                                comment={item.comment}
-                                photo={item.photo}
-                                idEmploye={item.idEmploye}
-                            />
-                        ))
-                        
-                    }
-                </ScrollView>
+                {
+                    loading ? 
+                    <ScrollView>
+                        {
+                            customerList.map((item, index) => (
+                                <Comments
+                                    key={index}
+                                    name={item.name}
+                                    comment={item.comment}
+                                    photo={item.photo}
+                                    idEmploye={item.idEmploye}
+                                />
+                            ))
+
+                        }
+                    </ScrollView>
+                    :
+                    <View style={styles.containerProgress}>
+                        {/* <ActivityIndicator size="large" color="#ff762d" />
+                        <Text style={styles.textProgress}>Cargando...</Text> */}
+                        <Image source={{ uri: 'https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!bw340'}} style={styles.image} />
+                    </View>
+                }
             </View>
             <ButtonContact
             />
@@ -60,7 +76,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#000',
         fontWeight: 'bold',
-        
+
     },
     containerCommentTitle: {
         flexDirection: 'row',
@@ -76,8 +92,26 @@ const styles = StyleSheet.create({
         height: '60%',
         // backgroundColor: '#516680',
         marginTop: 10,
-        
+
     },
-   
+    containerProgress: {
+        width: '100%',
+        height: 160,
+        marginTop: 20,
+        marginBottom: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: '#000',
+    },
+    textProgress: {
+        fontSize: 20,
+        color: '#000',
+        fontWeight: 'bold',
+        marginTop: 20,
+    },
+    image: {
+        width: '70%',
+        height: '100%',
+    }
 
 })
