@@ -37,3 +37,8 @@ export type IEnCurso = {
     fechaInicio: string,
     idTrabajador: string
 }
+
+export type IHistorial = {
+    fecha: string,
+    idTrabajador: string
+}
