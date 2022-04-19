@@ -32,8 +32,9 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
         navigation?.navigate('Trabajador', { id: id });
     }
 
-    const handleValuation = (idTrabajador: string) => {
-        navigation?.navigate('Valorar', { idTrabajador });
+    const CalificarTrabajador = (photo: string, nameEmploye:string, office:string, idEmploye:string) => {
+        navigation?.navigate('Valorar', { photo: photo, nameEmploye:nameEmploye,office:office, idEmploye:idEmploye });
+
     }
 
     return (
@@ -95,7 +96,7 @@ const CardTrades = ({ trade, user, rating, photoUser, navigation, idTrabajador, 
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={styles.button}
-                                            onPress={() => handleValuation(idTrabajador)}
+                                            onPress={() => CalificarTrabajador(photoUser, user, trade, idTrabajador)}
                                         >
                                             <Icon name="handshake-o" style={styles.moreInfo} />
                                         </TouchableOpacity>
