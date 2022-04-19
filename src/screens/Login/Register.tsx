@@ -5,13 +5,11 @@ import { RootStackParams } from '../../routes/StackNavigator';
 import FormRegister from '../../components/Login/FormRegister';
 import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import BackButton from '../../components/BackButton';
+import BackButton from '../../components/Buttons/BackButton';
 
 type Props = StackScreenProps<RootStackParams, 'Register'>;
+
 const Register = ({ navigation }: Props) => {
-
-
-    let img = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
 
     return (
         <LinearGradient
@@ -21,16 +19,15 @@ const Register = ({ navigation }: Props) => {
             locations={[0.1, 0.9]}
             style={styles.container}
         >
-            
-                        <BackButton navigation={navigation} />
-                        <ScrollView>
-                            <View style={styles.containerHeader}>
-                                <Text style={styles.textRegistro}>Registro</Text>
-                            </View>
-                            <View style={styles.containerForm}>
-                                <FormRegister />
-                            </View>
-                        </ScrollView>
+            <BackButton navigation={navigation} />
+            <ScrollView>
+                <View style={styles.containerHeader}>
+                    <Text style={styles.textRegistro}>Registro</Text>
+                </View>
+                <View style={styles.containerForm}>
+                    <FormRegister />
+                </View>
+            </ScrollView>
         </LinearGradient>
     )
 }

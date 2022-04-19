@@ -1,47 +1,32 @@
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react'
+import { StyleSheet, View, Dimensions } from 'react-native';
+import React, { useContext, useEffect } from 'react'
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import CarouselTrabajador from '../../components/Trabajador/CarouselTrabajador';
-import BackButton from '../../components/BackButton';
+import BackButton from '../../components/Buttons/BackButton';
 import HeaderTrabajador from '../../components/Trabajador/HeaderTrabajador';
 import Feedback from '../../components/Trabajador/Feedback';
-import { PropsComments } from '../../components/Trabajador/Comments';
-import { Contexto, IComentario, IUsuario } from '../../utils/PeticionesProvider';
-import { firebase } from '@react-native-firebase/firestore'
-import firestore from '@react-native-firebase/firestore';
-import { SesionContext } from '../../context/Sesion/SesionContext';
+import { Contexto } from '../../context/Data/PeticionesProvider';
 
 interface CarouselItems {
   image: string;
 }
 
-
-
 type Props = StackScreenProps<RootStackParams, 'Trabajador'>;
 const dimensions = Dimensions.get('window');
 const Trabajador = ({ navigation, route }: Props) => {
-  
-  
-  const { id } = route.params
-  const contexto = useContext(Contexto);
-  const{averageRating, setIdTrabajadorContactar}=useContext(Contexto)
-  const{listaImagenes}=useContext(Contexto)
-  const{comentario}=useContext(Contexto)
 
-  
-  const params = route.params;
-  setIdTrabajadorContactar(id)
+
+  const { id } = route.params
+  const { limpiarState, GetTrabajadoresComentarios, Trabajador, averageRating, setIdTrabajadorContactar, listaImagenes, comentario } = useContext(Contexto);
 
   useEffect(() => {
-    
-    contexto.limpiarState()
-    contexto.GetTrabajadoresComentarios(id)
-   
-    
+    limpiarState()
+    setIdTrabajadorContactar(id)
+    GetTrabajadoresComentarios(id)
   }, [])
 
-  const a = contexto.Trabajador.filter(e => e.Id == id)
+  const trabajador = Trabajador.filter(e => e.Id == id)
 
   return (
     <View style={styles.container}>
@@ -51,8 +36,7 @@ const Trabajador = ({ navigation, route }: Props) => {
       </View>
       <View style={styles.containerDescription}>
         {
-          a.map((e, index) => (
-
+          trabajador.map((e, index) => (
             <HeaderTrabajador
               key={index}
               trades={e.Oficios}

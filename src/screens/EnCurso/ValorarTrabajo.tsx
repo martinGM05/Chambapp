@@ -1,29 +1,26 @@
 import { Dimensions, StyleSheet, Text, TextInput, View, Image } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { Rating, AirbnbRating } from 'react-native-ratings';
-import BackButton from '../../components/BackButton';
+import { AirbnbRating } from 'react-native-ratings';
+import BackButton from '../../components/Buttons/BackButton';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import AvatarValorar from '../../components/Valorar/AvatarValorar';
-import { TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import usePhoto from '../../hooks/usePhoto';
+
 type Props = StackScreenProps<RootStackParams, 'Valorar'>;
 
 const dimension = Dimensions.get('window');
 
-
 const ValorarTrabajo = ({ navigation, route }: Props) => {
 
-    const photoUser = route.params?.photo;
-
-    let image = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
-    
+    const photoUser = route.params?.idTrabajador;
     const { cameraOrGallery, photoNew } = usePhoto();
 
+    let image = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
     let photoImage = photoNew ? photoNew : image;
-    
 
     return (
         <LinearGradient

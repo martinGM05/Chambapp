@@ -68,7 +68,6 @@ export default Historial
 const styles = StyleSheet.create({
     containerGlobal: {
         flex: 1,
-        // backgroundColor: 'orange',
     },
     title: {
         fontSize: 25,
@@ -78,14 +77,9 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     containerTitle: {
-        // backgroundColor: 'red',
-        // borderWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
-
         height: Dimensions.get('window').height * 0.2,
-        // borderRadius: 10,
-
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -93,9 +87,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-
         elevation: 9,
-
     },
     containerText: {
         flexDirection: 'row',
@@ -104,10 +96,6 @@ const styles = StyleSheet.create({
         paddingTop: 30,
     },
     containerScroll: {
-        // backgroundColor: 'yellow',
-        // marginTop: 20,
-        // marginLeft: 10,
-        // marginRight: 10,
         height: '70%',
         padding: 10,
     }

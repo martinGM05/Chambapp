@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {
     navigation: any;
@@ -12,9 +11,8 @@ const BackButton = ({ navigation }:Props) => {
   return (
     <View style={styles.goBack}>
         <TouchableOpacity onPress={() => {
-          navigation.goBack()
-        }
-        
+            navigation.goBack()
+          }
         }>
           <Icon name="ios-arrow-back" size={30} color="#000" />
         </TouchableOpacity>

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useContext } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Contexto } from '../../utils/PeticionesProvider';
+import { Contexto } from '../../context/Data/PeticionesProvider';
 
 interface Props {
     name: string;

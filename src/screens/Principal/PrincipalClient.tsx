@@ -1,33 +1,27 @@
-import { StyleSheet, Text, View, ScrollView, ImageBackground, Image } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react'
-
-import { TextInput } from 'react-native-gesture-handler';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import React, { useContext, useEffect } from 'react'
+import { StackScreenProps } from '@react-navigation/stack';
+import { Avatar } from 'react-native-elements';
+import { RootStackParams } from '../../routes/StackNavigator';
+import { SesionContext } from '../../context/Sesion/SesionContext';
+import { Contexto } from '../../context/Data/PeticionesProvider';
+import LogOut from '../../components/Buttons/LogOut';
+import SearchInput from '../../components/Principal/SearchInput';
 import CardCategories from '../../components/Principal/CardCategory';
 import CardTrades from '../../components/Principal/CardTrades';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../../routes/StackNavigator';
-import LogOut from '../../components/LogOut';
-import { sesionReducer } from '../../context/Sesion/sesionReducer';
-import { authInitialState, SesionContext } from '../../context/Sesion/SesionContext';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import { Avatar } from 'react-native-elements';
-import { Contexto } from '../../utils/PeticionesProvider';
-import useFiltrado from '../../hooks/useFiltrado';
-import SearchInput from '../../components/Principal/SearchInput';
+import useFirebase from '../../hooks/useFirebase';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
-
 const PrincipalClient = ({ navigation }: Props) => {
 
-    const { Trabajador, Oficio, eventoFiltro, Trabajadoraux } = useContext(Contexto)
+    const { Trabajador, eventoFiltro, Trabajadoraux } = useContext(Contexto)
     const { Sesion } = useContext(SesionContext)
-    const { workers } = useFiltrado()
+    const { Oficio, GetOficios } = useFirebase()
 
     useEffect(() => {
-        console.log(Trabajador);
-    }, [Trabajador])
+        GetOficios()
+    }, [])
 
     return (
         <View style={styles.container}>
@@ -57,7 +51,6 @@ const PrincipalClient = ({ navigation }: Props) => {
                             icon={'star'}
                         />
                         {
-
                             Oficio.map((e, index) => (
                                 <CardCategories
                                     name={e.nameOffice}
@@ -71,7 +64,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                 </ScrollView>
                 <View style={styles.containerTrades}>
                     {
-                        (eventoFiltro == true) ?
+                        eventoFiltro ?
                             Trabajador.map((trade, index) => (
                                 <CardTrades
                                     key={index}
@@ -117,15 +110,12 @@ const styles = StyleSheet.create({
     containerUser: {
         marginTop: 50,
         flexDirection: 'row',
-        // alignItems: 'center',
         justifyContent: 'space-between',
     },
     containerGreetings: {
         marginTop: 20,
         marginBottom: 20,
         padding: 10,
-        // borderWidth: 1,
-        // borderColor: '#3f3f3f',
         width: '100%',
     },
     textName: {
@@ -159,8 +149,6 @@ const styles = StyleSheet.create({
     containerTrades: {
         marginTop: 10,
         marginBottom: 100,
-        // borderWidth: 1,
-        // borderColor: '#3f3f3f',
         width: '100%',
         height: 'auto',
     },
