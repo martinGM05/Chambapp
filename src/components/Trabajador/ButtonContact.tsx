@@ -1,5 +1,5 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SesionContext } from '../../context/Sesion/SesionContext';
@@ -8,7 +8,7 @@ import ContactarModal from '../Helper/ContactarModal';
 
 
 const ButtonContact = ({ navigation }: any) => {
-    const { idTrabajadorContactar, GuardarTrabajosEnCurso, TrabajadorEnCurso } = useContext(Contexto)
+    const { idTrabajadorContactar, GuardarTrabajosEnCurso, TrabajadorEnCurso, GetTrabajadoresEnCurso } = useContext(Contexto)
     const { Sesion } = useContext(SesionContext)
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -16,20 +16,40 @@ const ButtonContact = ({ navigation }: any) => {
         setModalVisible(true)
     }
 
-    return (
-        <View style={styles.containerContact}>
-            <TouchableOpacity
-                style={styles.buttonContact}
-                onPress={() => handleContactar()}
-            >
-                <Icon name="phone-in-talk" size={25} color="#000" />
-                {
-                    TrabajadorEnCurso.find(trade => trade.Id === idTrabajadorContactar) ?
-                        <Text style={styles.textContact}>Contactado</Text>
-                        : <Text style={styles.textContact}>Contactar</Text>
-                }
+    useEffect(() => {
+        GetTrabajadoresEnCurso(Sesion.Id)
+    }, [])
 
-            </TouchableOpacity>
+    return (
+        <>
+            {
+                TrabajadorEnCurso.find(trade => trade.Id === idTrabajadorContactar) ? (
+                    <View style={styles.containerDisabled}>
+                        <TouchableOpacity
+                            style={styles.buttonContact}
+                            onPress={() => handleContactar()}
+                            disabled={true}
+                        >
+                            <Icon name="phone-in-talk" size={25} color="#000" />
+                            <Text style={styles.textContact}>Contactado</Text>
+
+                        </TouchableOpacity>
+                    </View>
+                ) : (
+                    <View style={styles.containerContact}>
+                        <TouchableOpacity
+                            style={styles.buttonContact}
+                            onPress={() => handleContactar()}
+
+                        >
+                            <Icon name="phone-in-talk" size={25} color="#000" />
+                            <Text style={styles.textContact}>Contactar</Text>
+
+                        </TouchableOpacity>
+                    </View>
+                )
+            }
+
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -45,7 +65,7 @@ const ButtonContact = ({ navigation }: any) => {
                     navigation={navigation}
                 />
             </Modal>
-        </View>
+        </>
     )
 }
 
@@ -61,6 +81,25 @@ const styles = StyleSheet.create({
         height: '15%',
         marginTop: 18,
         backgroundColor: '#00a680',
+        borderWidth: 1,
+        borderRadius: 10,
+
+        shadowColor: "#000",
+        shadowRadius: 5,
+        shadowOpacity: 0.3,
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        elevation: 10,
+    },
+    containerDisabled: {
+        // position: 'absolute',
+        // bottom: 0,
+        width: '100%',
+        height: '15%',
+        marginTop: 18,
+        backgroundColor: '#604f5e',
         borderWidth: 1,
         borderRadius: 10,
 

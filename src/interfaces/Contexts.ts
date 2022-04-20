@@ -1,4 +1,4 @@
-import { ICustomersComments, IOficeIcon, ITrabajador } from "./Peticiones"
+import { ICustomersComments, IHistorial, IOficeIcon, ITrabajador } from "./Peticiones"
 
 export interface ContextProps {
     Trabajador: ITrabajador[];
@@ -19,5 +19,7 @@ export interface ContextProps {
     GuardarTrabajosEnCurso: (idUsuario: string, idTrabajadorsave: string) => void;
     TrabajadorEnCurso: ITrabajador[];
     GetTrabajadoresEnCurso: (idUser: string) => void;
-
+    GetTrabajadoresHistorial: (idUser: string) => void;
+    TrabajadorHistorial: ITrabajador[];
+    HistorialList: IHistorial[];
 }

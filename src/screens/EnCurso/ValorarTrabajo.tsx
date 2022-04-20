@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, TextInput, View, Image, Alert, Platform } from 'react-native'
+import { Dimensions, StyleSheet, Text, TextInput, View, Image, Alert, Platform, Modal } from 'react-native'
 import React, { useContext, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { AirbnbRating } from 'react-native-ratings';
@@ -16,6 +16,8 @@ import useFirebase from '../../hooks/useFirebase';
 import { firebase } from '@react-native-firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import { ValorarProps } from '../../hooks/useFirebase';
+import ValorarModal from '../../components/Helper/ValorarModal';
 
 type Props = StackScreenProps<RootStackParams, 'Valorar'>;
 
@@ -32,12 +34,30 @@ const ValorarTrabajo = ({ navigation, route }: Props) => {
     const { cameraOrGallery, photoNew } = usePhoto();
     const { UploadImage, urlImage, ValorarTrabajo } = useFirebase()
     const [comentario, setComentario] = useState<string>('')
-    const [cargando, setCargando] = useState<boolean>(false)
+    const [modalVisible, setModalVisible] = useState(false);
+
 
     let image = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
     let photoImage = photoNew ? photoNew : image;
 
-   
+    const handleValorar = async () => {
+        // ValorarTrabajo(numberRating,idEmploye, Sesion.Id, comentario, photoImage, setCarganad)
+        setModalVisible(true)
+        let dataValue: ValorarProps = {
+            calificacion: numberRating,
+            idEmploye: idEmploye,
+            idUser: Sesion.Id,
+            comentario: comentario,
+            pathImage: photoImage,
+            setModalVisible: setModalVisible,
+            navigation: navigation
+        }
+        setTimeout(() => {
+            ValorarTrabajo(dataValue)
+        }, 3000)
+
+
+    }
 
 
 
@@ -104,20 +124,26 @@ const ValorarTrabajo = ({ navigation, route }: Props) => {
                     <View style={styles.containerButton}>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => {
-
-                                // console.log('aqui')
-                                ValorarTrabajo(numberRating,idEmploye, Sesion.Id, comentario, photoImage)
-
-
-                            }}
+                            onPress={() => handleValorar()}
                         >
                             <Icon name="star" size={30} color="#000" />
                             <Text style={styles.textValorar}>Valorar Trabajador</Text>
                         </TouchableOpacity>
                     </View>
+
                 </View>
             </ScrollView>
+            <Modal 
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <ValorarModal
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    textDescription={'¡Gracias por valorar a este trabajador!'}
+                />
+            </Modal>
         </LinearGradient>
     )
 }
@@ -231,7 +257,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 10,
-        resizeMode: 'contain',
+        resizeMode: 'cover',
     },
     containerIcon: {
         width: '100%',

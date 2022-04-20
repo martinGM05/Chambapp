@@ -1,66 +1,31 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Dispatch, SetStateAction } from 'react'
 import LottieView from 'lottie-react-native';
-import { GoogleSignin } from '@react-native-community/google-signin';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import auth from '@react-native-firebase/auth';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParams } from '../../routes/StackNavigator';
 
 interface Props {
     setModalVisible: Dispatch<SetStateAction<boolean>>;
     modalVisible: boolean;
     textDescription: string;
-    navigation: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
 }
 
-const ContainerLogout = ({ setModalVisible, modalVisible, textDescription, navigation }: Props) => {
-
-    const handleLogout = async () => {
-        setModalVisible(!modalVisible)
-        await AsyncStorage.removeItem('@idUser');
-        const provider = auth().currentUser?.providerData[0].providerId;
-        if (provider === 'google.com') {
-            await GoogleSignin.revokeAccess();
-            await GoogleSignin.signOut();
-        } else {
-            await auth().signOut();
-        }
-        setTimeout(() => {
-            navigation.navigate('Principal');
-        } , 1000);
-    }
-
-
+const ValorarModal = ({ setModalVisible, modalVisible, textDescription }: Props) => {
     return (
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
+                <Text style={styles.textStyle}>{textDescription}</Text>
                 <View style={styles.containerAnimation}>
-                    <Text style={styles.textStyle}>{textDescription}</Text>
                     <LottieView
-                        source={require('../../animated/swinging-sad-emoji.json')}
+                        source={require('../../animated/top-nhat-review.json')}
                         autoPlay
                         loop
                     />
                 </View>
-                <Pressable
-                    style={[styles.button, styles.buttonlogout]}
-                    onPress={() => handleLogout()}
-                >
-                    <Text style={styles.textButton}>Salir</Text>
-                </Pressable>
-                <Pressable
-                    style={[styles.button, styles.buttonOpen]}
-                    onPress={() => setModalVisible(!modalVisible)}
-                >
-                    <Text style={styles.textButton}>Cancelar</Text>
-                </Pressable>
             </View>
         </View>
     )
 }
 
-export default ContainerLogout
+export default ValorarModal
 
 const styles = StyleSheet.create({
     centeredView: {
@@ -82,12 +47,13 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5
+        elevation: 5,
+        borderWidth: 1,
     },
     buttonOpen: {
-        backgroundColor: "#ff353a",
+        backgroundColor: "#F194FF",
     },
-    buttonlogout: {
+    buttonClose: {
         backgroundColor: "#2196F3",
     },
     textButton: {
@@ -101,19 +67,18 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         fontSize: 23,
-        marginTop: -35,
-        borderBottomWidth: 2,
     },
     modalText: {
         marginBottom: 15,
         textAlign: "center"
     },
     button: {
+        backgroundColor: '#00a680',
         width: 200,
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 15,
+        marginTop: 20,
         borderRadius: 10,
 
         shadowColor: "#000",
@@ -129,7 +94,7 @@ const styles = StyleSheet.create({
     },
     containerAnimation: {
         width: 200,
-        height: 252,
+        height: 200,
         marginTop: 20,
         flexDirection: 'column',
     }

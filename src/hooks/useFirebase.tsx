@@ -4,10 +4,22 @@ import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import { IComentario, IOficeIcon } from '../interfaces/Peticiones';
 import { SesionContext } from '../context/Sesion/SesionContext';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParams } from '../routes/StackNavigator';
 
 
 interface Props {
     idTrabajador?: string;
+}
+
+export interface ValorarProps {
+    calificacion: number;
+    idEmploye: string;
+    idUser: string;
+    comentario: string;
+    pathImage: string;
+    setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    navigation: StackNavigationProp<RootStackParams, 'Valorar'>;
 }
 
 const useFirebase = () => {
@@ -18,7 +30,7 @@ const useFirebase = () => {
     const [foto, setFoto] = useState<string[]>([])
     const [Oficio, setOficio] = useState<IOficeIcon[]>([])
     const { Sesion } = useContext(SesionContext)
-    
+
     const UploadImage = async (pathImage: string) => {
         const nameFile = pathImage.substring(pathImage.lastIndexOf('/') + 1);
         const uploadUri = Platform.OS === 'ios' ? pathImage.replace('file://', '') : pathImage;
@@ -65,12 +77,13 @@ const useFirebase = () => {
             })
     }
 
-    const ValorarTrabajo = async (calificacion: number, idEmploye: string, idUser: string, comentario:string,  pathImage: string) => {
-        let date: Date = new Date();
-        //console.log(photoImage)
 
-        const nameFile = pathImage.substring(pathImage.lastIndexOf('/') + 1);
-        const uploadUri = Platform.OS === 'ios' ? pathImage.replace('file://', '') : pathImage;
+
+    const ValorarTrabajo = async (props: ValorarProps) => {
+        let date: Date = new Date();
+        //console.log(photoImage
+        const nameFile = props.pathImage.substring(props.pathImage.lastIndexOf('/') + 1);
+        const uploadUri = Platform.OS === 'ios' ? props.pathImage.replace('file://', '') : props.pathImage;
         const reference = storage().ref(nameFile);
         const task = reference.putFile(uploadUri);
         task.on('state_changed', snapshot => {
@@ -80,34 +93,34 @@ const useFirebase = () => {
             console.log(error);
         }, async () => {
             let url = await task.snapshot?.ref.getDownloadURL();
-            console.log(date.getDay+'-'+date.getMonth()+'-'+date.getFullYear)
+            // console.log(date.getDay+'-'+date.getMonth()+'-'+date.getFullYear)
             firestore()
-            .collection('Trabajadores').doc(idEmploye).collection('Comentarios')
-            .doc(idUser).set({
-                calificacion: calificacion,
-                comentario: comentario,
-                fotosComentario: url,
-                idCliente: idUser
-            }).then(() => {
-                firestore()
-                    .collection('Usuarios').doc(Sesion.Id).collection('Historial')
-                    .doc().set({
-                        idTrabajador: idEmploye,
-                        fecha: date.getDay+'-'+date.getMonth()+'-'+date.getFullYear
-                    }).then(() => {
-                        firestore()
-                            .collection('Usuarios')
-                            .doc(Sesion.Id).collection('EnCurso').doc(idEmploye)
-                            .delete()
-                            .then(() => {
-                                  Alert.alert("Mensaje", 'Comentario Guardado')
-                            });
-
-                    })
-         })                 
-
+                .collection('Trabajadores').doc(props.idEmploye).collection('Comentarios')
+                .doc(props.idUser).set({
+                    calificacion: props.calificacion,
+                    comentario: props.comentario,
+                    fotosComentario: url,
+                    idCliente: props.idUser
+                }).then(() => {
+                    firestore()
+                        .collection('Usuarios').doc(Sesion.Id).collection('Historial')
+                        .doc().set({
+                            idTrabajador: props.idEmploye,
+                            fecha: date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear()
+                        }).then(() => {
+                            firestore()
+                                .collection('Usuarios')
+                                .doc(Sesion.Id).collection('EnCurso').doc(props.idEmploye)
+                                .delete()
+                                .then(() => {
+                                    props.setModalVisible(false)
+                                    props.navigation.navigate('PrincipalCliente')
+                                })
+                        })
+                })
         });
- 
+
+
     }
 
 

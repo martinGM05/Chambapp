@@ -12,36 +12,18 @@ import { ITrabajador, IHistorial } from '../../interfaces/Peticiones';
 import { Contexto } from '../../context/Data/PeticionesProvider';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import LottieView from 'lottie-react-native';
+import useEnCurso from '../../hooks/useEnCurso';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
+
+
 const Historial = ({ navigation }: Props) => {
-    const { Trabajador } = useContext(Contexto)
-    const [TrabajadorHistorial, setTrabajadorHistorial] = useState<ITrabajador[]>([])
-    const [Historial, setHistorial] = useState<IHistorial[]>([])
+    
+    const { GetTrabajadoresHistorial, TrabajadorHistorial, HistorialList } = useEnCurso();
     const { Sesion } = useContext(SesionContext)
 
-    
     useEffect(() => {
-        const GetTrabajadoresHistorial = (idUsuario: string) => {
-            const subscriber = firestore()
-                .collection('Usuarios').doc(idUsuario).collection('Historial')
-                .onSnapshot(snapshot => {
-                    const data = snapshot.docs.map(doc => {
-                        const enCurso = doc.data() as IHistorial
-                        return enCurso;
-                    })
-                    let aux: ITrabajador[] = []
-                    data.map(e => {
-                        aux = aux.concat(Trabajador.filter(t => t.Id.includes(e.idTrabajador)))
-                    })
-                    setTrabajadorHistorial(aux)
-                    setHistorial(data)
-                })
-            return () => subscriber()
-        }
-
         GetTrabajadoresHistorial(Sesion.Id)
-
     }, [])
 
     return (
@@ -65,7 +47,7 @@ const Historial = ({ navigation }: Props) => {
                         <ScrollView>
                             {
                                 TrabajadorHistorial.map((item, index) => (
-                                    Historial.map((e) => (
+                                    HistorialList.map((e) => (
                                         e.idTrabajador === item.Id ?
                                             <CardTrades
                                                 key={index}

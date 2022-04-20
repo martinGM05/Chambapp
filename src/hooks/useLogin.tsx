@@ -23,11 +23,12 @@ const useLogin = () => {
     const getIdStorage = async (navigation: any) => {
         try {
             const idLogged = await AsyncStorage.getItem('@idUser');
-            console.log('idLogged: ', idLogged);
             if (idLogged) {
+                console.log('Primero: ', idLogged);
                 setActive(2)
                 getDataFirebase(idLogged, navigation);
             }else{
+                console.log('Segundo: ', idLogged);
                 setActive(3)
             }
         } catch (e) {

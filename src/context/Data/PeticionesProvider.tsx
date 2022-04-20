@@ -2,7 +2,7 @@ import { Alert, StyleSheet, Text, View } from 'react-native'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { firebase } from '@react-native-firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
-import { IComentario, ICustomersComments, IEnCurso, IOficeIcon, ITrabajador } from '../../interfaces/Peticiones';
+import { IComentario, ICustomersComments, IEnCurso, IHistorial, IOficeIcon, ITrabajador } from '../../interfaces/Peticiones';
 import { ContextProps } from '../../interfaces/Contexts';
 import useFirebase from '../../hooks/useFirebase';
 
@@ -22,7 +22,8 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
     const [eventoFiltro, setEventoFiltro] = useState<boolean>(true)
     const [idTrabajadorContactar, setIdTrabajadorContactar] = useState<string>('')
     const [TrabajadorEnCurso, setTrabajadorEnCurso] = useState<ITrabajador[]>([])
-    
+    const [HistorialList, setHistorial] = useState<IHistorial[]>([])
+    const [TrabajadorHistorial, setTrabajadorHistorial] = useState<ITrabajador[]>([])
 
     useEffect(() => {
         GetTrabajadores()
@@ -123,6 +124,22 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
             })
     }
 
+    const GetTrabajadoresHistorial = (idUsuario: string) => {
+        firestore()
+            .collection('Usuarios').doc(idUsuario).collection('Historial')
+            .onSnapshot(snapshot => {
+                const data = snapshot.docs.map(doc => {
+                    const enCurso = doc.data() as IHistorial
+                    return enCurso;
+                })
+                let aux: ITrabajador[] = []
+                data.map(e => {
+                    aux = aux.concat(Trabajador.filter(t => t.Id.includes(e.idTrabajador)))
+                })
+                setTrabajadorHistorial(aux)
+                setHistorial(data)
+            })
+    }
     
   
 
@@ -147,7 +164,9 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
             GuardarTrabajosEnCurso,
             TrabajadorEnCurso,
             GetTrabajadoresEnCurso,
-         
+            GetTrabajadoresHistorial,
+            TrabajadorHistorial,
+            HistorialList
         }}>
             {children}
         </Contexto.Provider>
