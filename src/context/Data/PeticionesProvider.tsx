@@ -105,8 +105,6 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
             .doc(idTrabajadorSave).set({
                 idTrabajador: idTrabajadorSave,
                 fechaInicio: date.toLocaleDateString()
-            }).then(() => {
-                Alert.alert("Mensaje", 'Encontraras el trabajo en la seccion de trabajos en curso')
             })
     }
 

@@ -8,6 +8,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import { Contexto } from '../../context/Data/PeticionesProvider';
 import { SesionContext } from '../../context/Sesion/SesionContext';
+import LottieView from 'lottie-react-native';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
@@ -36,22 +37,32 @@ const TrabajosEnCuso = ({ navigation }: Props) => {
         </View>
       </LinearGradient>
       <View style={styles.containerScroll}>
-        <ScrollView>
-          {
-            TrabajadorEnCurso.map((trade, index) => (
-              <CardTrades
-                key={index}
-                idTrabajador={trade.Id}
-                trade={trade.Oficios.toString()}
-                user={trade.nombre}
-                fecha={''}
-                photoUser={trade.fotoUser}
-                navigation={navigation}
-                from={2}
-              />
-            ))
-          }
-        </ScrollView>
+        {
+          TrabajadorEnCurso.length > 0 ? (
+            <ScrollView>
+              {
+                TrabajadorEnCurso.map((trade, index) => (
+                  <CardTrades
+                    key={index}
+                    idTrabajador={trade.Id}
+                    trade={trade.Oficios.toString()}
+                    user={trade.nombre}
+                    fecha={''}
+                    photoUser={trade.fotoUser}
+                    navigation={navigation}
+                    from={2}
+                  />
+                ))
+              }
+            </ScrollView>
+          ) : (
+            <LottieView
+              source={require('../../animated/empty-box.json')}
+              autoPlay
+              loop
+            />
+          )
+        }
       </View>
     </View>
   )

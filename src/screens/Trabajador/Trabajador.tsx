@@ -45,7 +45,7 @@ const Trabajador = ({ navigation, route }: Props) => {
               photo={e.fotoUser}
             />
           ))}
-        <Feedback customerList={comentario} />
+        <Feedback customerList={comentario} navigation={navigation} />
       </View>
     </View>
   )

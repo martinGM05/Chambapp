@@ -14,7 +14,7 @@ export interface ContextProps {
     setEventoFiltro: (estado: boolean) => void;
     eventoFiltro: boolean;
     Trabajadoraux: ITrabajador[];
-    idTrabajadorContactar: String;
+    idTrabajadorContactar: string;
     setIdTrabajadorContactar: (idTrabajadorConcatenar: string) => void;
     GuardarTrabajosEnCurso: (idUsuario: string, idTrabajadorsave: string) => void;
     TrabajadorEnCurso: ITrabajador[];

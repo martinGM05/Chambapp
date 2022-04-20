@@ -23,6 +23,7 @@ const useLogin = () => {
     const getIdStorage = async (navigation: any) => {
         try {
             const idLogged = await AsyncStorage.getItem('@idUser');
+            console.log('idLogged: ', idLogged);
             if (idLogged) {
                 setActive(2)
                 getDataFirebase(idLogged, navigation);
@@ -36,7 +37,7 @@ const useLogin = () => {
 
     const getDataFirebase = async (id: string, navigation: any) => {
         try {
-            const user = await firestore().collection('Usuarios').doc(id).get()
+            await firestore().collection('Usuarios').doc(id).get()
                 .then(function (doc) {
                     if (doc.exists) {
                         const userData: UserModel = doc.data() as UserModel;
