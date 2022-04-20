@@ -1,37 +1,50 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useContext, useState } from 'react'
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SesionContext } from '../../context/Sesion/SesionContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Contexto } from '../../context/Data/PeticionesProvider';
+import ContactarModal from '../Helper/ContactarModal';
 
 
-const ButtonContact = () => {
+const ButtonContact = ({ navigation }: any) => {
     const { idTrabajadorContactar, GuardarTrabajosEnCurso, TrabajadorEnCurso } = useContext(Contexto)
     const { Sesion } = useContext(SesionContext)
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleContactar = () => {
+        setModalVisible(true)
+    }
+
     return (
         <View style={styles.containerContact}>
             <TouchableOpacity
                 style={styles.buttonContact}
-                onPress={() => {
-                    GuardarTrabajosEnCurso(Sesion.Id, idTrabajadorContactar.toString())
-                }}
+                onPress={() => handleContactar()}
             >
                 <Icon name="phone-in-talk" size={25} color="#000" />
                 {
-                    // TrabajadorEnCurso.map((trade, index) => (
-                    //     trade.Id === idTrabajadorContactar ?
-                    //         <Text style={styles.textContact}>Contactado</Text>
-                    //         : <Text style={styles.textContact}>Contactar</Text>
-
-                    // ))
                     TrabajadorEnCurso.find(trade => trade.Id === idTrabajadorContactar) ?
                         <Text style={styles.textContact}>Contactado</Text>
                         : <Text style={styles.textContact}>Contactar</Text>
                 }
 
             </TouchableOpacity>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <ContactarModal
+                    setModalVisible={setModalVisible}
+                    modalVisible={modalVisible}
+                    textDescription="Contratar"
+                    idTrabajador={idTrabajadorContactar}
+                    idUsuario={Sesion.Id}
+                    GuardarTrabajosEnCurso={GuardarTrabajosEnCurso}
+                    navigation={navigation}
+                />
+            </Modal>
         </View>
     )
 }

@@ -5,6 +5,7 @@ import { ICustomersComments } from '../../interfaces/Peticiones';
 
 export interface PropsComments {
     customerList: ICustomersComments[];
+    navigation: any;
 }
 
 const Comments = ({name, comment, photo,idEmploye}:ICustomersComments) => {

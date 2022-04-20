@@ -7,9 +7,10 @@ import ButtonContact from './ButtonContact';
 import LottieView from 'lottie-react-native';
 
 
-const Feedback = ({ customerList }: PropsComments) => {
+const Feedback = ({ customerList, navigation }: PropsComments) => {
 
     const [loading, setLoading] = useState(false)
+  
 
     useEffect(() => {
         setTimeout(() => {
@@ -58,6 +59,7 @@ const Feedback = ({ customerList }: PropsComments) => {
                 }
             </View>
             <ButtonContact
+                navigation={navigation}
             />
         </View>
     )
