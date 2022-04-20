@@ -81,9 +81,16 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
     const FiltrarOficios = (oficio: string) => {
         let aux: ITrabajador[] = []
         Trabajador.forEach(item => {
-            if (item.Oficios.includes(oficio)) {
-                aux = [...aux, item]
-            }
+            // if (item.Oficios.includes(oficio)) {
+            //     aux = [...aux, item]
+            // }
+            item.Oficios.forEach(item2 => {
+                let tradeLower = item2.toLowerCase()
+                let oficioLower = oficio.toLowerCase()
+                if (tradeLower === oficioLower) {
+                    aux = [...aux, item]
+                }
+            })
         })
         setTrabajadoraux(aux)
     }
@@ -100,9 +107,8 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
     }
 
     const GetTrabajadoresEnCurso = (idUsuario: string) => {
-        const subscriber = firestore()
-            .collection('Usuarios').doc(idUsuario).collection('EnCurso')
-            .onSnapshot(snapshot => {
+        firestore().collection('Usuarios').doc(idUsuario)
+            .collection('EnCurso').onSnapshot(snapshot => {
                 const data = snapshot.docs.map(doc => {
                     const enCurso = doc.data() as IEnCurso
                     return enCurso;
@@ -113,7 +119,6 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
                 })
                 setTrabajadorEnCurso(aux)
             })
-        return () => subscriber()
     }
 
     return (

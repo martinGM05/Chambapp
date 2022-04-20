@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import React, { useContext, useEffect } from 'react'
+import { StyleSheet, Text, View, ScrollView, Modal } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react'
 import { StackScreenProps } from '@react-navigation/stack';
 import { Avatar } from 'react-native-elements';
 import { RootStackParams } from '../../routes/StackNavigator';
@@ -10,6 +10,8 @@ import SearchInput from '../../components/Principal/SearchInput';
 import CardCategories from '../../components/Principal/CardCategory';
 import CardTrades from '../../components/Principal/CardTrades';
 import useFirebase from '../../hooks/useFirebase';
+import LottieView from 'lottie-react-native';
+import ContainerModal from '../../components/Helper/ContainerModal';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
@@ -18,10 +20,19 @@ const PrincipalClient = ({ navigation }: Props) => {
     const { Trabajador, eventoFiltro, Trabajadoraux } = useContext(Contexto)
     const { Sesion } = useContext(SesionContext)
     const { Oficio, GetOficios } = useFirebase()
+    const [loading, setLoading] = useState(false)
+    const [trade, setTrade] = useState('Principal')
 
     useEffect(() => {
         GetOficios()
     }, [])
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(true)
+        }, 2000)
+    }, [Trabajadoraux, eventoFiltro, Trabajador])
+
 
     return (
         <View style={styles.container}>
@@ -52,58 +63,77 @@ const PrincipalClient = ({ navigation }: Props) => {
                     <Text style={styles.textWelcome}>Mira lo que tenemos para ti.</Text>
                 </View>
                 <View style={styles.searchWork}>
-                    <SearchInput />
+                    <SearchInput setTrade={setTrade} trade={trade} />
                 </View>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.containerCategories}>
                         <CardCategories
-                            name={'Principal'}
+                            name={'principal'}
                             icon={'star'}
+                            setLoading={setLoading}
+                            setTrade={setTrade}
+                            trade={trade}
                         />
                         {
                             Oficio.map((e, index) => (
                                 <CardCategories
-                                    name={e.nameOffice}
+                                    name={e.nameOffice.toLowerCase()}
                                     key={index}
                                     icon={e.iconName}
+                                    setLoading={setLoading}
+                                    setTrade={setTrade}
+                                    trade={trade}
                                 />
                             ))
 
                         }
                     </View>
                 </ScrollView>
-                <View style={styles.containerTrades}>
-                    {
-                        eventoFiltro ?
-                            Trabajador.map((trade, index) => (
-                                <CardTrades
-                                    key={index}
-                                    idTrabajador={trade.Id}
-                                    trade={trade.Oficios.toString()}
-                                    user={trade.nombre}
-                                    rating={trade.valoracion}
-                                    photoUser={trade.fotoUser}
-                                    navigation={navigation}
-                                    from={1}
-                                />
-                            ))
-                            :
-                            Trabajadoraux.map((trade, index) => (
-                                <CardTrades
-                                    key={index}
-                                    idTrabajador={trade.Id}
-                                    trade={trade.Oficios.toString()}
-                                    user={trade.nombre}
-                                    rating={trade.valoracion}
-                                    photoUser={trade.fotoUser}
-                                    navigation={navigation}
-                                    from={1}
-                                />
-                            ))
+                {
+                    loading ? (
+                        <View style={styles.containerTrades}>
+                            {
+                                eventoFiltro ?
+                                    Trabajador.map((trade, index) => (
+                                        <CardTrades
+                                            key={index}
+                                            idTrabajador={trade.Id}
+                                            trade={trade.Oficios.toString()}
+                                            user={trade.nombre}
+                                            rating={trade.valoracion}
+                                            photoUser={trade.fotoUser}
+                                            navigation={navigation}
+                                            from={1}
+                                        />
+                                    ))
+                                    :
+                                    Trabajadoraux.map((trade, index) => (
+                                        <CardTrades
+                                            key={index}
+                                            idTrabajador={trade.Id}
+                                            trade={trade.Oficios.toString()}
+                                            user={trade.nombre}
+                                            rating={trade.valoracion}
+                                            photoUser={trade.fotoUser}
+                                            navigation={navigation}
+                                            from={1}
+                                        />
+                                    ))
 
-                    }
-                </View>
+                            }
+                        </View>
+                    ) : (
+                        <View style={styles.loading}>
+                            <LottieView 
+                                source={require('../../animated/bouncing-ball.json')}
+                                autoPlay
+                                loop
+                            />
+                        </View>
+                    )
+                }
             </ScrollView>
+           
         </View>
     )
 }
@@ -153,7 +183,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft: 10,
         marginRight: 100,
-        width: 500,
+        width: 'auto',
         height: 100,
     },
     containerTrades: {
@@ -171,5 +201,12 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5,
         borderWidth: 1,
+    },
+    loading: {
+        // backgroundColor: '#000',
+        width: '100%',
+        height: 230,
+        marginTop: 20,
+        // borderWidth: 1,
     }
 })

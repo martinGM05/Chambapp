@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Comments, { PropsComments } from './Comments';
 import ButtonContact from './ButtonContact';
+import LottieView from 'lottie-react-native';
 
 
 const Feedback = ({ customerList }: PropsComments) => {
@@ -13,7 +14,7 @@ const Feedback = ({ customerList }: PropsComments) => {
     useEffect(() => {
         setTimeout(() => {
             setLoading(true)
-        }, 3000)
+        }, 1000)
     }, [])
 
     return (
@@ -46,7 +47,13 @@ const Feedback = ({ customerList }: PropsComments) => {
                     <View style={styles.containerProgress}>
                         {/* <ActivityIndicator size="large" color="#ff762d" />
                         <Text style={styles.textProgress}>Cargando...</Text> */}
-                        <Image source={{ uri: 'https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!bw340'}} style={styles.image} />
+                        {/* <Image source={{ uri: 'https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!bw340'}} style={styles.image} />
+                         */}
+                        <LottieView 
+                            source={require('../../animated/waiting-pigeon.json')}
+                            autoPlay
+                            loop
+                        />
                     </View>
                 }
             </View>

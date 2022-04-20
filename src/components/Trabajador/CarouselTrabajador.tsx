@@ -17,7 +17,7 @@ const CarouselTrabajador = ({ carousel }: Props) => {
     useEffect(() => {
         setTimeout(() => {
             setLoading(true)
-        }, 3000)
+        }, 1000)
     }, [carousel])
 
 

@@ -1,10 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInput } from 'react-native-gesture-handler';
 import { Contexto } from '../../context/Data/PeticionesProvider';
 
-const SearchInput = () => {
+
+interface Props {
+    setTrade: Dispatch<SetStateAction<string>>;
+    trade: string;
+}
+
+const SearchInput = ({ setTrade, trade }: Props) => {
     
     const [input, setInput] = useState('')
     const { FiltrarOficios, setEventoFiltro } = useContext(Contexto)
@@ -12,8 +18,8 @@ const SearchInput = () => {
     useEffect(() => {
         if(input === ''){
             setEventoFiltro(true)
-
         }else{
+            setTrade(input)
             FiltrarOficios(input)
             setEventoFiltro(false)
         }
