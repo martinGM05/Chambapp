@@ -80,7 +80,7 @@ const useFirebase = () => {
             console.log(error);
         }, async () => {
             let url = await task.snapshot?.ref.getDownloadURL();
-            //console.log(url)
+            console.log(date.getDay+'-'+date.getMonth()+'-'+date.getFullYear)
             firestore()
             .collection('Trabajadores').doc(idEmploye).collection('Comentarios')
             .doc(idUser).set({
@@ -93,7 +93,7 @@ const useFirebase = () => {
                     .collection('Usuarios').doc(Sesion.Id).collection('Historial')
                     .doc().set({
                         idTrabajador: idEmploye,
-                        fecha: date.toLocaleDateString()
+                        fecha: date.getDay+'-'+date.getMonth()+'-'+date.getFullYear
                     }).then(() => {
                         firestore()
                             .collection('Usuarios')
