@@ -6,21 +6,32 @@ interface Props {
     photo: string,
 }
 
-const AvatarValorar = ({ photo }:Props) => {
-  return (
-    <Avatar
-        rounded
-        size="large"
-        source={{ uri: photo }}
-        containerStyle={styles.photoUser}
-    />
-  )
+const AvatarValorar = ({ photo }: Props) => {
+    return (
+        <>
+            {
+                photo ?
+                    <Avatar
+                        rounded
+                        size="large"
+                        source={{ uri: photo }}
+                        containerStyle={styles.photoUser}
+                    /> :
+                    <Avatar
+                        rounded
+                        size="large"
+                        source={require('../../img/jar-loading.gif')}
+                        containerStyle={styles.photoUser}
+                    />
+            }
+        </>
+    )
 }
 
 export default AvatarValorar
 
 const styles = StyleSheet.create({
-    photoUser:{
+    photoUser: {
         shadowColor: '#000',
         shadowOffset: {
             width: 0,

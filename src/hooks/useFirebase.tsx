@@ -40,6 +40,7 @@ const useFirebase = () => {
                     return comentario;
                 })
                 let auxRating = 0
+                setFoto([])
                 setAverageRating(0)
                 data.forEach(item => {
                     setFoto(item2 => [...item2, item.fotosComentario])

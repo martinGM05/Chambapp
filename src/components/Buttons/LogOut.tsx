@@ -1,43 +1,52 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Modal } from 'react-native';
+import React, { useState } from 'react'
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import auth from '@react-native-firebase/auth';
+
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
-import { GoogleSignin } from '@react-native-community/google-signin';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import ContainerLogout from '../Helper/ContainerLogout';
 
 
 interface Props {
     navigation: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
+    
 }
 
 const LogOut = ({ navigation }: Props) => {
 
+    const [modalVisible, setModalVisible] = useState(false);
+
     const logOut = async () => {
         try {
-            await AsyncStorage.removeItem('@idUser');
-            const provider = auth().currentUser?.providerData[0].providerId;
-            if (provider === 'google.com') {
-                await GoogleSignin.revokeAccess();
-                await GoogleSignin.signOut();
-            } else {
-                await auth().signOut();
-            }
-            navigation.navigate('Principal');
+            setModalVisible(true)
         } catch (error) {
             console.log(error)
         }
     }
 
     return (
-        <TouchableOpacity style={styles.containerGlobal}
-            onPress={() => logOut()}
-        >
-            <Icon name="sign-out" size={30} color="#000" />
-        </TouchableOpacity>
+        <>
+            <TouchableOpacity style={styles.containerGlobal}
+                onPress={() => logOut()}
+            >
+                <Icon name="sign-out" size={30} color="#000" />
+            </TouchableOpacity>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <ContainerLogout
+                    setModalVisible={setModalVisible}
+                    modalVisible={modalVisible}
+                    textDescription="¿Estás seguro de que quieres salir?"
+                    navigation={navigation}
+                />
+            </Modal>
+        </>
     )
 }
 
