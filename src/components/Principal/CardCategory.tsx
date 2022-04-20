@@ -1,38 +1,55 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useContext } from 'react'
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { Dispatch, SetStateAction, useContext, useState } from 'react'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Contexto } from '../../context/Data/PeticionesProvider';
 
 interface Props {
     name: string;
     icon: string;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+    setTrade: Dispatch<SetStateAction<string>>;
+    trade: string;
 }
 
-const CardCategories = ({ name, icon }: Props) => {
-    const {FiltrarOficios, setEventoFiltro}=useContext(Contexto)
+const CardCategories = ({ name, icon, setLoading, setTrade, trade }: Props) => {
+
+    const { FiltrarOficios, setEventoFiltro } = useContext(Contexto)
+
+
+    const handleFilter = () => {
+        setTrade(name)
+        setLoading(false)
+        if(name=="principal"){
+            setEventoFiltro(true)
+        }else{
+            FiltrarOficios(name)
+            setEventoFiltro(false)
+        }
+    }
+
     return (
-        <View style={styles.containerCategory}>
+        <TouchableOpacity
+            style={
+                trade.toLocaleLowerCase() === name ? 
+                    ( styles.containerCardActive ) : ( styles.containerCategory ) 
+            }
+            onPress={ () => handleFilter()}
+            activeOpacity={0.5}
+        >
             <Icon 
                 name={icon} 
                 size={30} 
                 color="#fff" 
-                onPress={ () => {
-                    if(name=="Principal"){
-                        setEventoFiltro(true)
-                    }else{
-                        FiltrarOficios(name)
-                        setEventoFiltro(false)
-                    }
-                    
-                }}
             />
             <Text 
                 style={styles.textCategory} 
                 numberOfLines={1}>
-                    {name}
+                    {
+                        name.substring(0,1).toUpperCase() + name.substring(1)
+                    }
             </Text>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -50,12 +67,43 @@ const styles = StyleSheet.create({
     },
     containerCategory: {
         marginRight: 10,
-        width: '18%',
+        width: 100,
         height: '100%',
-        borderRadius: 10,
-        backgroundColor: '#46D0D9',
+        backgroundColor: '#000',
+        // backgroundColor: '#68cf45',
         alignItems: 'center',
         justifyContent: 'center',
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        
+        elevation: 5,
+        borderRadius: 10,
+    },
+    containerCardActive:{
+        marginRight: 10,
+        width: 100,
+        height: '110%',
+        // backgroundColor: '#46D0D9',
+        backgroundColor: '#68cf45',
+        alignItems: 'center',
+        justifyContent: 'center',
+        
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        
+        elevation: 5,
+        borderRadius: 10,
     },
     textCategory: {
         fontSize: 18,

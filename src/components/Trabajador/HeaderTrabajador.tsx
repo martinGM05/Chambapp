@@ -66,8 +66,10 @@ const HeaderTrabajador = ({ trades, name, photo, rating }:Props) => {
                             style={styles.imageUser}
                         />
                     ) : (
-                        <Image source={require('../../img/no-image.png')}
-                        style={styles.imageUser} />
+                        <Image 
+                            source={require('../../img/no-image.png')}
+                            style={styles.imageUser}
+                        />
                     )
                 }
                

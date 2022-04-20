@@ -1,18 +1,23 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React, { useContext } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, Pressable } from 'react-native';
+import React, { useContext, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import AvatarPerfil from './AvatarPerfil';
+import Toast from 'react-native-toast-message'
+import ContainerModal from '../Helper/ContainerModal';
 
 const FormPerfil = () => {
 
     const { editUserData, Sesion, setDataEdit, dataEdit } = useContext(SesionContext)
 
+    const [modalVisible, setModalVisible] = useState(false);
+
     const submit = async (values: any) => {
-        editUserData(values)
+        await editUserData(values)
+        setModalVisible(true)
     }
 
     const formikOpt = {
@@ -109,6 +114,17 @@ const FormPerfil = () => {
                     </View>
                 )}
             </Formik>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <ContainerModal 
+                    setModalVisible={setModalVisible}
+                    modalVisible={modalVisible}
+                    textDescription="Usuario actualizado"
+                />
+            </Modal>
         </View>
     )
 }
@@ -195,4 +211,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+   
 })

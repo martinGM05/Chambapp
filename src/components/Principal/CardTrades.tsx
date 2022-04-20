@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
-import React, { useEffect } from 'react'
+import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react'
 import { AirbnbRating } from 'react-native-ratings';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -22,10 +22,19 @@ interface Props {
 const CardTrades = ({ trade, user, fecha, photoUser, navigation, idTrabajador, from }: Props) => {
 
     const { foto, averageRating, GetTrabajadoresComentarios } = useFirebase()
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         GetTrabajadoresComentarios(idTrabajador)
     }, [])
+
+    useEffect(() => {
+        if (foto[0]) {
+            setLoading(false)
+        } else {
+            setLoading(true)
+        }
+    }, [foto])
 
 
     const handleTrabajador = (id: string) => {
@@ -40,10 +49,28 @@ const CardTrades = ({ trade, user, fecha, photoUser, navigation, idTrabajador, f
     return (
         <View style={styles.cardTrade}>
             <View style={styles.imageTrade}>
-                <Image
-                    source={{ uri: foto[0] }}
-                    style={styles.image}
-                />
+                {
+                    loading ?
+                        <Image
+                            source={require('../../img/jar-loading.gif')}
+                            style={styles.image}
+                        />
+                        :
+                        (
+                            foto[0] ? (
+                                <Image
+                                    source={{ uri: foto[0] }}
+                                    style={styles.image}
+                                />
+                            ) : (
+                                <Image
+                                    source={require('../../img/no-image.png')}
+                                    style={styles.image}
+                                />
+                            )
+                        )
+                }
+
             </View>
             <View style={styles.cardWorker}>
                 <View style={styles.cardWorkerInfo}>
@@ -59,10 +86,20 @@ const CardTrades = ({ trade, user, fecha, photoUser, navigation, idTrabajador, f
                                 }
                             </Text>
                             <View style={{ flexDirection: 'row' }}>
-                                <Image
-                                    source={{ uri: `${photoUser}` }}
-                                    style={styles.userImage}
-                                />
+                                {
+                                    photoUser ? (
+                                        <Image
+                                            source={{ uri: `${photoUser}` }}
+                                            style={styles.userImage}
+                                        />
+                                    ) : (
+                                        <Image
+                                            source={require('../../img/no-image.png')}
+                                            style={styles.userImage}
+                                        />
+                                    )
+                                }
+
                                 <Text style={styles.userName}>{user}</Text>
                                 
 
@@ -148,7 +185,7 @@ const styles = StyleSheet.create({
     },
     imageTrade: {
         flex: 2,
-        backgroundColor: 'yellow',
+        // backgroundColor: 'yellow',
         borderRadius: 30,
         position: 'relative',
         zIndex: 0,

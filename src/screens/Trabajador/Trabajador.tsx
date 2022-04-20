@@ -18,7 +18,7 @@ const Trabajador = ({ navigation, route }: Props) => {
 
 
   const { id } = route.params
-  const { limpiarState, GetTrabajadoresComentarios, Trabajador, averageRating, setIdTrabajadorContactar, listaImagenes, comentario } = useContext(Contexto);
+  const { limpiarState, Trabajador, GetTrabajadoresComentarios, averageRating, setIdTrabajadorContactar, listaImagenes, comentario } = useContext(Contexto);
 
   useEffect(() => {
     limpiarState()
@@ -26,7 +26,7 @@ const Trabajador = ({ navigation, route }: Props) => {
     GetTrabajadoresComentarios(id)
   }, [])
 
-  const trabajador = Trabajador.filter(e => e.Id == id)
+  let trabajador = Trabajador.filter(e => e.Id == id)
 
   return (
     <View style={styles.container}>
