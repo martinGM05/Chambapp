@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native'
+import { Dimensions, StyleSheet, Text, TextInput, View, Image, Alert, Platform } from 'react-native'
 import React, { useContext, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { AirbnbRating } from 'react-native-ratings';
@@ -15,6 +15,7 @@ import { Contexto } from '../../context/Data/PeticionesProvider';
 import useFirebase from '../../hooks/useFirebase';
 import { firebase } from '@react-native-firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 type Props = StackScreenProps<RootStackParams, 'Valorar'>;
 
@@ -29,52 +30,15 @@ const ValorarTrabajo = ({ navigation, route }: Props) => {
     const [numberRating, setNumberRating] = useState<number>(0)
     const { Sesion } = useContext(SesionContext)
     const { cameraOrGallery, photoNew } = usePhoto();
-    const { UploadImage, urlImage } = useFirebase()
+    const { UploadImage, urlImage, ValorarTrabajo } = useFirebase()
     const [comentario, setComentario] = useState<string>('')
     const [cargando, setCargando] = useState<boolean>(false)
 
     let image = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
     let photoImage = photoNew ? photoNew : image;
 
-    const ValorarTrabajo = async (calificacion: number, idEmploye: string, idUser: string) => {
-        let date: Date = new Date();
-        UploadImage(photoImage)
-        const cargarDatos=()=>{
-            firestore()
-            .collection('Trabajadores').doc(idEmploye).collection('Comentarios')
-            .doc(idUser).set({
-                calificacion: calificacion,
-                comentario: comentario,
-                fotosComentario: urlImage,
-                idCliente: idUser
-            }).then(() => {
-                firestore()
-                    .collection('Usuarios').doc(Sesion.Id).collection('Historial')
-                    .doc().set({
-                        idTrabajador: idEmploye,
-                        fecha: date.toLocaleDateString()
-                    }).then(() => {
-                        firestore()
-                            .collection('Usuarios')
-                            .doc(Sesion.Id).collection('EnCurso').doc(idEmploye)
-                            .delete()
-                            .then(() => {
-                                Alert.alert("Mensaje", 'Comentario Guardado')
-                            });
+   
 
-
-                    })
-
-            })
-        }
-
-        setTimeout(() => {
-            
-                cargarDatos()
-                    
-
-        }, 6000)
-    }
 
 
 
@@ -143,7 +107,7 @@ const ValorarTrabajo = ({ navigation, route }: Props) => {
                             onPress={() => {
 
                                 // console.log('aqui')
-                                ValorarTrabajo(numberRating,idEmploye, Sesion.Id)
+                                ValorarTrabajo(numberRating,idEmploye, Sesion.Id, comentario, photoImage)
 
 
                             }}
