@@ -1,5 +1,5 @@
-import { Dimensions, StyleSheet, Text, TextInput, View, Image } from 'react-native'
-import React from 'react'
+import { Dimensions, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native'
+import React, { useContext, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { AirbnbRating } from 'react-native-ratings';
 import BackButton from '../../components/Buttons/BackButton';
@@ -10,17 +10,73 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import usePhoto from '../../hooks/usePhoto';
 
+import { SesionContext } from '../../context/Sesion/SesionContext';
+import { Contexto } from '../../context/Data/PeticionesProvider';
+import useFirebase from '../../hooks/useFirebase';
+import { firebase } from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
+
 type Props = StackScreenProps<RootStackParams, 'Valorar'>;
 
 const dimension = Dimensions.get('window');
 
 const ValorarTrabajo = ({ navigation, route }: Props) => {
 
-    const photoUser = route.params?.idTrabajador;
+    const photoUser = route.params?.photo;
+    const nameEmploye = route.params?.nameEmploye;
+    const office = route.params?.office;
+    const idEmploye = route.params?.idEmploye;
+    const [numberRating, setNumberRating] = useState<number>(0)
+    const { Sesion } = useContext(SesionContext)
     const { cameraOrGallery, photoNew } = usePhoto();
+    const { UploadImage, urlImage } = useFirebase()
+    const [comentario, setComentario] = useState<string>('')
+    const [cargando, setCargando] = useState<boolean>(false)
 
     let image = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
     let photoImage = photoNew ? photoNew : image;
+
+    const ValorarTrabajo = async (calificacion: number, idEmploye: string, idUser: string) => {
+        let date: Date = new Date();
+        UploadImage(photoImage)
+        const cargarDatos=()=>{
+            firestore()
+            .collection('Trabajadores').doc(idEmploye).collection('Comentarios')
+            .doc(idUser).set({
+                calificacion: calificacion,
+                comentario: comentario,
+                fotosComentario: urlImage,
+                idCliente: idUser
+            }).then(() => {
+                firestore()
+                    .collection('Usuarios').doc(Sesion.Id).collection('Historial')
+                    .doc().set({
+                        idTrabajador: idEmploye,
+                        fecha: date.toLocaleDateString()
+                    }).then(() => {
+                        firestore()
+                            .collection('Usuarios')
+                            .doc(Sesion.Id).collection('EnCurso').doc(idEmploye)
+                            .delete()
+                            .then(() => {
+                                Alert.alert("Mensaje", 'Comentario Guardado')
+                            });
+
+
+                    })
+
+            })
+        }
+
+        setTimeout(() => {
+            
+                cargarDatos()
+                    
+
+        }, 6000)
+    }
+
+
 
     return (
         <LinearGradient
@@ -40,16 +96,17 @@ const ValorarTrabajo = ({ navigation, route }: Props) => {
                 <View style={styles.card}>
 
                     <View style={styles.infoWorker}>
-                        <Text style={styles.textUser}>Manuel Francisco Peña</Text>
-                        <Text style={styles.textTrade}>Carpintero</Text>
+                        <Text style={styles.textUser}>{nameEmploye}</Text>
+                        <Text style={styles.textTrade}>{office}</Text>
                     </View>
                     <View style={styles.valueIt}>
                         <Text style={styles.textQuestion}>¿Qué te pareció el trabajo?</Text>
                         <AirbnbRating
                             count={5}
-                            defaultRating={3}
+                            defaultRating={0}
                             size={20}
                             showRating={false}
+                            onFinishRating={e => setNumberRating(e)}
                         />
                     </View>
                     <View style={styles.containerSend}>
@@ -75,12 +132,21 @@ const ValorarTrabajo = ({ navigation, route }: Props) => {
                                 placeholderTextColor="#000"
                                 multiline={true}
                                 numberOfLines={4}
+                                value={comentario}
+                                onChangeText={(texto) => setComentario(texto)}
                             />
                         </View>
                     </View>
                     <View style={styles.containerButton}>
                         <TouchableOpacity
                             style={styles.button}
+                            onPress={() => {
+
+                                // console.log('aqui')
+                                ValorarTrabajo(numberRating,idEmploye, Sesion.Id)
+
+
+                            }}
                         >
                             <Icon name="star" size={30} color="#000" />
                             <Text style={styles.textValorar}>Valorar Trabajador</Text>

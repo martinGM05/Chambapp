@@ -1,14 +1,23 @@
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CardTrades from '../../components/Principal/CardTrades';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
+import { firebase } from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
+import { IHistorial, ITrabajador } from '../../interfaces/Peticiones';
+import { Contexto } from '../../context/Data/PeticionesProvider';
+import { SesionContext } from '../../context/Sesion/SesionContext';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 const Historial = ({ navigation }:Props) => {
+    const {Trabajador}=useContext(Contexto)
+    const [TrabajadorHistorial, setTrabajadorHistorial] = useState<ITrabajador[]>([])
+    const [Historial, setHistorial] = useState<IHistorial[]>([])
+    const { Sesion } = useContext(SesionContext)
     let trabajador = [
         {
             trade: 'Carpinteria',
@@ -25,6 +34,29 @@ const Historial = ({ navigation }:Props) => {
             photoUser: "https://scontent.fjal2-1.fna.fbcdn.net/v/t1.18169-9/12376279_506023649576061_8346130321154427894_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=174925&_nc_eui2=AeEr-MWK6uMfVDwP3PslUunDo39o5K2_i-qjf2jkrb-L6m5RLSkD_Ci7L9ONf9JDdnHEWZGxocxVIryBWX39D6aM&_nc_ohc=G1lL-th4ASoAX-gBz5S&_nc_ht=scontent.fjal2-1.fna&oh=00_AT9xu4Z-fgGWpUBBGlXLojEIXT6-Hxsuy2Mhx2OGtevdVA&oe=6279B1F7"
         },
     ]
+
+    useEffect(()=>{
+        const GetTrabajadoresHistorial = (idUsuario: string) => {
+            const subscriber = firestore()
+                .collection('Usuarios').doc(idUsuario).collection('Historial')
+                .onSnapshot(snapshot => {
+                    const data = snapshot.docs.map(doc => {
+                        const enCurso = doc.data() as IHistorial
+                        return enCurso;
+                    })
+                    let aux: ITrabajador[] = []
+                    data.map(e => {
+                        aux = aux.concat(Trabajador.filter(t => t.Id.includes(e.idTrabajador)))
+                    })
+                    setTrabajadorHistorial(aux)
+                    setHistorial(data)
+                })
+            return () => subscriber()
+        }
+
+        GetTrabajadoresHistorial(Sesion.Id)
+    
+    },[])
 
     return (
         <View style={styles.containerGlobal}>
@@ -44,17 +76,21 @@ const Historial = ({ navigation }:Props) => {
             <View style={styles.containerScroll}>
                 <ScrollView>
                     {
-                        trabajador.map((item, index) => (
-                            <CardTrades
+                        TrabajadorHistorial.map((item, index) => (
+                            Historial.map((e)=>(
+                                e.idTrabajador===item.Id?
+                                <CardTrades
                                 key={index}
-                                trade={item.trade}
-                                user={item.user}
-                                rating={item.rating}
-                                idTrabajador={'2BVPRY0h247kgG0e5mId'}
-                                photoUser={item.photoUser}
+                                trade={item.Oficios.toString()}
+                                user={item.nombre}
+                                fecha={e.fecha}
+                                idTrabajador={item.Id}
+                                photoUser={item.fotoUser}
                                 navigation={navigation}
-                                from={3}
+                                from={4}
                             />
+                            :null
+                            ))
                         ))
                     }
                 </ScrollView>

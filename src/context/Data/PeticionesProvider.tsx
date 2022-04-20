@@ -1,13 +1,16 @@
 import { Alert, StyleSheet, Text, View } from 'react-native'
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { firebase } from '@react-native-firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
 import { IComentario, ICustomersComments, IEnCurso, IOficeIcon, ITrabajador } from '../../interfaces/Peticiones';
 import { ContextProps } from '../../interfaces/Contexts';
+import useFirebase from '../../hooks/useFirebase';
 
 export const Contexto = createContext<ContextProps>({} as ContextProps);
 
 const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
+    
+
 
     const [Trabajador, setTrabajador] = useState<ITrabajador[]>([])
     const [Trabajadoraux, setTrabajadoraux] = useState<ITrabajador[]>([])
@@ -19,7 +22,7 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
     const [eventoFiltro, setEventoFiltro] = useState<boolean>(true)
     const [idTrabajadorContactar, setIdTrabajadorContactar] = useState<string>('')
     const [TrabajadorEnCurso, setTrabajadorEnCurso] = useState<ITrabajador[]>([])
-
+    
 
     useEffect(() => {
         GetTrabajadores()
@@ -96,11 +99,12 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
     }
 
     const GuardarTrabajosEnCurso = (idUsuario: string, idTrabajadorSave: string) => {
+        let date: Date = new Date();
         firestore()
             .collection('Usuarios').doc(idUsuario).collection('EnCurso')
             .doc(idTrabajadorSave).set({
                 idTrabajador: idTrabajadorSave,
-                fechaInicio: '2020-04-18'
+                fechaInicio: date.toLocaleDateString()
             }).then(() => {
                 Alert.alert("Mensaje", 'Encontraras el trabajo en la seccion de trabajos en curso')
             })
@@ -121,6 +125,10 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
             })
     }
 
+    
+  
+
+
     return (
         <Contexto.Provider value={{
             Trabajador,
@@ -140,7 +148,8 @@ const PeticionesProvider = ({ children }: { children: JSX.Element }) => {
             setIdTrabajadorContactar,
             GuardarTrabajosEnCurso,
             TrabajadorEnCurso,
-            GetTrabajadoresEnCurso
+            GetTrabajadoresEnCurso,
+         
         }}>
             {children}
         </Contexto.Provider>

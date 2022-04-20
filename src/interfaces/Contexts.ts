@@ -19,4 +19,5 @@ export interface ContextProps {
     GuardarTrabajosEnCurso: (idUsuario: string, idTrabajadorsave: string) => void;
     TrabajadorEnCurso: ITrabajador[];
     GetTrabajadoresEnCurso: (idUser: string) => void;
+
 }

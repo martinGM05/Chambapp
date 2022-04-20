@@ -12,7 +12,7 @@ export type RootStackParams = {
     Register: undefined;
     PrincipalCliente: undefined;
     Trabajador: {id: string};
-    Valorar: { idTrabajador: string }
+    Valorar: { photo: string, nameEmploye:string, office:string, idEmploye:string}
 }
 
 const Stack = createStackNavigator<RootStackParams>();
