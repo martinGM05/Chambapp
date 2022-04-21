@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, Pressable, KeyboardTypeOptions, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, Button, Pressable, KeyboardTypeOptions, TouchableOpacity, Alert, Modal } from 'react-native';
 import React, { useEffect, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
@@ -8,15 +8,25 @@ import { Avatar } from 'react-native-elements';
 import useRegister from '../../hooks/useRegister';
 import usePhoto from '../../hooks/usePhoto';
 import AwesomeLoading from 'react-native-awesome-loading';
+import ContainerModal from '../Helper/ContainerModal';
+import { StackScreenProps, StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParams } from '../../routes/StackNavigator';
+import { useNavigation } from '@react-navigation/native';
+
+interface Props {
+    navigation: any;
+}
 
 
-const FormRegister = () => {
+const FormRegister = ({navigation} :Props) => {
 
     // const [imgAvatar, setImgAvatar] = useState('https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg');
     let img = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
 
     const { photoNew, cameraOrGallery } = usePhoto()
-    const { register } = useRegister()
+    const { register, existe } = useRegister()
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisibleError, setModalVisibleError] = useState(false);
 
     const submit = async (values: any) => {
         let data = {
@@ -26,8 +36,16 @@ const FormRegister = () => {
             Password: values.Password,
             Photo: photoNew
         }
-        // setActive(true)
         register(data)
+        if(existe){
+            setModalVisible(!modalVisible)
+            setTimeout(() => {
+                setModalVisible(false)
+                navigation.goBack()
+            } , 4000)
+        }else{
+            setModalVisibleError(!modalVisibleError)
+        }
     }
 
     const changeImage = () => {
@@ -70,20 +88,19 @@ const FormRegister = () => {
 
             <View style={styles.containerAvatar}>
                 {
-                    // photoNew ?
-                    // <Avatar
-                    //     rounded
-                    //     size="xlarge"
-                    //     source={{ uri: photoNew }}
-                    //     containerStyle={styles.avatar}
-                    // /> :
-                    // <Avatar
-                    //     rounded
-                    //     size="xlarge"
-                    //     source={{ uri: img }}
-                    //     containerStyle={styles.avatar}
-                    // />
-
+                    photoNew ?
+                    <Avatar
+                        rounded
+                        size="xlarge"
+                        source={{ uri: photoNew }}
+                        containerStyle={styles.avatar}
+                    /> :
+                    <Avatar
+                        rounded
+                        size="xlarge"
+                        source={{ uri: img }}
+                        containerStyle={styles.avatar}
+                    />
                 }
                 
                 <TouchableOpacity
@@ -221,6 +238,30 @@ const FormRegister = () => {
                     }
                 </Formik>
             </ScrollView>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <ContainerModal 
+                    setModalVisible={setModalVisible}
+                    modalVisible={modalVisible}
+                    textDescription="Usuario creado correctamente"
+                    
+                />
+            </Modal>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisibleError}
+            >
+                <ContainerModal 
+                    setModalVisible={setModalVisibleError}
+                    modalVisible={modalVisibleError}
+                    textDescription="El usuario ya existe"
+                    type="error"
+                />
+            </Modal>
         </View>
     )
 }

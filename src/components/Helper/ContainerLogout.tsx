@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Dispatch, SetStateAction } from 'react'
 import LottieView from 'lottie-react-native';
 import { GoogleSignin } from '@react-native-community/google-signin';
@@ -18,17 +18,34 @@ const ContainerLogout = ({ setModalVisible, modalVisible, textDescription, navig
 
     const handleLogout = async () => {
         setModalVisible(!modalVisible)
-        await AsyncStorage.removeItem('@idUser');
-        const provider = auth().currentUser?.providerData[0].providerId;
-        if (provider === 'google.com') {
-            await GoogleSignin.revokeAccess();
-            await GoogleSignin.signOut();
-        } else {
+        // Alert.alert('Id', auth().currentUser?.uid)
+        try {
+            await AsyncStorage.removeItem('@idUser');
+            let provider = auth().currentUser?.providerData[0].providerId;
+            if (provider === 'google.com') {
+                await GoogleSignin.revokeAccess();
+                await GoogleSignin.signOut();
+            }
             await auth().signOut();
+            setTimeout(() => {
+                navigation.navigate('Principal')
+            }, 3000);
+        } catch (error) {
+
         }
-        setTimeout(() => {
-            navigation.navigate('Principal');
-        } , 1000);
+        // setTimeout(() => {
+
+        // })
+        // const provider = auth().currentUser?.providerData[0].providerId;
+        // if (provider === 'google.com') {
+        //     await GoogleSignin.revokeAccess();
+        //     await GoogleSignin.signOut();
+        // } else {
+        //     await auth().signOut();
+        // }
+        // setTimeout(() => {
+        //     navigation.navigate('Principal');
+        // } , 1000);
     }
 
 

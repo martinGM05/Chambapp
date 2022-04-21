@@ -100,7 +100,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                                             idTrabajador={trade.Id}
                                             trade={trade.Oficios.toString()}
                                             user={trade.nombre}
-                                            rating={trade.valoracion}
+                                            // rating={trade.valoracion}
                                             photoUser={trade.fotoUser}
                                             navigation={navigation}
                                             from={1}
@@ -113,7 +113,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                                             idTrabajador={trade.Id}
                                             trade={trade.Oficios.toString()}
                                             user={trade.nombre}
-                                            rating={trade.valoracion}
+                                            // rating={trade.valoracion}
                                             photoUser={trade.fotoUser}
                                             navigation={navigation}
                                             from={1}

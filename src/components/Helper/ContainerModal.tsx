@@ -6,19 +6,30 @@ interface Props {
     setModalVisible: Dispatch<SetStateAction<boolean>>;
     modalVisible: boolean;
     textDescription: string;
+    type?: string;
 }
 
-const ContainerModal = ({ setModalVisible, modalVisible, textDescription }: Props) => {
+const ContainerModal = ({ setModalVisible, type, modalVisible, textDescription }: Props) => {
     return (
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
                 <View style={styles.containerAnimation}>
                     <Text style={styles.textStyle}>{textDescription}</Text>
-                    <LottieView
-                        source={require('../../animated/confirmation-or-ok.json')}
-                        autoPlay
-                        loop
-                    />
+                    {
+                        type === 'error' ? (
+                            <LottieView
+                                source={require('../../animated/swinging-sad-emoji.json')}
+                                autoPlay
+                                loop
+                            />
+                        ) : (
+                            <LottieView
+                                source={require('../../animated/confirmation-or-ok.json')}
+                                autoPlay
+                                loop
+                            />
+                        )
+                    }
                 </View>
                 <Pressable
                     style={[styles.button, styles.buttonClose]}

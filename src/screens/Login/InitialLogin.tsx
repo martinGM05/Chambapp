@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Dimensions, ActivityIndicator } from 'react-native';
-import React, { useEffect } from 'react'
+import { StyleSheet, Text, View, Dimensions, ActivityIndicator, Image, Modal } from 'react-native';
+import React, { useEffect, useState } from 'react'
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import SocialMedia from '../../components/Login/SocialMedia';
@@ -7,17 +7,19 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import FormLogin from '../../components/Login/FormLogin';
 import useLogin from '../../hooks/useLogin';
+import LottieView from 'lottie-react-native';
 
 type Props = StackScreenProps<RootStackParams, 'Login'>;
 
 const InitialLogin = ({ navigation }: Props) => {
 
-  const { getIdStorage, active } = useLogin()
-  
+  const { getIdStorage, active  } = useLogin()
+
+
   useEffect(() => {
-    setTimeout(()=> {
+    setTimeout(() => {
       getIdStorage(navigation)
-    }, 1000)
+    }, 1500)
   }, [])
 
   return (
@@ -32,6 +34,7 @@ const InitialLogin = ({ navigation }: Props) => {
         active === 3 ? (
           <ScrollView style={styles.scroll}>
             <View style={styles.containerTitle}>
+              <Image source={require('../../img/Logo.png')} style={styles.logo} />
               <Text style={styles.title1}>Bienvenido</Text>
               <Text style={styles.title2}>Ingresa con tu cuenta</Text>
             </View>
@@ -51,14 +54,24 @@ const InitialLogin = ({ navigation }: Props) => {
             </View>
           </ScrollView>
         ) : (
-          <ActivityIndicator 
-            size="large" 
-            color="#1c4a4d" 
-            style={styles.activityIndicator}
-          />
+          <View style={styles.loading}>
+            <View style={styles.containerLogo}>
+              <Image
+                source={require('../../img/Logo.png')}
+                style={styles.image}
+              />
+            </View>
+            <View style={styles.anima}>
+              <LottieView
+                source={require('../../animated/loading.json')}
+                autoPlay
+                loop
+              />
+            </View>
+          </View>
         )
       }
-
+      
     </LinearGradient>
   )
 }
@@ -66,6 +79,32 @@ const InitialLogin = ({ navigation }: Props) => {
 export default InitialLogin
 
 const styles = StyleSheet.create({
+  loading: {
+    // backgroundColor: '#000',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  anima: {
+    width: 300,
+    height: 300,
+    // backgroundColor: 'yellow'
+  },
+  containerLogo: {
+    width: 200,
+    height: 200,
+    // backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 2,
+    marginBottom: 20,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
   container: {
     flex: 1,
   },
@@ -77,7 +116,7 @@ const styles = StyleSheet.create({
   scroll: {
     width: '100%',
     // backgroundColor: 'blue',
-    height: '100%',
+    height: 'auto',
   },
   containerRegister: {
     flexDirection: 'row',
@@ -85,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     // backgroundColor: 'red',
-    marginTop: 50,
+    marginTop: 0,
   },
   text2: {
     fontSize: 16,
@@ -97,7 +136,7 @@ const styles = StyleSheet.create({
   containerTitle: {
     width: '100%',
     height: '5%',
-    marginTop: '60%',
+    marginTop: '50%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -113,7 +152,7 @@ const styles = StyleSheet.create({
   containerForm: {
     width: '100%',
     height: 'auto',
-    marginTop: '10%',
+    marginTop: '30%',
     // borderTopWidth: 1,
     // backgroundColor: 'red',
     // marginTop: '5%',
@@ -172,16 +211,6 @@ const styles = StyleSheet.create({
     color: '#000',
     marginLeft: '2%',
   },
-  containerLogin: {
-    left: Dimensions.get('window').width / 2 - 100,
-    width: '50%',
-    height: 50,
-    marginTop: '4%',
-    backgroundColor: '#095397',
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   buttonLogin: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -194,5 +223,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
   }
 })

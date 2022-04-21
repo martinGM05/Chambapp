@@ -6,6 +6,8 @@ import { sesionReducer } from '../context/Sesion/sesionReducer';
 import firestore from '@react-native-firebase/firestore';
 import { UserModel } from '../interfaces/UserModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert, Modal } from 'react-native';
+import { Text } from 'react-native-elements';
 
 const useLogin = () => {
 
@@ -23,11 +25,12 @@ const useLogin = () => {
     const getIdStorage = async (navigation: any) => {
         try {
             const idLogged = await AsyncStorage.getItem('@idUser');
+            // setActive(2)
             if (idLogged) {
                 console.log('Primero: ', idLogged);
                 setActive(2)
                 getDataFirebase(idLogged, navigation);
-            }else{
+            } else {
                 console.log('Segundo: ', idLogged);
                 setActive(3)
             }
@@ -60,7 +63,22 @@ const useLogin = () => {
                 getDataFirebase(e.user.uid, navigation);
             })
             .catch(error => {
-                console.log(error);
+                if (error.code === 'auth/email-already-in-use') {
+                    Alert.alert('Error', 'El correo ya esta en uso');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    Alert.alert('Error', 'Email invalido');
+                }
+
+                if (error.code === 'auth/user-not-found') {
+                    Alert.alert('Error', 'Usuario no encontrado');
+                }
+
+                if (error.code === 'auth/wrong-password') {
+                    Alert.alert('Error', 'Contraseña incorrecta');
+                }
+
             });
     }
 
@@ -101,7 +119,7 @@ const useLogin = () => {
         loginWithEmail,
         signInWithGoogle,
         getIdStorage,
-        active
+        active,
     }
 }
 

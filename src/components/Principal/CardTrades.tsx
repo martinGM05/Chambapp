@@ -11,7 +11,7 @@ import useFirebase from '../../hooks/useFirebase';
 interface Props {
     trade: string;
     user: string;
-    fecha: string;
+    fecha?: string;
     photoUser: string;
     navigation?: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
     from: number;

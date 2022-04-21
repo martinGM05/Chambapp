@@ -25,7 +25,7 @@ const Register = ({ navigation }: Props) => {
                     <Text style={styles.textRegistro}>Registro</Text>
                 </View>
                 <View style={styles.containerForm}>
-                    <FormRegister />
+                    <FormRegister navigation={navigation}/>
                 </View>
             </ScrollView>
         </LinearGradient>

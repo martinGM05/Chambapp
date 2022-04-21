@@ -19,15 +19,11 @@ const SocialMedia = ({ navigation }: Props) => {
     return (
         <View style={styles.containerSocialButtons}>
             <TouchableOpacity
-                style={[styles.buttonMedia, styles.buttonFacebook]}
-            >
-                <Icon name='facebook' size={30} color='#fff' />
-            </TouchableOpacity>
-            <TouchableOpacity
                 style={[styles.buttonMedia, styles.buttonGoogle]}
                 onPress={() => signInWithGoogle(navigation)}
             >
                 <Icon name='google' size={30} color='#fff' />
+                <Text style={styles.textButton}>Inicia con Google</Text>
             </TouchableOpacity>
         </View>
     )
@@ -37,26 +33,33 @@ export default SocialMedia
 
 const styles = StyleSheet.create({
     containerSocialButtons: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-    
-      buttonMedia:{
-        width: 50,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+    },
+
+    buttonMedia: {
+        // width: '100%',
+        marginHorizontal: '18%',
         height: 50,
-        borderRadius: 50,
+        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 20,
-        marginRight: 20,
         padding: 10,
-      },
-      buttonFacebook:{
+    },
+    buttonFacebook: {
         backgroundColor: '#3b5998',
-    
-      },
-      buttonGoogle:{
+
+    },
+    buttonGoogle: {
         backgroundColor: '#dd4b39',
-      },
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    textButton: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+    }
 })
