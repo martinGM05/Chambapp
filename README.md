@@ -15,5 +15,5 @@
 
 
 # Demo
-![Demo](DEMO.gif)
+![Demo](Champapp.gif)
 
