@@ -1,5 +1,5 @@
 # Champapp
-> This application was developed with **React Native** Typescript
+> This application was developed with **React Native** Typescript and with a friend from school, this is his Github [@manolo2603](https://github.com/manolo2603)
 
 The most used tools in this project are:
 -   Firebase
@@ -19,4 +19,5 @@ The most used tools in this project are:
     -   [Lottie](https://github.com/lottie-react-native/lottie-react-native)
 
 
-This application was developed with a friend from school, this is his Github [@manolo2603](https://github.com/manolo2603)
+![Demo](DEMO.gif)
+

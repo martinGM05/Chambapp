@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    // height: 'auto'
   },
   text: {
     fontSize: 16,
@@ -115,8 +116,10 @@ const styles = StyleSheet.create({
   },
   scroll: {
     width: '100%',
+
     // backgroundColor: 'blue',
-    height: 'auto',
+    // borderWidth: 1,
+    // height: 20,
   },
   containerRegister: {
     flexDirection: 'row',
